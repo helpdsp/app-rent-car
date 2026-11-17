@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "setup": {
+    "reverseEngineering": false,
+    "referencesDir": "refdocs",
+    "sourceDir": "source-code",
+    "initializedAt": "2026-11-17T03:26:35.512Z"
+  },
+  "status": "sprint_active",
+  "brief": {
+    "generated": true,
+    "approved": true,
+    "path": "spec-kit/input/brief.md",
+    "generatedAt": "2026-11-17T03:32:04.437Z",
+    "approvedAt": "2026-11-17T03:33:46.965Z"
+  },
+  "spec": {
+    "generated": true,
+    "approved": true,
+    "mode": "local",
+    "generatedAt": "2026-11-17T03:33:46.965Z",
+    "approvedAt": "2026-11-17T04:42:05.462Z",
+    "artifactFiles": [
+      "PRD.md",
+      "technical-spec.md",
+      "api-spec.yaml",
+      "data-model.md",
+      "epics.md",
+      "stories.md",
+      "sprint-plan.md",
+      "test-plan.md"
+    ]
+  },
+  "sprints": {
+    "generated": true,
+    "approved": true,
+    "mode": "local",
+    "generatedAt": "2026-11-17T04:42:05.462Z",
+    "approvedAt": "2026-11-17T04:42:05.465Z",
+    "total": 12,
+    "active": 12,
+    "completed": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  "lastAction": {
+    "command": "start_sprint",
+    "at": "2026-11-17T06:27:36.645Z",
+    "details": "Sprint 12 started."
+  },
+  "updatedAt": "2026-11-17T06:27:36.645Z"
+}

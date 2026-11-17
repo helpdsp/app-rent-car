@@ -1,0 +1,15 @@
+{
+  "stage": "brief",
+  "answers": {
+    "brief_tone": "Mixto",
+    "brief_audience": "CEO / Stakeholders",
+    "brief_scope": "MVP + roadmap",
+    "brief_priority": "Balance entre ambos",
+    "ux_responsive": "Responsive (escritorio y tablet), con celular soportado en captura y consulta (fotos, kilometraje, tablero, nuevo contrato, cobro); firma y administracion en tablet o escritorio",
+    "ux_theming": "Un solo tema visual fijo (sin cambio por usuario)",
+    "ux_density": "Flujo simple: pocas opciones visibles, asistentes",
+    "ux_accessibility": "Basico: legibilidad y contraste razonable"
+  },
+  "completedAt": "2026-11-17T03:32:04.350Z",
+  "questions": []
+}

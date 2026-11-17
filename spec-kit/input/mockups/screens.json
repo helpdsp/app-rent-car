@@ -1,0 +1,200 @@
+[
+  {
+    "num": "1",
+    "title": "Tablero del operador",
+    "file": "Main.dc.html",
+    "preview": "previews/01-tablero.html",
+    "png": "png/01-tablero.png",
+    "width": 1194,
+    "height": 834
+  },
+  {
+    "num": "2",
+    "title": "Cliente: ficha y documentos",
+    "file": "Cliente.dc.html",
+    "preview": "previews/02-cliente.html",
+    "png": "png/02-cliente.png",
+    "width": 1194,
+    "height": 834
+  },
+  {
+    "num": "3",
+    "title": "Contrato: vehículo y fechas",
+    "file": "ContratoVehiculo.dc.html",
+    "preview": "previews/03-contrato-vehiculo-fechas.html",
+    "png": "png/03-contrato-vehiculo-fechas.png",
+    "width": 1194,
+    "height": 834
+  },
+  {
+    "num": "4",
+    "title": "Contrato: cobro y garantía",
+    "file": "ContratoCobro.dc.html",
+    "preview": "previews/04-contrato-cobro-garantia.html",
+    "png": "png/04-contrato-cobro-garantia.png",
+    "width": 1194,
+    "height": 834
+  },
+  {
+    "num": "5",
+    "title": "Firma en tableta",
+    "file": "Firma.dc.html",
+    "preview": "previews/05-firma.html",
+    "png": "png/05-firma.png",
+    "width": 1194,
+    "height": 834
+  },
+  {
+    "num": "6",
+    "title": "Entrega del vehículo",
+    "file": "Entrega.dc.html",
+    "preview": "previews/06-entrega.html",
+    "png": "png/06-entrega.png",
+    "width": 1194,
+    "height": 834
+  },
+  {
+    "num": "7",
+    "title": "Recepción y liquidación",
+    "file": "Recepcion.dc.html",
+    "preview": "previews/07-recepcion-liquidacion.html",
+    "png": "png/07-recepcion-liquidacion.png",
+    "width": 1194,
+    "height": 834
+  },
+  {
+    "num": "8",
+    "title": "Inicio de sesión y verificación",
+    "file": "Login.dc.html",
+    "preview": "previews/08-inicio-de-sesion.html",
+    "png": "png/08-inicio-de-sesion.png",
+    "width": 1194,
+    "height": 834
+  },
+  {
+    "num": "9",
+    "title": "Vehículos: listado",
+    "file": "VehiculosLista.dc.html",
+    "preview": "previews/09-vehiculos-listado.html",
+    "png": "png/09-vehiculos-listado.png",
+    "width": 1194,
+    "height": 834
+  },
+  {
+    "num": "10",
+    "title": "Vehículo: ficha, documentos e historial",
+    "file": "VehiculoFicha.dc.html",
+    "preview": "previews/10-vehiculo-ficha.html",
+    "png": "png/10-vehiculo-ficha.png",
+    "width": 1194,
+    "height": 834
+  },
+  {
+    "num": "11",
+    "title": "Contratos: listado y búsqueda",
+    "file": "ContratosLista.dc.html",
+    "preview": "previews/11-contratos-listado.html",
+    "png": "png/11-contratos-listado.png",
+    "width": 1194,
+    "height": 834
+  },
+  {
+    "num": "12",
+    "title": "Registrar incidente",
+    "file": "Incidente.dc.html",
+    "preview": "previews/12-incidente.html",
+    "png": "png/12-incidente.png",
+    "width": 1194,
+    "height": 834
+  },
+  {
+    "num": "13",
+    "title": "Renovar contrato",
+    "file": "Renovar.dc.html",
+    "preview": "previews/13-renovar.html",
+    "png": "png/13-renovar.png",
+    "width": 1194,
+    "height": 834
+  },
+  {
+    "num": "14",
+    "title": "Cancelar contrato",
+    "file": "Cancelar.dc.html",
+    "preview": "previews/14-cancelar.html",
+    "png": "png/14-cancelar.png",
+    "width": 1194,
+    "height": 834
+  },
+  {
+    "num": "15",
+    "title": "Conductor adicional, referencia, pagaré y facturar a",
+    "file": "ConductorPagare.dc.html",
+    "preview": "previews/15-conductor-pagare-facturar.html",
+    "png": "png/15-conductor-pagare-facturar.png",
+    "width": 1194,
+    "height": 834
+  },
+  {
+    "num": "16",
+    "title": "Administración: tarifas y parámetros",
+    "file": "AdminTarifas.dc.html",
+    "preview": "previews/16-admin-tarifas-parametros.html",
+    "png": "png/16-admin-tarifas-parametros.png",
+    "width": 1194,
+    "height": 834
+  },
+  {
+    "num": "17",
+    "title": "Administración: usuarios y roles",
+    "file": "AdminUsuarios.dc.html",
+    "preview": "previews/17-admin-usuarios-roles.html",
+    "png": "png/17-admin-usuarios-roles.png",
+    "width": 1194,
+    "height": 834
+  },
+  {
+    "num": "18",
+    "title": "Bitácora y exportaciones",
+    "file": "AdminBitacora.dc.html",
+    "preview": "previews/18-admin-bitacora-exportaciones.html",
+    "png": "png/18-admin-bitacora-exportaciones.png",
+    "width": 1194,
+    "height": 834
+  },
+  {
+    "num": "M1",
+    "title": "Tablero (celular)",
+    "file": "MovilTablero.dc.html",
+    "preview": "previews/m1-movil-tablero.html",
+    "png": "png/m1-movil-tablero.png",
+    "width": 390,
+    "height": 844
+  },
+  {
+    "num": "M2",
+    "title": "Nuevo contrato (celular)",
+    "file": "MovilContrato.dc.html",
+    "preview": "previews/m2-movil-nuevo-contrato.html",
+    "png": "png/m2-movil-nuevo-contrato.png",
+    "width": 390,
+    "height": 844
+  },
+  {
+    "num": "M3",
+    "title": "Fotos de entrega (celular)",
+    "file": "MovilEntrega.dc.html",
+    "preview": "previews/m3-movil-fotos-entrega.html",
+    "png": "png/m3-movil-fotos-entrega.png",
+    "width": 390,
+    "height": 844
+  },
+  {
+    "num": "M4",
+    "title": "Recepción: comparar fotos (celular)",
+    "file": "MovilRecepcion.dc.html",
+    "preview": "previews/m4-movil-recepcion-comparar.html",
+    "png": "png/m4-movil-recepcion-comparar.png",
+    "width": 390,
+    "height": 844
+  }
+]

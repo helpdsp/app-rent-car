@@ -1,0 +1,11 @@
+{
+  "stage": "sprints",
+  "answers": {
+    "sprint_duration": "1 semana",
+    "sprint_count": "7+ sprints",
+    "team_roles": "Full-stack + QA",
+    "success_criteria": "Aprobación del stakeholder"
+  },
+  "completedAt": "2026-11-17T04:42:05.346Z",
+  "questions": []
+}

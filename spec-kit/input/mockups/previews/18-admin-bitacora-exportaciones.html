@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1194">
+<title>18 · Bitácora y exportaciones</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+body{margin:0}
+input{box-sizing:border-box;min-width:0;max-width:100%}
+</style>
+</head>
+<body>
+<div style="width: 1194px; height: 834px; box-sizing: border-box; display: flex; background: #F6F2E8; color: #1E1A16; font-family: 'Inter', system-ui, sans-serif; font-size: 16px; overflow: hidden">
+
+<nav aria-label="Principal" style="width: 112px; flex: none; background: #1E1A16; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 20px 0">
+<div style="width: 56px; height: 56px; border-radius: 14px; background: #B5141B; color: #fff; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; margin-bottom: 12px">MRA</div>
+<a href="01-tablero.html" style="width: 92px; height: 72px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Tablero</a>
+<a href="11-contratos-listado.html" style="width: 92px; height: 72px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/></svg>Contratos</a>
+<a href="02-cliente.html" style="width: 92px; height: 72px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 5a3.5 3.5 0 010 6"/><path d="M18 14c2.2.7 3.5 2.6 3.5 6"/></svg>Clientes</a>
+<a href="09-vehiculos-listado.html" style="width: 92px; height: 72px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16v-4l2-5h12l2 5v4"/><path d="M3 16h18"/><circle cx="7.5" cy="17.5" r="1.8"/><circle cx="16.5" cy="17.5" r="1.8"/></svg>Vehículos</a>
+<a href="01-tablero.html" style="width: 92px; height: 72px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 17v-6a6 6 0 0112 0v6l1.5 2h-15z"/><path d="M10 21h4"/></svg>Alertas</a>
+<a href="16-admin-tarifas-parametros.html" style="width: 92px; height: 72px; border-radius: 14px; background: #B5141B; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 600">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>Admin</a>
+</nav>
+
+<main style="flex: 1; min-width: 0; padding: 28px 36px 24px; display: flex; flex-direction: column; gap: 14px">
+
+<header style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px">
+<div>
+<div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; color: #6B645A">ADMINISTRACIÓN</div>
+<h1 style="margin: 4px 0 0; font-family: 'Space Grotesk', sans-serif; font-size: 34px; line-height: 1.1">Bitácora y exportaciones</h1>
+</div>
+<div role="tablist" aria-label="Administración" style="display: flex; gap: 8px">
+<a role="tab" aria-selected="false" href="16-admin-tarifas-parametros.html" style="height: 44px; padding: 0 18px; border-radius: 22px; border: 1px solid #CFC8B8; background: #fff; color: #1E1A16; font-size: 15px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; box-sizing: border-box">Tarifas y parámetros</a>
+<a role="tab" aria-selected="false" href="17-admin-usuarios-roles.html" style="height: 44px; padding: 0 18px; border-radius: 22px; border: 1px solid #CFC8B8; background: #fff; color: #1E1A16; font-size: 15px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; box-sizing: border-box">Usuarios y roles</a>
+<a role="tab" aria-selected="true" href="18-admin-bitacora-exportaciones.html" style="height: 44px; padding: 0 18px; border-radius: 22px; background: #1E1A16; color: #fff; font-size: 15px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; box-sizing: border-box">Bitácora y exportaciones</a>
+</div>
+</header>
+
+<section style="flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: 16px">
+
+<div style="background: #fff; border: 1px solid #E3DCCB; border-radius: 16px; padding: 16px 20px; display: flex; flex-direction: column; gap: 8px; min-height: 0">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 10px"><h2 style="margin: 0; font-size: 18px; font-weight: 700">Quién hizo qué y cuándo</h2><span style="font-size: 12px; color: #6B645A">Solo lectura: nadie puede editarla ni borrarla</span></div>
+<div style="display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 1fr); gap: 8px">
+<label style="display: flex; flex-direction: column; gap: 3px; font-size: 12px; font-weight: 600; color: #4A443B">Contrato, cliente o vehículo<input value="Todos" style="height: 40px; border: 1px solid #CFC8B8; border-radius: 10px; padding: 0 12px; font: inherit; font-size: 14px; color: #1E1A16; background: #fff"></label>
+<label style="display: flex; flex-direction: column; gap: 3px; font-size: 12px; font-weight: 600; color: #4A443B">Usuario<input value="Todos" style="height: 40px; border: 1px solid #CFC8B8; border-radius: 10px; padding: 0 12px; font: inherit; font-size: 14px; color: #1E1A16; background: #fff"></label>
+<label style="display: flex; flex-direction: column; gap: 3px; font-size: 12px; font-weight: 600; color: #4A443B">Fechas<input value="10/11 – 16/11/2026" style="height: 40px; border: 1px solid #CFC8B8; border-radius: 10px; padding: 0 12px; font: inherit; font-size: 14px; color: #1E1A16; background: #fff"></label>
+</div>
+<div style="display: grid; grid-template-columns: 0.9fr 1fr 0.9fr minmax(0, 2fr); gap: 8px; padding: 6px 0; border-bottom: 1px solid #E3DCCB; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; color: #6B645A"><span>FECHA</span><span>USUARIO</span><span>ACCIÓN</span><span>REGISTRO Y CAMBIO</span></div>
+<div style="display: grid; grid-template-columns: 0.9fr 1fr 0.9fr minmax(0, 2fr); gap: 8px; padding: 8px 0; border-bottom: 1px solid #EFE9DB; font-size: 13px; align-items: start"><span style="color: #4A443B">16/11 13:20</span><span>Sistema</span><span><span style="padding: 2px 8px; border-radius: 10px; background: #E8EEF7; color: #1F3A63; font-size: 11px; font-weight: 700">Cambio</span></span><span><b>Contrato 08155</b><span style="display: block; font-size: 12px; color: #6B645A">estado: vigente → rezagado</span></span></div>
+<div style="display: grid; grid-template-columns: 0.9fr 1fr 0.9fr minmax(0, 2fr); gap: 8px; padding: 8px 0; border-bottom: 1px solid #EFE9DB; font-size: 13px; align-items: start"><span style="color: #4A443B">16/11 12:41</span><span>Carolina M.</span><span><span style="padding: 2px 8px; border-radius: 10px; background: #E8EEF7; color: #1F3A63; font-size: 11px; font-weight: 700">Cambio</span></span><span><b>Contrato D-00002</b><span style="display: block; font-size: 12px; color: #6B645A">tarifa pactada: $1,633 → $1,500 · motivo: cliente frecuente</span></span></div>
+<div style="display: grid; grid-template-columns: 0.9fr 1fr 0.9fr minmax(0, 2fr); gap: 8px; padding: 8px 0; border-bottom: 1px solid #EFE9DB; font-size: 13px; align-items: start"><span style="color: #4A443B">16/11 11:05</span><span>Mariana R.</span><span><span style="padding: 2px 8px; border-radius: 10px; background: #FFF1D6; color: #7A4A00; font-size: 11px; font-weight: 700">Consulta</span></span><span><b>Licencia de Ricardo Medina</b><span style="display: block; font-size: 12px; color: #6B645A">consultó el archivo del documento (dato sensible)</span></span></div>
+<div style="display: grid; grid-template-columns: 0.9fr 1fr 0.9fr minmax(0, 2fr); gap: 8px; padding: 8px 0; border-bottom: 1px solid #EFE9DB; font-size: 13px; align-items: start"><span style="color: #4A443B">16/11 10:58</span><span>Mariana R.</span><span><span style="padding: 2px 8px; border-radius: 10px; background: #E3F3EA; color: #14583A; font-size: 11px; font-weight: 700">Alta</span></span><span><b>Fotos de entrega · 08158</b><span style="display: block; font-size: 12px; color: #6B645A">6 fotos y 1 video · kilometraje 72,640 km</span></span></div>
+<div style="display: grid; grid-template-columns: 0.9fr 1fr 0.9fr minmax(0, 2fr); gap: 8px; padding: 8px 0; border-bottom: 1px solid #EFE9DB; font-size: 13px; align-items: start"><span style="color: #4A443B">16/11 09:12</span><span>Carolina M.</span><span><span style="padding: 2px 8px; border-radius: 10px; background: #EFEAE0; color: #4A443B; font-size: 11px; font-weight: 700">Exportación</span></span><span><b>Clientes · CSV</b><span style="display: block; font-size: 12px; color: #6B645A">127 filas · filtro: todos</span></span></div>
+<div style="display: grid; grid-template-columns: 0.9fr 1fr 0.9fr minmax(0, 2fr); gap: 8px; padding: 8px 0; font-size: 13px; align-items: start"><span style="color: #4A443B">13/11 17:41</span><span>Mariana R.</span><span><span style="padding: 2px 8px; border-radius: 10px; background: #E8EEF7; color: #1F3A63; font-size: 11px; font-weight: 700">Cambio</span></span><span><b>Vehículo Mazda 3</b><span style="display: block; font-size: 12px; color: #6B645A">kilometraje: 31,480 → 33,120 (recepción)</span></span></div>
+<div style="margin-top: auto; font-size: 12px; color: #6B645A">Mostrando 6 de 214 movimientos en el periodo</div>
+</div>
+
+<aside aria-label="Exportaciones" style="background: #fff; border: 1px solid #E3DCCB; border-radius: 16px; padding: 16px 20px; display: flex; flex-direction: column; gap: 10px; min-height: 0">
+<h2 style="margin: 0; font-size: 18px; font-weight: 700">Exportar a CSV</h2>
+<div role="group" aria-label="Qué exportar" style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px">
+<button style="height: 48px; border: 1px solid #CFC8B8; border-radius: 12px; background: #fff; font: inherit; font-size: 14px; font-weight: 600; color: #1E1A16">Clientes</button>
+<button style="height: 48px; border: 1px solid #CFC8B8; border-radius: 12px; background: #fff; font: inherit; font-size: 14px; font-weight: 600; color: #1E1A16">Vehículos</button>
+<button aria-pressed="true" style="height: 48px; border: 2px solid #B5141B; border-radius: 12px; background: #FBE9E7; font: inherit; font-size: 14px; font-weight: 700; color: #1E1A16">Contratos</button>
+<button style="height: 48px; border: 1px solid #CFC8B8; border-radius: 12px; background: #fff; font: inherit; font-size: 14px; font-weight: 600; color: #1E1A16">Documentos</button>
+</div>
+<label style="display: flex; flex-direction: column; gap: 3px; font-size: 12px; font-weight: 600; color: #4A443B">Fechas<input value="01/11 – 16/11/2026" style="height: 44px; border: 1px solid #CFC8B8; border-radius: 10px; padding: 0 12px; font: inherit; font-size: 14px; color: #1E1A16; background: #fff"></label>
+<label style="display: flex; flex-direction: column; gap: 3px; font-size: 12px; font-weight: 600; color: #4A443B">Estado<input value="Todos" style="height: 44px; border: 1px solid #CFC8B8; border-radius: 10px; padding: 0 12px; font: inherit; font-size: 14px; color: #1E1A16; background: #fff"></label>
+<a href="18-admin-bitacora-exportaciones.html" style="height: 52px; border-radius: 26px; background: #B5141B; color: #fff; font-size: 16px; font-weight: 700; text-decoration: none; display: flex; align-items: center; justify-content: center">Exportar 38 contratos</a>
+<div style="font-size: 12px; color: #6B645A; line-height: 1.5">Cada exportación queda en la bitácora con quién la pidió y cuántas filas incluyó. Solo administrador y titular pueden exportar.</div>
+<div style="margin-top: auto; border-top: 1px solid #EFE9DB; padding-top: 10px; display: flex; flex-direction: column; gap: 6px">
+<div style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: #6B645A">ÚLTIMAS EXPORTACIONES</div>
+<div style="display: flex; justify-content: space-between; font-size: 13px"><span>Clientes · Carolina M.</span><span style="color: #6B645A">hoy 09:12</span></div>
+<div style="display: flex; justify-content: space-between; font-size: 13px"><span>Contratos · Titular</span><span style="color: #6B645A">13/11 18:25</span></div>
+</div>
+</aside>
+
+</section>
+</main>
+</div>
+</body>
+</html>

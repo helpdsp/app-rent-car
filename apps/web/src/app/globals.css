@@ -1,0 +1,45 @@
+/**
+ * @generated_by_model gemini-4-argon
+ * @generated_at 2026-11-17T05:16:00Z
+ * @agent_roles engineering-frontend-developer + design-ui-designer
+ * @vision_command start_sprint --sprint 1
+ * @sprint_number 1
+ * @task_id S01-T11
+ */
+
+@import "tailwindcss";
+
+:root {
+  --mra-brand-red: #B5141B;
+  --mra-brand-red-dark: #8E1016;
+  --mra-brand-red-soft: #FBE9E7;
+  --mra-paper-cream: #F6F2E8;
+  --mra-paper-subtle: #FBF9F3;
+  --mra-ink: #1E1A16;
+  --mra-text-secondary: #4A443B;
+  --mra-text-muted: #6B645A;
+  --mra-border-card: #E3DCCB;
+  --mra-border-input: #CFC8B8;
+  --mra-border-divider: #EFE9DB;
+  --background: #F6F2E8;
+  --foreground: #1E1A16;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+body {
+  margin: 0;
+  background: var(--mra-paper-cream);
+  color: var(--mra-ink);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+}
+
+input {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+}

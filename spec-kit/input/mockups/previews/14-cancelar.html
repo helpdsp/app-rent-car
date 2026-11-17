@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1194">
+<title>14 · Cancelar contrato</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+body{margin:0}
+input,textarea{box-sizing:border-box;min-width:0;max-width:100%}
+</style>
+</head>
+<body>
+<div style="width: 1194px; height: 834px; box-sizing: border-box; display: flex; background: #F6F2E8; color: #1E1A16; font-family: 'Inter', system-ui, sans-serif; font-size: 16px; overflow: hidden">
+
+<nav aria-label="Principal" style="width: 112px; flex: none; background: #1E1A16; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 20px 0">
+<div style="width: 56px; height: 56px; border-radius: 14px; background: #B5141B; color: #fff; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; margin-bottom: 12px">MRA</div>
+<a href="01-tablero.html" style="width: 92px; height: 72px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Tablero</a>
+<a href="11-contratos-listado.html" style="width: 92px; height: 72px; border-radius: 14px; background: #B5141B; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 600">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/></svg>Contratos</a>
+<a href="02-cliente.html" style="width: 92px; height: 72px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 5a3.5 3.5 0 010 6"/><path d="M18 14c2.2.7 3.5 2.6 3.5 6"/></svg>Clientes</a>
+<a href="09-vehiculos-listado.html" style="width: 92px; height: 72px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16v-4l2-5h12l2 5v4"/><path d="M3 16h18"/><circle cx="7.5" cy="17.5" r="1.8"/><circle cx="16.5" cy="17.5" r="1.8"/></svg>Vehículos</a>
+<a href="01-tablero.html" style="width: 92px; height: 72px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 17v-6a6 6 0 0112 0v6l1.5 2h-15z"/><path d="M10 21h4"/></svg>Alertas</a>
+<a href="16-admin-tarifas-parametros.html" style="width: 92px; height: 72px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>Admin</a>
+</nav>
+
+<main style="flex: 1; min-width: 0; padding: 28px 36px 24px; display: flex; flex-direction: column; gap: 16px">
+
+<header style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px">
+<div>
+<a href="11-contratos-listado.html" style="font-size: 13px; font-weight: 600; color: #B5141B; text-decoration: none">← Contrato D-00002</a>
+<h1 style="margin: 6px 0 0; font-family: 'Space Grotesk', sans-serif; font-size: 34px; line-height: 1.1">Cancelar contrato</h1>
+</div>
+<div style="font-size: 14px; color: #6B645A; text-align: right">Nissan Altima · Sofía Rivas<br><b style="color: #1E1A16">Por firmar · salida 18/11 11:00</b></div>
+</header>
+
+<section style="flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 4fr); gap: 16px">
+
+<div style="display: flex; flex-direction: column; gap: 14px; min-height: 0">
+
+<div style="background: #fff; border: 1px solid #E3DCCB; border-radius: 16px; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-size: 18px; font-weight: 700">Motivo</h2>
+<div role="group" aria-label="Motivo" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+<button aria-pressed="true" style="height: 48px; border: 2px solid #B5141B; border-radius: 12px; background: #FBE9E7; font: inherit; font-size: 15px; font-weight: 700; color: #1E1A16">El cliente ya no viaja</button>
+<button style="height: 48px; border: 1px solid #CFC8B8; border-radius: 12px; background: #fff; font: inherit; font-size: 15px; font-weight: 600; color: #1E1A16">Cambio de fechas</button>
+<button style="height: 48px; border: 1px solid #CFC8B8; border-radius: 12px; background: #fff; font: inherit; font-size: 15px; font-weight: 600; color: #1E1A16">Otro motivo</button>
+</div>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600; color: #4A443B">Nota (obligatoria)<textarea rows="3" style="border: 1px solid #CFC8B8; border-radius: 12px; padding: 10px 14px; font: inherit; font-size: 15px; font-weight: 400; color: #1E1A16; background: #fff; resize: none">La cliente avisó por teléfono que cambió su viaje. Se le explicó la penalización antes de confirmar.</textarea></label>
+</div>
+
+<div style="background: #fff; border: 1px solid #E3DCCB; border-radius: 16px; padding: 16px 20px; display: flex; flex-direction: column; gap: 10px; flex: 1; min-height: 0">
+<h2 style="margin: 0; font-size: 18px; font-weight: 700">Cómo se calcula la penalización</h2>
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px">
+<div style="border: 2px solid #14583A; border-radius: 14px; padding: 12px 14px; background: #F3FAF6">
+<div style="font-size: 12px; font-weight: 700; letter-spacing: 0.06em; color: #14583A">ESTA CANCELACIÓN</div>
+<div style="font-size: 14px; margin-top: 4px; line-height: 1.45">Faltan <b>45 h 30 min</b> para la salida. Con más de 24 h de anticipación se cobra el <b>20 %</b> del total.</div>
+<div style="font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 700; margin-top: 6px">$980</div>
+</div>
+<div style="border: 1px dashed #CFC8B8; border-radius: 14px; padding: 12px 14px; background: #FBF9F3; color: #4A443B">
+<div style="font-size: 12px; font-weight: 700; letter-spacing: 0.06em; color: #6B645A">SI FALTARAN 24 H O MENOS</div>
+<div style="font-size: 14px; margin-top: 4px; line-height: 1.45">La penalización sería el <b>total del contrato</b>.</div>
+<div style="font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 700; margin-top: 6px">$4,899</div>
+</div>
+</div>
+<div style="font-size: 12px; color: #7A4A00; background: #FFF1D6; border-radius: 10px; padding: 8px 12px; line-height: 1.4">El reglamento es ambiguo en esta regla. El 20 % y las 24 horas son parámetros que el administrador puede cambiar.</div>
+</div>
+
+</div>
+
+<aside aria-label="Resumen" style="background: #fff; border: 1px solid #E3DCCB; border-radius: 16px; padding: 18px 20px; display: flex; flex-direction: column; gap: 10px; min-height: 0">
+<h2 style="margin: 0; font-size: 18px; font-weight: 700">Resumen financiero</h2>
+<div style="display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid #EFE9DB; font-size: 15px"><span>Total del contrato</span><b>$4,899</b></div>
+<div style="display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid #EFE9DB; font-size: 15px"><span>Anticipo pagado</span><b>$4,899</b></div>
+<div style="display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid #EFE9DB; font-size: 15px"><span>Penalización (20 %)</span><b style="color: #8E1016">− $980</b></div>
+<div style="background: #F6F2E8; border-radius: 14px; padding: 14px 16px">
+<div style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; color: #6B645A">A DEVOLVER AL CLIENTE</div>
+<div style="font-family: 'Space Grotesk', sans-serif; font-size: 40px; font-weight: 700; line-height: 1.15; color: #14583A">$3,919</div>
+</div>
+<div role="group" aria-label="Forma de reembolso" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+<button aria-pressed="true" style="height: 48px; border: 2px solid #B5141B; border-radius: 12px; background: #FBE9E7; font: inherit; font-size: 14px; font-weight: 700; color: #1E1A16">Efectivo</button>
+<button style="height: 48px; border: 1px solid #CFC8B8; border-radius: 12px; background: #fff; font: inherit; font-size: 14px; font-weight: 600; color: #1E1A16">Transferencia</button>
+</div>
+<div style="font-size: 12px; color: #6B645A; line-height: 1.5">Al cancelar, el vehículo queda libre para esas fechas. Un contrato <b>vigente</b> no se cancela: se concluye con la recepción.</div>
+<div style="margin-top: auto; display: flex; flex-direction: column; gap: 10px">
+<a href="11-contratos-listado.html" style="height: 56px; border-radius: 28px; background: #8E1016; color: #fff; font-size: 17px; font-weight: 700; text-decoration: none; display: flex; align-items: center; justify-content: center">Confirmar cancelación</a>
+<a href="11-contratos-listado.html" style="height: 48px; border-radius: 24px; border: 1px solid #CFC8B8; background: #fff; color: #1E1A16; font-size: 15px; font-weight: 600; text-decoration: none; display: flex; align-items: center; justify-content: center">Volver sin cancelar</a>
+</div>
+</aside>
+
+</section>
+</main>
+</div>
+</body>
+</html>

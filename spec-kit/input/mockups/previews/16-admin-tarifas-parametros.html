@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1194">
+<title>16 · Administración: tarifas y parámetros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+body{margin:0}
+input{box-sizing:border-box;min-width:0;max-width:100%}
+</style>
+</head>
+<body>
+<div style="width: 1194px; height: 834px; box-sizing: border-box; display: flex; background: #F6F2E8; color: #1E1A16; font-family: 'Inter', system-ui, sans-serif; font-size: 16px; overflow: hidden">
+
+<nav aria-label="Principal" style="width: 112px; flex: none; background: #1E1A16; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 20px 0">
+<div style="width: 56px; height: 56px; border-radius: 14px; background: #B5141B; color: #fff; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; margin-bottom: 12px">MRA</div>
+<a href="01-tablero.html" style="width: 92px; height: 72px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Tablero</a>
+<a href="11-contratos-listado.html" style="width: 92px; height: 72px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/></svg>Contratos</a>
+<a href="02-cliente.html" style="width: 92px; height: 72px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 5a3.5 3.5 0 010 6"/><path d="M18 14c2.2.7 3.5 2.6 3.5 6"/></svg>Clientes</a>
+<a href="09-vehiculos-listado.html" style="width: 92px; height: 72px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16v-4l2-5h12l2 5v4"/><path d="M3 16h18"/><circle cx="7.5" cy="17.5" r="1.8"/><circle cx="16.5" cy="17.5" r="1.8"/></svg>Vehículos</a>
+<a href="01-tablero.html" style="width: 92px; height: 72px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 17v-6a6 6 0 0112 0v6l1.5 2h-15z"/><path d="M10 21h4"/></svg>Alertas</a>
+<a href="16-admin-tarifas-parametros.html" style="width: 92px; height: 72px; border-radius: 14px; background: #B5141B; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 600">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>Admin</a>
+</nav>
+
+<main style="flex: 1; min-width: 0; padding: 28px 36px 24px; display: flex; flex-direction: column; gap: 14px">
+
+<header style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px">
+<div>
+<div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; color: #6B645A">ADMINISTRACIÓN</div>
+<h1 style="margin: 4px 0 0; font-family: 'Space Grotesk', sans-serif; font-size: 34px; line-height: 1.1">Tarifas y parámetros</h1>
+</div>
+<div role="tablist" aria-label="Administración" style="display: flex; gap: 8px">
+<a role="tab" aria-selected="true" href="16-admin-tarifas-parametros.html" style="height: 44px; padding: 0 18px; border-radius: 22px; background: #1E1A16; color: #fff; font-size: 15px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; box-sizing: border-box">Tarifas y parámetros</a>
+<a role="tab" aria-selected="false" href="17-admin-usuarios-roles.html" style="height: 44px; padding: 0 18px; border-radius: 22px; border: 1px solid #CFC8B8; background: #fff; color: #1E1A16; font-size: 15px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; box-sizing: border-box">Usuarios y roles</a>
+<a role="tab" aria-selected="false" href="18-admin-bitacora-exportaciones.html" style="height: 44px; padding: 0 18px; border-radius: 22px; border: 1px solid #CFC8B8; background: #fff; color: #1E1A16; font-size: 15px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; box-sizing: border-box">Bitácora y exportaciones</a>
+</div>
+</header>
+
+<section style="flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: 16px">
+
+<div style="background: #fff; border: 1px solid #E3DCCB; border-radius: 16px; padding: 16px 20px; display: flex; flex-direction: column; gap: 8px; min-height: 0">
+<div style="display: flex; justify-content: space-between; align-items: center"><h2 style="margin: 0; font-size: 18px; font-weight: 700">Catálogo de tarifas</h2><button style="height: 44px; padding: 0 18px; border-radius: 22px; border: 0; background: #B5141B; color: #fff; font: inherit; font-size: 14px; font-weight: 700">+ Nueva tarifa</button></div>
+<div style="display: grid; grid-template-columns: minmax(0, 1.6fr) 0.9fr 0.9fr 0.9fr; gap: 10px; padding: 8px 0; border-bottom: 1px solid #E3DCCB; font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: #6B645A"><span>VEHÍCULO</span><span style="text-align: right">24 H</span><span style="text-align: right">NOCTURNO</span><span style="text-align: right">PROTECCIÓN</span></div>
+<div style="display: grid; grid-template-columns: minmax(0, 1.6fr) 0.9fr 0.9fr 0.9fr; gap: 10px; padding: 8px 0; border-bottom: 1px solid #EFE9DB; font-size: 14px; align-items: center"><span><b>Hyundai Elantra</b><span style="display: block; font-size: 12px; color: #6B645A">vigente desde 01/05/2026</span></span><b style="text-align: right">$1,633</b><span style="text-align: right">$400</span><span style="text-align: right">$250</span></div>
+<div style="display: grid; grid-template-columns: minmax(0, 1.6fr) 0.9fr 0.9fr 0.9fr; gap: 10px; padding: 8px 0; border-bottom: 1px solid #EFE9DB; font-size: 14px; align-items: center"><span><b>Kia Forte</b><span style="display: block; font-size: 12px; color: #6B645A">vigente desde 01/05/2026</span></span><b style="text-align: right">$1,633</b><span style="text-align: right">$400</span><span style="text-align: right">$250</span></div>
+<div style="display: grid; grid-template-columns: minmax(0, 1.6fr) 0.9fr 0.9fr 0.9fr; gap: 10px; padding: 8px 0; border-bottom: 1px solid #EFE9DB; font-size: 14px; align-items: center"><span><b>Nissan Altima</b><span style="display: block; font-size: 12px; color: #6B645A">vigente desde 01/05/2026</span></span><b style="text-align: right">$1,633</b><span style="text-align: right">$450</span><span style="text-align: right">$250</span></div>
+<div style="display: grid; grid-template-columns: minmax(0, 1.6fr) 0.9fr 0.9fr 0.9fr; gap: 10px; padding: 8px 0; border-bottom: 1px solid #EFE9DB; font-size: 14px; align-items: center"><span><b>Mazda 3</b><span style="display: block; font-size: 12px; color: #6B645A">vigente desde 01/05/2026</span></span><b style="text-align: right">$1,633</b><span style="text-align: right">$400</span><span style="text-align: right">$250</span></div>
+<div style="display: grid; grid-template-columns: minmax(0, 1.6fr) 0.9fr 0.9fr 0.9fr; gap: 10px; padding: 8px 0; font-size: 14px; align-items: center"><span><b>Honda CR-V</b><span style="display: block; font-size: 12px; color: #6B645A">vigente desde 01/05/2026</span></span><b style="text-align: right">$2,216</b><span style="text-align: right">$700</span><span style="text-align: right">$400</span></div>
+<div style="margin-top: auto; padding: 10px 12px; border-radius: 12px; background: #F6F2E8; font-size: 12px; color: #4A443B; line-height: 1.5">Cada cambio crea una <b>versión nueva</b>; los contratos ya emitidos conservan la tarifa con la que se emitieron. Todo queda en la bitácora. El operador puede pactar otra tarifa en un contrato solo con un motivo.</div>
+</div>
+
+<div style="background: #fff; border: 1px solid #E3DCCB; border-radius: 16px; padding: 16px 20px; display: flex; flex-direction: column; gap: 6px; min-height: 0">
+<div style="display: flex; justify-content: space-between; align-items: center"><h2 style="margin: 0; font-size: 18px; font-weight: 700">Parámetros</h2><button style="height: 40px; padding: 0 16px; border-radius: 20px; border: 1px solid #CFC8B8; background: #fff; font: inherit; font-size: 14px; font-weight: 600; color: #1E1A16">Guardar cambios</button></div>
+<div style="display: grid; grid-template-columns: 1fr 120px; gap: 4px 10px; align-items: center; font-size: 14px">
+<span>Km incluidos por día</span><input value="500" aria-label="Km por día" style="height: 40px; border: 1px solid #CFC8B8; border-radius: 10px; padding: 0 12px; text-align: right; font: inherit; font-size: 15px; color: #1E1A16; background: #fff">
+<span>Hora extra: tarifa ÷</span><input value="8" aria-label="Divisor de hora extra" style="height: 40px; border: 1px solid #CFC8B8; border-radius: 10px; padding: 0 12px; text-align: right; font: inherit; font-size: 15px; color: #1E1A16; background: #fff">
+<span>Día extra desde la hora</span><input value="5" aria-label="Hora desde la que se cobra un día" style="height: 40px; border: 1px solid #CFC8B8; border-radius: 10px; padding: 0 12px; text-align: right; font: inherit; font-size: 15px; color: #1E1A16; background: #fff">
+<span>Tolerancia al devolver</span><input value="0 min" aria-label="Tolerancia" style="height: 40px; border: 1px solid #CFC8B8; border-radius: 10px; padding: 0 12px; text-align: right; font: inherit; font-size: 15px; color: #1E1A16; background: #fff">
+<span>Redondeo de hora extra<span style="display: block; font-size: 11px; color: #7A4A00">Por confirmar: el papel trunca ($183.75 → $183)</span></span><input value="Truncar" aria-label="Redondeo" style="height: 40px; border: 1px solid #CFC8B8; border-radius: 10px; padding: 0 12px; text-align: right; font: inherit; font-size: 15px; color: #1E1A16; background: #fff">
+<span>Cancelación (%) / horas</span><input value="20 % / 24 h" aria-label="Cancelación" style="height: 40px; border: 1px solid #CFC8B8; border-radius: 10px; padding: 0 12px; text-align: right; font: inherit; font-size: 15px; color: #1E1A16; background: #fff">
+<span>Deducible / cristales</span><input value="30 % / 20 %" aria-label="Deducible" style="height: 40px; border: 1px solid #CFC8B8; border-radius: 10px; padding: 0 12px; text-align: right; font: inherit; font-size: 15px; color: #1E1A16; background: #fff">
+<span>Alertas de vigencia (días)</span><input value="30, 15, 7, 0" aria-label="Alertas" style="height: 40px; border: 1px solid #CFC8B8; border-radius: 10px; padding: 0 12px; text-align: right; font: inherit; font-size: 15px; color: #1E1A16; background: #fff">
+</div>
+<div style="margin-top: auto; border-top: 1px solid #EFE9DB; padding-top: 8px; display: flex; flex-direction: column; gap: 4px">
+<div style="font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: #6B645A">DATOS LEGALES DEL CONTRATO</div>
+<div style="display: flex; justify-content: space-between; font-size: 13px"><span>Registro PROFECO (número y fecha)</span><span style="padding: 2px 10px; border-radius: 10px; background: #FBE9E7; color: #8E1016; font-weight: 700">Pendiente</span></div>
+<div style="display: flex; justify-content: space-between; font-size: 13px"><span>Ciudad de jurisdicción</span><span style="padding: 2px 10px; border-radius: 10px; background: #FBE9E7; color: #8E1016; font-weight: 700">Pendiente</span></div>
+<div style="display: flex; justify-content: space-between; font-size: 13px"><span>Teléfono de fallas (cláusula 10.ª-L)</span><span style="padding: 2px 10px; border-radius: 10px; background: #FBE9E7; color: #8E1016; font-weight: 700">Pendiente</span></div>
+</div>
+</div>
+
+</section>
+</main>
+</div>
+</body>
+</html>
