@@ -16,3 +16,4 @@ export * from "./icons";
 export * from "./ConfirmDialog";
 export * from "./DatePicker";
 export * from "./TimePicker";
+export * from "./PhotoCapture";

@@ -38,7 +38,7 @@
     "generatedAt": "2026-11-17T04:42:05.462Z",
     "approvedAt": "2026-11-17T04:42:05.465Z",
     "total": 18,
-    "active": 15,
+    "active": 16,
     "completed": [
       1,
       2,
@@ -53,13 +53,14 @@
       11,
       12,
       13,
-      14
+      14,
+      15
     ]
   },
   "lastAction": {
     "command": "start_sprint",
-    "at": "2026-11-17T14:23:04.398Z",
-    "details": "Sprint 15 started."
+    "at": "2026-11-17T14:31:03.336Z",
+    "details": "Sprint 16 started."
   },
-  "updatedAt": "2026-11-17T14:23:04.398Z"
+  "updatedAt": "2026-11-17T14:31:03.336Z"
 }

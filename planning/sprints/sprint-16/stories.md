@@ -11,8 +11,8 @@ source_refdocs: 'refdocs/etapa-dos-pos-mvp.md'
 
 ## S-36 · RF-36 — Subida Real de Evidencias a Supabase Storage con WebP
 Como operador de patio o mostrador, quiero tomar fotos claras de licencias y del auto y que se suban de inmediato a la nube sin saturar el internet, para respaldar el estado físico de la unidad.
-- [ ] Creación de buckets privados seguros en Supabase Storage con políticas de acceso RLS.
-- [ ] Compresor de imágenes en navegador (WebP, máx 1200px, compresión calidad 0.82, < 350 KB).
-- [ ] Componente visual de cámara y subida con previsualización inmediata y opción de reintentar.
-- [ ] Generación de URLs firmadas temporales (15 minutos) para proteger la privacidad del cliente.
-- [ ] Registro en bitácora de cada consulta a una URL firmada de documento sensible.
+- [x] Creación de buckets privados seguros en Supabase Storage con políticas de acceso RLS.
+- [x] Compresor de imágenes en navegador (WebP, máx 1200px, compresión calidad 0.82, < 350 KB).
+- [x] Componente visual de cámara y subida con previsualización inmediata y opción de reintentar.
+- [x] Generación de URLs firmadas temporales (15 minutos) para proteger la privacidad del cliente.
+- [x] Registro en bitácora de cada consulta a una URL firmada de documento sensible.
