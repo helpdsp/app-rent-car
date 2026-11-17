@@ -37,8 +37,8 @@
     "mode": "local",
     "generatedAt": "2026-11-17T04:42:05.462Z",
     "approvedAt": "2026-11-17T04:42:05.465Z",
-    "total": 12,
-    "active": 12,
+    "total": 18,
+    "active": 13,
     "completed": [
       1,
       2,
@@ -50,13 +50,14 @@
       8,
       9,
       10,
-      11
+      11,
+      12
     ]
   },
   "lastAction": {
     "command": "start_sprint",
-    "at": "2026-11-17T06:27:36.645Z",
-    "details": "Sprint 12 started."
+    "at": "2026-11-17T06:05:00.000Z",
+    "details": "Sprint 13 iniciado: UX Móvil, Iconografía Global y Controles de Cancelación."
   },
-  "updatedAt": "2026-11-17T06:27:36.645Z"
+  "updatedAt": "2026-11-17T06:05:00.000Z"
 }
