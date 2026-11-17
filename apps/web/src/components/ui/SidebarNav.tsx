@@ -1,16 +1,19 @@
 /**
  * @generated_by_model gemini-2.5-pro
- * @generated_at 2026-11-17T06:05:00Z
+ * @generated_at 2026-11-17T07:25:00Z
  * @agent_roles engineering-frontend-developer + design-ui-designer + design-ux-architect
- * @vision_command start_sprint --sprint 13
- * @sprint_number 13
- * @task_id S13-T02
+ * @vision_command start_sprint --sprint 17
+ * @sprint_number 17
+ * @task_id S17-UX-LOGOUT
  */
 
-import React from "react";
+'use client';
+
+import React, { useState } from "react";
 import Link from "next/link";
 import { MRA_TOKENS } from "./tokens";
 import { Icons } from "./icons";
+import { ConfirmDialog } from "./ConfirmDialog";
 
 export type SeccionNavegacion =
   | "tablero"
@@ -76,6 +79,19 @@ const ITEMS_NAVEGACION: Array<{
 ];
 
 export function SidebarNav({ seccionActiva }: SidebarNavProps) {
+  const [mostrarConfirm, setMostrarConfirm] = useState(false);
+  const [cerrandoSesion, setCerrandoSesion] = useState(false);
+
+  const handleCerrarSesion = async () => {
+    setCerrandoSesion(true);
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+    } catch {
+      // Continuar con redirección aunque falle la red
+    }
+    window.location.href = "/login";
+  };
+
   return (
     <>
       {/* 1. Barra Lateral para Escritorio y Tabletas (md y superior) */}
@@ -122,6 +138,20 @@ export function SidebarNav({ seccionActiva }: SidebarNavProps) {
             </Link>
           );
         })}
+
+        {/* Separador elástico que empuja el botón de Salir al fondo */}
+        <div className="flex-1 w-full min-h-[20px]" />
+
+        {/* Botón explícito de Cerrar Sesión en Escritorio */}
+        <button
+          type="button"
+          onClick={() => setMostrarConfirm(true)}
+          title="Cerrar sesión de operador"
+          className="w-[96px] h-[64px] rounded-2xl flex flex-col items-center justify-center gap-1 text-xs font-semibold text-[#F87171] hover:bg-[#3D1418] hover:text-[#EF4444] transition-all duration-200 mb-2 border border-transparent hover:border-[#7F1D1D]/40"
+        >
+          <Icons.Logout size={22} color="#F87171" />
+          <span>Cerrar Sesión</span>
+        </button>
       </nav>
 
       {/* 2. Barra de Navegación Inferior Móvil (Bottom Navigation Bar para <md) */}
@@ -136,7 +166,7 @@ export function SidebarNav({ seccionActiva }: SidebarNavProps) {
               key={item.id}
               href={item.href}
               aria-current={activo ? "page" : undefined}
-              className={`min-w-[48px] min-h-[48px] px-2 py-1 rounded-xl flex flex-col items-center justify-center gap-1 text-[11px] transition-colors ${
+              className={`min-w-[44px] min-h-[48px] px-1.5 py-1 rounded-xl flex flex-col items-center justify-center gap-1 text-[11px] transition-colors ${
                 activo
                   ? "text-[#B5141B] font-bold"
                   : "text-[#CFC8B8] hover:text-white"
@@ -147,20 +177,44 @@ export function SidebarNav({ seccionActiva }: SidebarNavProps) {
             </Link>
           );
         })}
-        {/* Enlace a más / alertas en móvil */}
+
+        {/* Enlace a Alertas en móvil */}
         <Link
           href="/alertas"
           aria-current={seccionActiva === "alertas" ? "page" : undefined}
-          className={`min-w-[48px] min-h-[48px] px-2 py-1 rounded-xl flex flex-col items-center justify-center gap-1 text-[11px] transition-colors ${
+          className={`min-w-[44px] min-h-[48px] px-1.5 py-1 rounded-xl flex flex-col items-center justify-center gap-1 text-[11px] transition-colors ${
             seccionActiva === "alertas"
               ? "text-[#B5141B] font-bold"
               : "text-[#CFC8B8] hover:text-white"
           }`}
         >
-          <Icons.Alertas size={22} color={seccionActiva === "alertas" ? "#B5141B" : "#CFC8B8"} />
+          <Icons.Alertas size={20} color={seccionActiva === "alertas" ? "#B5141B" : "#CFC8B8"} />
           <span>Alertas</span>
         </Link>
+
+        {/* Botón explícito de Cerrar Sesión en Móvil */}
+        <button
+          type="button"
+          onClick={() => setMostrarConfirm(true)}
+          title="Cerrar sesión"
+          className="min-w-[44px] min-h-[48px] px-1.5 py-1 rounded-xl flex flex-col items-center justify-center gap-1 text-[11px] font-medium text-[#F87171] hover:text-[#EF4444] transition-colors"
+        >
+          <Icons.Logout size={20} color="#F87171" />
+          <span>Salir</span>
+        </button>
       </nav>
+
+      {/* Modal accesible de confirmación de salida */}
+      <ConfirmDialog
+        isOpen={mostrarConfirm}
+        title="¿Cerrar sesión del sistema?"
+        message="Se cerrará tu sesión activa de operador en México Renta de Autos y volverás a la pantalla de acceso."
+        confirmText={cerrandoSesion ? "Cerrando..." : "Sí, cerrar sesión"}
+        cancelText="Permanecer"
+        variant="danger"
+        onConfirm={handleCerrarSesion}
+        onCancel={() => setMostrarConfirm(false)}
+      />
     </>
   );
 }
