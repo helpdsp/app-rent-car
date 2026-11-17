@@ -42,7 +42,7 @@ function parseTaskStatusesFromMarkdown(content) {
 
     if (statusColIndex >= 0 && cells.length > statusColIndex) {
       const first = cells[0];
-      if (/^T-\d+$/i.test(first)) {
+      if (/^(T-\d+|S\d+-T\d+)$/i.test(first)) {
         statuses.push(cells[statusColIndex]);
       }
     }

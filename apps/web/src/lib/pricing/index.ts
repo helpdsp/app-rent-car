@@ -1,4 +1,11 @@
 /**
+ * @generated_by_model gemini-4-argon
+ * @generated_at 2026-11-17T05:08:00Z
+ * @agent_roles engineering-backend-architect + testing-reality-checker
+ * @vision_command start_sprint --sprint 1
+ * @sprint_number 1
+ * @task_id S01-T04
+ *
  * Motor de tarifas — México Renta de Autos.
  * Funciones puras, sin I/O. Todo el dinero es en CENTAVOS enteros.
  * Reglas: refdocs/reglamento-mexico-renta-de-autos.md y

@@ -1,0 +1,79 @@
+# @generated_by_model: gemini-4-argon
+# @generated_at: 2026-11-17T05:07:00Z
+# @agent_roles: engineering-devops-automator + testing-reality-checker
+# @vision_command: start_sprint --sprint 1
+# @sprint_number: 1
+# @task_id: S01-T03
+
+name: CI — México Renta de Autos (MVP)
+
+on:
+  push:
+    branches: [main, develop, "feat/**", "qa/**", "infra/**"]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  quality-and-tests:
+    name: Lint, Typecheck, Pruebas (Unit + Postgres) y Build
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres_ci_password
+          POSTGRES_DB: rent_car_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    defaults:
+      run:
+        working-directory: apps/web
+
+    env:
+      DATABASE_URL: postgresql://postgres:postgres_ci_password@localhost:5432/rent_car_test
+      NEXT_PUBLIC_SUPABASE_URL: https://ci-placeholder.supabase.co
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ci-anon-key-placeholder
+      SUPABASE_SERVICE_ROLE_KEY: ci-service-role-key-placeholder
+      APP_TIMEZONE: America/Tijuana
+      CRON_SECRET: ci-cron-secret-32-chars-minimum-0000
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: apps/web/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Apply SQL migrations to ephemeral Postgres
+        env:
+          PGPASSWORD: postgres_ci_password
+        run: |
+          psql -h localhost -U postgres -d rent_car_test -c "CREATE SCHEMA IF NOT EXISTS auth; CREATE OR REPLACE FUNCTION auth.uid() RETURNS uuid LANGUAGE sql STABLE AS \$\$ SELECT NULL::uuid; \$\$;"
+          psql -h localhost -U postgres -d rent_car_test -f drizzle/0001_init.sql
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Run TypeScript compiler check
+        run: npx tsc --noEmit
+
+      - name: Run Vitest unit & integration tests
+        run: npm test
+
+      - name: Build Next.js production bundle
+        run: npm run build

@@ -1,8 +1,8 @@
 ---
-generated_by_model: 'claude-sonnet-5-5'
-generated_at: '2026-11-17T04:45:55.358Z'
-agent_roles: 'product-manager + project-management-project-shepherd'
-vision_command: 'generate_sprints'
+generated_by_model: 'gemini-2.5-pro'
+generated_at: '2026-11-17T09:50:00Z'
+agent_roles: 'product-manager + project-management-project-shepherd + testing-reality-checker'
+vision_command: 'start_sprint --sprint 8'
 sprint_number: 8
 source_spec_kit: 'spec-kit/input/'
 ---
@@ -13,18 +13,18 @@ source_spec_kit: 'spec-kit/input/'
 - **Prioridad:** Must
 - **Pantallas:** pantallas 5 Firma en tableta (`spec-kit/input/mockups/previews/05-firma.html`).
 - **Criterios de aceptación:**
-  - [ ] Contrato de dos caras: carátula con datos, inventario y pagaré opcional, y las 21 cláusulas, prellenado con los datos del contrato.
-  - [ ] Reglamento prellenado y firmable.
-  - [ ] Los PDF se generan sin pasos manuales y se pueden imprimir.
-  - [ ] Cada PDF emitido se conserva con su hash para detectar alteraciones.
-  - [ ] Los datos pendientes del formato (registro PROFECO, ciudad de jurisdicción, teléfono de fallas) son parámetros configurables.
+  - [x] Contrato de dos caras: carátula con datos, inventario y pagaré opcional, y las 21 cláusulas, prellenado con los datos del contrato.
+  - [x] Reglamento prellenado y firmable.
+  - [x] Los PDF se generan sin pasos manuales y se pueden imprimir.
+  - [x] Cada PDF emitido se conserva con su hash para detectar alteraciones.
+  - [x] Los datos pendientes del formato (registro PROFECO, ciudad de jurisdicción, teléfono de fallas) son parámetros configurables.
 
 ## S-18 · RF-18 — Firma digital en tableta
 
 - **Prioridad:** Must
 - **Pantallas:** pantallas 5 Firma en tableta (`spec-kit/input/mockups/previews/05-firma.html`). No hay versión de celular.
 - **Criterios de aceptación:**
-  - [ ] Captura de la firma del arrendatario, de los conductores adicionales y del pagaré en un área táctil.
-  - [ ] Se guarda la imagen de la firma, el hash del PDF firmado, fecha, hora, usuario y dispositivo.
-  - [ ] Una vez firmado, el PDF es inmutable; cualquier corrección genera una nueva versión que se vuelve a firmar.
-  - [ ] Alternativa de impresión y firma manuscrita, con escaneo adjunto al expediente.
+  - [x] Captura de la firma del arrendatario, de los conductores adicionales y del pagaré en un área táctil.
+  - [x] Se guarda la imagen de la firma, el hash del PDF firmado, fecha, hora, usuario y dispositivo.
+  - [x] Una vez firmado, el PDF es inmutable; cualquier corrección genera una nueva versión que se vuelve a firmar.
+  - [x] Alternativa de impresión y firma manuscrita, con escaneo adjunto al expediente.
