@@ -64,12 +64,22 @@ export async function POST(request: Request) {
     );
   }
 
-  const cookieValue = `${COOKIE_SESION_NOMBRE}=${encodeURIComponent(
-    resultado.sesion.token,
-  )}; Path=/; HttpOnly; SameSite=Lax; Max-Age=1800`;
+  const headers = new Headers();
+  headers.append(
+    "Set-Cookie",
+    `${COOKIE_SESION_NOMBRE}=${encodeURIComponent(resultado.sesion.token)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=1800`
+  );
+  headers.append(
+    "Set-Cookie",
+    `mra-role=${resultado.sesion.rol}; Path=/; SameSite=Lax; Max-Age=1800`
+  );
+  headers.append(
+    "Set-Cookie",
+    `mra-user=${encodeURIComponent(resultado.sesion.correo)}; Path=/; SameSite=Lax; Max-Age=1800`
+  );
 
-  return Response.json(
-    {
+  return new Response(
+    JSON.stringify({
       token: resultado.sesion.token,
       requiere_mfa: resultado.requiereSegundoFactor,
       usuario: {
@@ -79,11 +89,12 @@ export async function POST(request: Request) {
         rol: resultado.sesion.rol,
         mfa_verificado: resultado.sesion.mfaVerificado,
       },
-    },
+    }),
     {
       status: 200,
       headers: {
-        "Set-Cookie": cookieValue,
+        ...Object.fromEntries(headers.entries()),
+        "Content-Type": "application/json",
       },
     },
   );

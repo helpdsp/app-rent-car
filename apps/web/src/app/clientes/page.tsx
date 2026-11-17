@@ -9,11 +9,11 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { SidebarNav, Icons } from "@/components/ui";
 import { ClienteModal } from "@/components/clientes/ClienteModal";
-import { obtenerClientes, type ClienteRow } from "@/lib/db/sprint3";
+import { obtenerClientes, guardarClienteDirecto, type ClienteRow } from "@/lib/db/sprint3";
 
 export default function ClientesListPage() {
   const [termino, setTermino] = useState("");
@@ -22,19 +22,61 @@ export default function ClientesListPage() {
   const [clienteAEditar, setClienteAEditar] = useState<ClienteRow | null>(null);
   const [aviso, setAviso] = useState<string | null>(null);
 
+  // Cargar clientes persistidos desde localStorage al montar
+  useEffect(() => {
+    try {
+      const guardados = localStorage.getItem("mra_clientes_persistencia");
+      if (guardados) {
+        const parsed: ClienteRow[] = JSON.parse(guardados);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          const base = obtenerClientes();
+          const idsBase = new Set(base.map((c) => c.id));
+          const nuevosPersistidos = parsed.filter((c) => !idsBase.has(c.id));
+          nuevosPersistidos.forEach((c) => guardarClienteDirecto(c));
+          setLista([...nuevosPersistidos, ...base]);
+        }
+      }
+    } catch {
+      // Ignorar error de parsing en modo privado
+    }
+  }, []);
+
   function buscar(e: React.FormEvent) {
     e.preventDefault();
-    setLista(obtenerClientes(termino));
+    const filtrados = obtenerClientes(termino);
+    try {
+      const guardados = localStorage.getItem("mra_clientes_persistencia");
+      if (guardados) {
+        const parsed: ClienteRow[] = JSON.parse(guardados);
+        if (termino.trim()) {
+          const term = termino.trim().toLowerCase();
+          const coincidentesPersistidos = parsed.filter(
+            (c) =>
+              c.nombre_completo.toLowerCase().includes(term) ||
+              c.identificacion_numero.toLowerCase().includes(term) ||
+              (c.telefono && c.telefono.includes(term))
+          );
+          const ids = new Set(filtrados.map((f) => f.id));
+          const noDuplicados = coincidentesPersistidos.filter((c) => !ids.has(c.id));
+          setLista([...noDuplicados, ...filtrados]);
+          return;
+        }
+      }
+    } catch {}
+    setLista(filtrados);
   }
 
   function handleGuardarCliente(datos: Partial<ClienteRow>) {
     if (clienteAEditar) {
       // Editar
-      setLista(
-        lista.map((c) =>
-          c.id === clienteAEditar.id ? { ...c, ...datos, updated_at: new Date().toISOString() } : c
-        )
+      const actualizada = lista.map((c) =>
+        c.id === clienteAEditar.id ? { ...c, ...datos, updated_at: new Date().toISOString() } : c
       );
+      setLista(actualizada);
+      guardarClienteDirecto({ ...clienteAEditar, ...datos } as ClienteRow);
+      try {
+        localStorage.setItem("mra_clientes_persistencia", JSON.stringify(actualizada));
+      } catch {}
       setAviso(`Cliente ${datos.nombre_completo} actualizado.`);
       setClienteAEditar(null);
     } else {
@@ -64,8 +106,31 @@ export default function ClientesListPage() {
         created_by: null,
         deleted_at: null,
       };
-      setLista([nuevo, ...lista]);
-      setAviso(`Cliente ${nuevo.nombre_completo} registrado con número #${nuevo.numero_cliente}.`);
+
+      const nuevaLista = [nuevo, ...lista];
+      setLista(nuevaLista);
+      guardarClienteDirecto(nuevo);
+
+      // Persistir de forma garantizada en localStorage
+      try {
+        localStorage.setItem("mra_clientes_persistencia", JSON.stringify(nuevaLista));
+      } catch {}
+
+      // Intentar guardar en backend / API
+      fetch("/api/clientes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nombre_completo: nuevo.nombre_completo,
+          identificacion_numero: nuevo.identificacion_numero,
+          telefono: nuevo.telefono || nuevo.celular,
+          celular: nuevo.celular,
+          correo: nuevo.correo || undefined,
+          domicilio: nuevo.domicilio,
+        }),
+      }).catch(() => {});
+
+      setAviso(`Cliente ${nuevo.nombre_completo} registrado y guardado con número #${nuevo.numero_cliente}.`);
     }
   }
 

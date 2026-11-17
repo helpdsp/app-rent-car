@@ -179,6 +179,15 @@ export function resetearEstadoClientes(): void {
   listaDocumentos = [...DOCUMENTOS_SEMILLA];
 }
 
+export function guardarClienteDirecto(cliente: ClienteRow): void {
+  const idx = listaClientes.findIndex((c) => c.id === cliente.id);
+  if (idx >= 0) {
+    listaClientes[idx] = { ...listaClientes[idx], ...cliente };
+  } else {
+    listaClientes.unshift(cliente);
+  }
+}
+
 export function obtenerClientes(q?: string): ClienteRow[] {
   if (!q || q.trim() === "" || q === "Todos") {
     return listaClientes.filter((c) => !c.deleted_at);
