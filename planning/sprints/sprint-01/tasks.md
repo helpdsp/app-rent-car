@@ -1,37 +1,28 @@
 ---
-generated_by_model: 'claude-opus-5-5'
-generated_at: '2026-10-24T13:40:00Z'
-agent_roles: 'IDE Agent + project-manager-senior + engineering-backend-architect + engineering-frontend-developer'
+generated_by_model: 'claude-sonnet-5-5'
+generated_at: '2026-11-17T04:45:55.358Z'
+agent_roles: 'project-management-senior-project-manager + engineering-backend-architect + engineering-frontend-developer'
 vision_command: 'generate_sprints'
 sprint_number: 1
 source_spec_kit: 'spec-kit/input/'
 ---
-
 # Sprint 1 Tasks
 
-| Task | Title | RF | Component | Route | Story | Owner role | Points | Status |
-|---|---|---|---|---|---|---|---|---|
-| T-001 | Configuración local de ejemplo + `.gitignore` (`provisioning/demo.config.sample.psd1`) | RF-15 | provisioning | — | ST-01 | devops | 1 | done |
-| T-002 | Helper de conexión `Connect-Demo.ps1` (Import 1.5.0 + `-UseWebLogin`, valida la configuración) | RF-15 | provisioning | — | ST-01 | devops | 1 | done |
-| T-003 | `New-DemoSite.ps1`: sitio de comunicación idempotente (alias `encuestas`, LCID 3082) | RF-15 | provisioning | — | ST-02 | devops | 2 | done |
-| T-004 | `New-SurveyList.ps1`: lista, campos e índices según data-model | RF-16 | provisioning | — | ST-03 | backend | 2 | done |
-| T-005 | `New-SurveyList.ps1`: permisos (Everyone except external users = Contribute, Read/WriteSecurity) y vistas | RF-16 | provisioning | — | ST-03 | backend | 1 | done |
-| T-006 | Generador determinista de `sample-data/surveys.json` (perfiles T1–T6, comentarios ficticios) | RF-17 | sample-data | — | ST-04 | backend | 2 | done |
-| T-007 | `Import-SampleData.ps1`: relación T→correo, Add + `UpdateOverwriteVersion` de Created, `m365live_IsSample` | RF-17 | provisioning | — | ST-04 | backend | 3 | done |
-| T-008 | `Reset-DemoData.ps1` (`-OnlyLive`, `-Reseed`, `-Force`) | RF-18 | provisioning | — | ST-05 | devops | 2 | done |
-| T-009 | `Set-DemoConfig.ps1` (storage entity opcional) + `Deploy-Demo.ps1` orquestador | RF-19 | provisioning | — | ST-06 | devops | 1 | done |
-| T-010 | `src/shared/model/survey.ts` y `src/shared/config/settings.ts` | RF-19 | shared/model | — | ST-07 | frontend | 1 | done |
-| T-011 | `SiteResolver` (storage entity → ruta por defecto) + pruebas | RF-19 | shared/services | — | ST-07 | frontend | 1 | done |
-| T-012 | `SurveyRepository` (currentuser, findExisting, create con ensureuser + POST items (plan B: AddValidate), getByTechnician, listTechnicians) + pruebas de mapeo | RF-08 | shared/services | — | ST-08 | frontend | 3 | done |
-| T-013 | Lógica pura: `validation`, `period`, `aggregation`, `scoreGeometry` + pruebas jest | RF-07 | shared/logic | — | ST-09 | frontend | 3 | done |
-| T-014 | `tools/check-branding.js` (Konica / Minolta / KMBS / SKNA / tenant del autor) + script npm | RF-21 | tools | — | ST-22 | devops | 1 | done |
-| T-015 | Spikes R1–R5 y R8 (usuario sin licencia) en Workbench y bajaworks; documentar resultados en `docs/spikes.md` | RF-19 | docs | — | ST-08 | qa | 2 | done |
+| Task | Title | RF | Component | Route | Location | Mockup | Owner role | Points | Status |
+|---|---|---|---|---|---|---|---|---|---|
+| S01-T01 | Crear el proyecto `rent-car-mvp` en Vercel (raíz apps/web, región sfo1) y el proyecto de Supabase; configurar variables de entorno | — | Infraestructura | — | vercel.json, .env.example | — | fullstack | 2 | todo |
+| S01-T02 | Esquema base con Drizzle: enums, usuarios, secuencias y extensiones (btree_gist, pg_trgm, citext); migración inicial | RF-01 | lib/db | — | apps/web/src/lib/db/schema.ts, drizzle/0001_init.sql | — | fullstack | 3 | todo |
+| S01-T03 | Integración continua: lint, tsc, pruebas unitarias y de integración contra Postgres efímero, build | — | CI | — | .github/workflows/ci.yml | — | fullstack | 2 | todo |
+| S01-T04 | Resolver las vulnerabilidades de herramientas de prueba (`npm audit` propone vitest 5.1.0, que falla en este equipo): probar la última 4.x o reinstalar node_modules; verificar que el motor de tarifas (23 pruebas) sigue pasando | RF-14 | lib/pricing | — | apps/web/src/lib/pricing/ | — | fullstack | 1 | todo |
+| S01-T05 | Autenticación con Supabase Auth (correo y contraseña) y sesión en Next.js | RF-01 | lib/auth | /login | apps/web/src/lib/auth/session.ts | — | fullstack | 2 | todo |
+| S01-T06 | Verificación en dos pasos obligatoria para administrador y titular; códigos de respaldo | RF-01 | lib/auth | /login | apps/web/src/lib/auth/mfa.ts | 8 | fullstack | 2 | todo |
+| S01-T07 | Roles operador, administrador y titular: guardas en cada route handler y políticas RLS | RF-01 | lib/auth | /api/* | apps/web/src/lib/auth/guards.ts | — | fullstack | 3 | todo |
+| S01-T08 | Cierre de sesión por inactividad (30 min, parámetro) y bloqueo de 15 min tras 5 intentos fallidos | RF-01 | lib/auth | /login | apps/web/src/lib/auth/inactividad.ts | 8 | fullstack | 2 | todo |
+| S01-T09 | Pantalla Inicio de sesión y verificación en dos pasos | RF-01 | LoginPage | /login | apps/web/src/app/login/page.tsx | 8 | fullstack | 2 | todo |
+| S01-T10 | Pantalla Usuarios y roles: crear, desactivar y cambiar rol; la autoría se conserva | RF-01 | UsuariosPage | /admin/usuarios | apps/web/src/app/admin/usuarios/page.tsx, app/api/usuarios/route.ts | 17 | fullstack | 3 | todo |
+| S01-T11 | Base de interfaz: barra lateral, chips de estado, tarjetas, pasos del contrato y tokens de color y tipografía de los mockups | — | components/ui | — | apps/web/src/components/ui/ | — | fullstack | 3 | todo |
+| S01-T12 | Pruebas de acceso por rol, MFA y desactivación (T-01, T-05, T-06) | RF-01 | tests | — | apps/web/tests/auth.test.ts | — | qa | 3 | todo |
 
+**Total:** 12 tareas · 28 puntos.
 
-## Notas de estado (2026-10-24)
-
-- `ready_to_run`: el script está escrito, pasa la revisión de sintaxis y valida la configuración, pero **falta ejecutarlo en bajaworks** (lo hace el autor con `-UseWebLogin`). Pasa a `done` cuando se ejecute sin errores.
-- T-015: R1 resuelto. R4, R5 y R8 se validan al correr los scripts (ver `apps/satisfaction-survey/docs/spikes.md`). R2, R3 y R9 se validan en el sprint 2.
-
-- 2026-10-24: sitio `/sites/encuestas`, lista y 55 respuestas cargadas en el tenant del autor (opción B: T1 y T3). R4 verificado (`fechas corregidas: 0`). Se observaron cortes de red SSL frecuentes; los reintentos los resolvieron todos.
-- Cierre del sprint 1: R5 confirmado por el autor (permisos verificados: leer todos y editar solo los propios). `Reset-DemoData.ps1` ahora exige `-OnlyLive`, `-Reseed` o `-All`. `Set-DemoConfig.ps1` no se ejecutó porque es opcional con la ruta por defecto. R2, R3 y R9 pasan al QA del sprint 2.
+Las ubicaciones son sugeridas bajo `apps/web/`. «Mockup» remite a los números de `spec-kit/input/mockups/README.md`: la tarea está terminada cuando la pantalla coincide con su mockup en estructura, datos mostrados y reglas visibles.

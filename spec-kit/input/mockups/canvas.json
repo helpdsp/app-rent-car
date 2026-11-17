@@ -1,0 +1,80 @@
+{
+  "v": 3,
+  "attachments": {},
+  "createdOnFiles": { "v": 1, "at": "2026-11-17T03:39:10.307Z" },
+  "title": "Mockups - Contratos México Renta de Autos",
+  "launch": { "view": "canvas" },
+  "pages": [],
+  "boards": {
+    "Main.dc.html": { "x": 0, "y": 0, "w": 1194, "h": 834, "title": "1 · Tablero del operador" },
+    "Cliente.dc.html": { "x": 1274, "y": 0, "w": 1194, "h": 834, "title": "2 · Cliente: ficha y documentos" },
+    "ContratoVehiculo.dc.html": { "x": 2548, "y": 0, "w": 1194, "h": 834, "title": "3 · Contrato: vehículo y fechas" },
+    "ContratoCobro.dc.html": { "x": 3822, "y": 0, "w": 1194, "h": 834, "title": "4 · Contrato: cobro y garantía" },
+    "Firma.dc.html": { "x": 0, "y": 954, "w": 1194, "h": 834, "title": "5 · Firma en tableta" },
+    "Entrega.dc.html": { "x": 1274, "y": 954, "w": 1194, "h": 834, "title": "6 · Entrega del vehículo" },
+    "Recepcion.dc.html": { "x": 2548, "y": 954, "w": 1194, "h": 834, "title": "7 · Recepción y liquidación" },
+    "MovilTablero.dc.html": { "x": 0, "y": 2160, "w": 390, "h": 844, "title": "M1 · Tablero (celular)" },
+    "MovilContrato.dc.html": { "x": 470, "y": 2160, "w": 390, "h": 844, "title": "M2 · Nuevo contrato (celular)" },
+    "MovilEntrega.dc.html": { "x": 940, "y": 2160, "w": 390, "h": 844, "title": "M3 · Fotos de entrega (celular)" },
+    "MovilRecepcion.dc.html": { "x": 1410, "y": 2160, "w": 390, "h": 844, "title": "M4 · Recepción: comparar fotos (celular)" },
+    "Login.dc.html": { "x": 0, "y": 3400, "w": 1194, "h": 834, "title": "8 · Inicio de sesión y verificación" },
+    "VehiculosLista.dc.html": { "x": 1274, "y": 3400, "w": 1194, "h": 834, "title": "9 · Vehículos: listado" },
+    "VehiculoFicha.dc.html": { "x": 2548, "y": 3400, "w": 1194, "h": 834, "title": "10 · Vehículo: ficha, documentos e historial" },
+    "ContratosLista.dc.html": { "x": 3822, "y": 3400, "w": 1194, "h": 834, "title": "11 · Contratos: listado y búsqueda" },
+    "Incidente.dc.html": { "x": 0, "y": 4354, "w": 1194, "h": 834, "title": "12 · Registrar incidente" },
+    "Renovar.dc.html": { "x": 1274, "y": 4354, "w": 1194, "h": 834, "title": "13 · Renovar contrato" },
+    "Cancelar.dc.html": { "x": 2548, "y": 4354, "w": 1194, "h": 834, "title": "14 · Cancelar contrato" },
+    "ConductorPagare.dc.html": { "x": 3822, "y": 4354, "w": 1194, "h": 834, "title": "15 · Conductor adicional, referencia y pagaré" },
+    "AdminTarifas.dc.html": { "x": 0, "y": 5308, "w": 1194, "h": 834, "title": "16 · Administración: tarifas y parámetros" },
+    "AdminUsuarios.dc.html": { "x": 1274, "y": 5308, "w": 1194, "h": 834, "title": "17 · Administración: usuarios y roles" },
+    "AdminBitacora.dc.html": { "x": 2548, "y": 5308, "w": 1194, "h": 834, "title": "18 · Bitácora y exportaciones" }
+  },
+  "order": [
+    "Main.dc.html",
+    "Cliente.dc.html",
+    "ContratoVehiculo.dc.html",
+    "ContratoCobro.dc.html",
+    "Firma.dc.html",
+    "Entrega.dc.html",
+    "Recepcion.dc.html",
+    "MovilTablero.dc.html",
+    "MovilContrato.dc.html",
+    "MovilEntrega.dc.html",
+    "MovilRecepcion.dc.html",
+    "Login.dc.html",
+    "VehiculosLista.dc.html",
+    "VehiculoFicha.dc.html",
+    "ContratosLista.dc.html",
+    "Incidente.dc.html",
+    "Renovar.dc.html",
+    "Cancelar.dc.html",
+    "ConductorPagare.dc.html",
+    "AdminTarifas.dc.html",
+    "AdminUsuarios.dc.html",
+    "AdminBitacora.dc.html"
+  ],
+  "notes": {
+    "flujo": {
+      "x": 0,
+      "y": -300,
+      "text": "Flujo del operador en mostrador (tableta horizontal, 1194×834)",
+      "kind": "title1",
+      "maxW": 5016
+    },
+    "movil": {
+      "x": 0,
+      "y": 1930,
+      "text": "Celular (390×844): captura de fotos, consulta y entrega",
+      "kind": "title1",
+      "maxW": 1800
+    },
+    "resto": {
+      "x": 0,
+      "y": 3170,
+      "text": "Resto de pantallas (tableta): acceso, vehículos, contratos, excepciones y administración",
+      "kind": "title1",
+      "maxW": 5016
+    }
+  },
+  "designSystems": []
+}

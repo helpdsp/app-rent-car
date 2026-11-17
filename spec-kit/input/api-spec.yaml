@@ -1,210 +1,715 @@
-# ---
-# generated_by_model: 'claude-opus-5-5'
-# generated_at: '2026-10-24T13:10:00Z'
-# agent_roles: 'IDE Agent + engineering-software-architect + engineering-frontend-developer'
-# vision_command: 'generate_spec_kit'
-# source_brief: 'spec-kit/input/brief.md'
-# source_product_prd: 'spec-kit/input/product-prd.md'
-# ---
-# Esta solución NO expone una API propia. Este documento describe:
-#  1) Los contratos de las tools de Copilot (x-copilot-tools): los parámetros que Copilot manda a cada componente.
-#  2) Los endpoints REST de SharePoint que consumen los componentes con SPHttpClient (SSO, permisos del usuario).
-openapi: 3.0.3
+---
+generated_by_model: 'claude-sonnet-5-5'
+generated_at: '2026-11-17T04:05:00Z'
+agent_roles: 'engineering-backend-architect + engineering-software-architect'
+vision_command: 'generate_spec_kit'
+source_brief: 'spec-kit/input/brief.md'
+source_product_prd: 'spec-kit/input/product-prd.md'
+---
+openapi: 3.1.0
 info:
-  title: Encuesta de Satisfacción en Copilot — contratos consumidos
+  title: México Renta de Autos — API del MVP
   version: 0.1.0
   description: >
-    Contratos de las tools de los Copilot UX components y de las llamadas REST de SharePoint usadas por
-    SatisfactionSurveyForm y TechnicianScorecard. {site} es la URL que resuelve SiteResolver (RF-19).
+    API interna (route handlers de Next.js, JSON). La autenticación usa la
+    sesión de Supabase Auth (cookie). Los permisos se aplican en el servidor
+    por rol. Dinero en centavos enteros (MXN). Fechas en ISO 8601 UTC.
 servers:
-  - url: https://{tenant}.sharepoint.com
-    variables:
-      tenant:
-        default: contoso
+  - url: /api
+security:
+  - sesion: []
 
-x-copilot-tools:
-  OpenSatisfactionSurvey:
-    component: SatisfactionSurveyFormCopilotComponent
-    displayModes: [inline]
-    description: >
-      Abre el formulario de la encuesta de satisfacción de un ticket de soporte. Úsala cuando el usuario quiera
-      calificar, evaluar, responder una encuesta o dar su opinión sobre una atención de soporte
-      (rate, survey, feedback). Pasa ticketNumber y technician solo si el usuario los mencionó.
-    propertiesSchema:
-      $ref: '#/components/schemas/OpenSatisfactionSurveyProps'
-  ShowTechnicianScorecard:
-    component: TechnicianScorecardCopilotComponent
-    displayModes: [inline, fullscreen]
-    description: >
-      Muestra el desempeño consolidado de un técnico de soporte (Comprensión, Rapidez, Habilidad, Comunicación)
-      según las encuestas de satisfacción. Úsala cuando el usuario pregunte por el desempeño, las calificaciones
-      o la satisfacción de un técnico (performance, scorecard).
-    propertiesSchema:
-      $ref: '#/components/schemas/ShowTechnicianScorecardProps'
+tags:
+  - name: Clientes
+  - name: Vehiculos
+  - name: Documentos
+  - name: Contratos
+  - name: Operacion
+  - name: Incidentes
+  - name: Administracion
+  - name: Sistema
 
 paths:
-  /_api/web/GetStorageEntity('SatisfactionSurveySite'):
+  /clientes:
     get:
-      summary: Lee la URL del sitio de datos configurada en el tenant (opcional)
-      responses:
-        '200':
-          description: Value vacío o nulo si no está configurada
-          content:
-            application/json:
-              schema: { type: object, properties: { Value: { type: string, nullable: true } } }
-
-  /sites/{alias}/_api/web/currentuser:
-    get:
-      summary: Usuario actual en el sitio de datos (para buscar duplicados)
+      tags: [Clientes]
+      summary: Buscar clientes (RF-06)
       parameters:
-        - { name: alias, in: path, required: true, schema: { type: string, example: encuestas } }
-        - { name: $select, in: query, schema: { type: string, example: 'Id,Email,Title' } }
+        - { name: q, in: query, schema: { type: string }, description: nombre, número, identificación, teléfono o RFC }
+        - { $ref: '#/components/parameters/pagina' }
+      responses:
+        '200': { description: Lista paginada, content: { application/json: { schema: { $ref: '#/components/schemas/PaginaClientes' } } } }
+    post:
+      tags: [Clientes]
+      summary: Crear cliente (RF-04)
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/ClienteNuevo' } } }
+      responses:
+        '201': { description: Creado, content: { application/json: { schema: { $ref: '#/components/schemas/Cliente' } } } }
+        '409': { description: Posible duplicado, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
+        '422': { $ref: '#/components/responses/Validacion' }
+  /clientes/{id}:
+    parameters: [{ $ref: '#/components/parameters/id' }]
+    get:
+      tags: [Clientes]
+      summary: Detalle e historial de rentas
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Cliente' } } } }
+        '404': { $ref: '#/components/responses/NoEncontrado' }
+    patch:
+      tags: [Clientes]
+      summary: Editar cliente
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/ClienteNuevo' } } }
+      responses:
+        '200': { description: Actualizado }
+        '422': { $ref: '#/components/responses/Validacion' }
+  /clientes/{id}/documentos:
+    parameters: [{ $ref: '#/components/parameters/id' }]
+    get:
+      tags: [Documentos]
+      summary: Documentos del cliente (credencial, licencia, constancia fiscal)
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/Documento' } } } } }
+    post:
+      tags: [Documentos]
+      summary: Registrar documento (RF-05)
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/DocumentoNuevo' } } }
+      responses:
+        '201': { description: Creado }
+        '422': { $ref: '#/components/responses/Validacion' }
+
+  /vehiculos:
+    get:
+      tags: [Vehiculos]
+      summary: Listar vehículos
+      parameters:
+        - { name: estado, in: query, schema: { type: string } }
+        - { $ref: '#/components/parameters/pagina' }
       responses:
         '200': { description: OK }
-
-  /sites/{alias}/_api/web/lists/getbytitle('Encuestas')/items:
+    post:
+      tags: [Vehiculos]
+      summary: Crear vehículo (RF-07)
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/VehiculoNuevo' } } }
+      responses:
+        '201': { description: Creado, content: { application/json: { schema: { $ref: '#/components/schemas/Vehiculo' } } } }
+  /vehiculos/disponibles:
     get:
-      summary: Consulta las encuestas (duplicado por ticket y autor, o todas las de un técnico en un periodo)
+      tags: [Vehiculos]
+      summary: Vehículos disponibles en un rango, con motivo de exclusión (RF-09)
       parameters:
-        - { name: alias, in: path, required: true, schema: { type: string } }
-        - name: $select
-          in: query
-          schema: { type: string, example: 'Id,Title,Created,m365live_Resolved,m365live_Understanding,m365live_Speed,m365live_Skill,m365live_Communication,m365live_WouldRecommend,m365live_Comments,m365live_Technician/EMail,m365live_Technician/Title' }
-        - { name: $expand, in: query, schema: { type: string, example: m365live_Technician } }
-        - name: $filter
-          in: query
-          schema:
-            type: string
-            example: "m365live_Technician/EMail eq 'ana.lopez@contoso.com' and Created ge datetime'2026-07-24T00:00:00Z'"
-        - { name: $orderby, in: query, schema: { type: string, example: 'Created desc' } }
-        - { name: $top, in: query, schema: { type: integer, example: 5000 } }
+        - { name: salida, in: query, required: true, schema: { type: string, format: date-time } }
+        - { name: entrada, in: query, required: true, schema: { type: string, format: date-time } }
       responses:
         '200':
-          description: Elementos de la lista
+          description: Disponibles y no disponibles con motivo
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  value:
+                  disponibles: { type: array, items: { $ref: '#/components/schemas/Vehiculo' } }
+                  no_disponibles:
                     type: array
-                    items: { $ref: '#/components/schemas/SurveyListItem' }
+                    items:
+                      type: object
+                      properties:
+                        vehiculo: { $ref: '#/components/schemas/Vehiculo' }
+                        motivo: { type: string, enum: [rentado, mantenimiento, documentos_vencidos, baja] }
+  /vehiculos/{id}/documentos:
+    parameters: [{ $ref: '#/components/parameters/id' }]
     post:
-      summary: Crea una respuesta (forma principal; patrón de time-off-absence)
-      description: >
-        Cabeceras Accept y Content-Type = application/json;odata=nometadata y 'odata-version' vacío.
-        m365live_TechnicianId se obtiene antes con /_api/web/ensureuser.
-      parameters:
-        - { name: alias, in: path, required: true, schema: { type: string } }
+      tags: [Documentos]
+      summary: Registrar tarjeta de circulación o póliza (RF-08)
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/DocumentoNuevo' } } }
+      responses:
+        '201': { description: Creado }
+  /vehiculos/{id}/bloqueos:
+    parameters: [{ $ref: '#/components/parameters/id' }]
+    post:
+      tags: [Vehiculos]
+      summary: Bloquear por mantenimiento (solo administrador)
       requestBody:
         required: true
         content:
           application/json:
-            example:
-              Title: '4521'
-              m365live_TechnicianId: 12
-              m365live_Resolved: 'Sí'
-              m365live_Understanding: 5
-              m365live_Speed: 4
-              m365live_Skill: 5
-              m365live_Communication: 4
-              m365live_WouldRecommend: 'Sí'
-              m365live_Comments: ''
+            schema:
+              type: object
+              required: [desde, hasta, motivo]
+              properties:
+                desde: { type: string, format: date-time }
+                hasta: { type: string, format: date-time }
+                motivo: { type: string }
       responses:
-        '201': { description: 'Elemento creado; devuelve Id' }
+        '201': { description: Creado }
+        '409': { description: Choca con un contrato, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
 
-  /sites/{alias}/_api/web/ensureuser:
+  /archivos/subida:
     post:
-      summary: Asegura que el técnico exista como usuario del sitio y devuelve su Id
-      parameters:
-        - { name: alias, in: path, required: true, schema: { type: string } }
-      requestBody:
-        content:
-          application/json:
-            example: { logonName: 'ana.lopez@contoso.com' }
-      responses:
-        '200': { description: '{ Id, Title, Email }' }
-
-  /sites/{alias}/_api/web/lists/getbytitle('Encuestas')/AddValidateUpdateItemUsingPath:
-    post:
-      summary: Plan B para crear una respuesta (el campo Persona se resuelve por claims, sin ensureuser)
-      parameters:
-        - { name: alias, in: path, required: true, schema: { type: string } }
+      tags: [Documentos]
+      summary: Obtener URL firmada para subir un archivo directo a Storage
       requestBody:
         required: true
         content:
           application/json:
-            schema: { $ref: '#/components/schemas/AddValidateRequest' }
-            example:
-              listItemCreateInfo: { FolderPath: { DecodedUrl: '' }, UnderlyingObjectType: 0 }
-              formValues:
-                - { FieldName: Title, FieldValue: '4521' }
-                - { FieldName: m365live_Technician, FieldValue: '[{"Key":"i:0#.f|membership|ana.lopez@contoso.com"}]' }
-                - { FieldName: m365live_Resolved, FieldValue: 'Sí' }
-                - { FieldName: m365live_Understanding, FieldValue: '5' }
-                - { FieldName: m365live_Speed, FieldValue: '4' }
-                - { FieldName: m365live_Skill, FieldValue: '5' }
-                - { FieldName: m365live_Communication, FieldValue: '4' }
-                - { FieldName: m365live_WouldRecommend, FieldValue: 'Sí' }
-                - { FieldName: m365live_Comments, FieldValue: '' }
-              bNewDocumentUpdate: false
+            schema:
+              type: object
+              required: [bucket, nombre, tipo_mime, tamano_bytes]
+              properties:
+                bucket: { type: string, enum: [documentos, evidencias, contratos, firmas] }
+                nombre: { type: string }
+                tipo_mime: { type: string }
+                tamano_bytes: { type: integer }
       responses:
         '200':
-          description: >
-            value[] con { FieldName, FieldValue, HasException, ErrorMessage }. Se considera error si
-            algún HasException es true.
+          description: URL de subida de corta duración
+          content: { application/json: { schema: { type: object, properties: { url: { type: string }, path: { type: string }, expira_en: { type: string, format: date-time } } } } }
+  /archivos/lectura:
+    get:
+      tags: [Documentos]
+      summary: URL firmada de lectura (registra acceso sensible en la bitácora)
+      parameters:
+        - { name: path, in: query, required: true, schema: { type: string } }
+      responses:
+        '200': { description: URL de corta duración }
+        '403': { $ref: '#/components/responses/Prohibido' }
 
-  /sites/{alias}/_api/SP.UI.ApplicationPages.ClientPeoplePickerWebServiceInterface.clientPeoplePickerSearchUser:
+  /contratos:
+    get:
+      tags: [Contratos]
+      summary: Listar contratos
+      parameters:
+        - { name: estado, in: query, schema: { $ref: '#/components/schemas/EstadoContrato' } }
+        - { name: cliente_id, in: query, schema: { type: string, format: uuid } }
+        - { $ref: '#/components/parameters/pagina' }
+      responses:
+        '200': { description: OK }
     post:
-      summary: Busca personas para el campo Técnico
+      tags: [Contratos]
+      summary: Crear borrador (RF-12)
       requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/ContratoBorrador' } } }
+      responses:
+        '201': { description: Borrador creado, content: { application/json: { schema: { $ref: '#/components/schemas/Contrato' } } } }
+        '422': { $ref: '#/components/responses/Validacion' }
+  /contratos/{id}:
+    parameters: [{ $ref: '#/components/parameters/id' }]
+    get:
+      tags: [Contratos]
+      summary: Expediente del contrato
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Contrato' } } } }
+        '404': { $ref: '#/components/responses/NoEncontrado' }
+    patch:
+      tags: [Contratos]
+      summary: Editar borrador (un contrato firmado es inmutable)
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/ContratoBorrador' } } }
+      responses:
+        '200': { description: Actualizado }
+        '409': { description: Contrato no editable en su estado, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
+  /contratos/{id}/cotizacion:
+    parameters: [{ $ref: '#/components/parameters/id' }]
+    get:
+      tags: [Contratos]
+      summary: Cálculo de días, renta base y anticipo (RF-14)
+      responses:
+        '200': { description: Cotización, content: { application/json: { schema: { $ref: '#/components/schemas/Cotizacion' } } } }
+  /contratos/{id}/emitir:
+    parameters: [{ $ref: '#/components/parameters/id' }]
+    post:
+      tags: [Contratos]
+      summary: Emitir (asigna folio, copia tarifas, genera PDF) y pasar a por_firmar (RF-13, RF-17)
+      responses:
+        '200': { description: Emitido, content: { application/json: { schema: { $ref: '#/components/schemas/Contrato' } } } }
+        '409': { description: Vehículo ocupado, ningún conductor con licencia vigente en el periodo o documentos vencidos, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
+  /contratos/{id}/firmar:
+    parameters: [{ $ref: '#/components/parameters/id' }]
+    post:
+      tags: [Contratos]
+      summary: Registrar firma digital (RF-18)
+      requestBody:
+        required: true
         content:
           application/json:
-            example:
-              queryParams: { QueryString: 'ana', MaximumEntitySuggestions: 8, AllowEmailAddresses: true, PrincipalSource: 15, PrincipalType: 1 }
+            schema:
+              type: object
+              required: [firma_path, firmante]
+              properties:
+                firma_path: { type: string }
+                firmante: { type: string, enum: [arrendatario, conductor_adicional, pagare] }
+                conductor_id: { type: string, format: uuid }
       responses:
-        '200': { description: 'value es un string JSON con un arreglo de entidades { Key, DisplayText, EntityData.Email }' }
+        '200': { description: Firma registrada }
+  /contratos/{id}/pagos:
+    parameters: [{ $ref: '#/components/parameters/id' }]
+    post:
+      tags: [Contratos]
+      summary: Registrar anticipo, depósito o pago (RF-16); nunca recibe número de tarjeta
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/PagoNuevo' } } }
+      responses:
+        '201': { description: Registrado }
+  /contratos/{id}/conductores:
+    parameters: [{ $ref: '#/components/parameters/id' }]
+    post:
+      tags: [Contratos]
+      summary: Agregar conductor adicional (RF-15)
+      responses:
+        '201': { description: Agregado }
+  /contratos/{id}/entrega:
+    parameters: [{ $ref: '#/components/parameters/id' }]
+    post:
+      tags: [Operacion]
+      summary: Registrar entrega y pasar a vigente (RF-19)
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/Entrega' } } }
+      responses:
+        '200': { description: Contrato vigente }
+        '409': { description: Faltan anticipo, depósito, firma o alguno de los 6 ángulos de foto, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
+  /contratos/{id}/evidencias:
+    parameters: [{ $ref: '#/components/parameters/id' }]
+    post:
+      tags: [Operacion]
+      summary: Asociar foto o video ya subido a Storage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [momento, tipo, path]
+              properties:
+                momento: { type: string, enum: [entrega, recepcion, incidente] }
+                tipo: { type: string, enum: [foto, video] }
+                angulo: { type: string, enum: [frente, atras, izquierda, derecha, tablero_km, interior, video, otro] }
+                km_capturado: { type: integer, description: Obligatorio en angulo tablero_km; debe coincidir con el km del contrato }
+                path: { type: string }
+                nota: { type: string }
+      responses:
+        '201': { description: Asociada }
+  /contratos/{id}/comparacion-fotos:
+    parameters: [{ $ref: '#/components/parameters/id' }]
+    get:
+      tags: [Operacion]
+      summary: Fotos de entrega y de recepción emparejadas por ángulo
+      responses:
+        '200':
+          description: Un par por ángulo; el lado faltante viene nulo
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    angulo: { type: string, enum: [frente, atras, izquierda, derecha, tablero_km, interior] }
+                    entrega: { type: object, nullable: true, properties: { url: { type: string }, tomada_en: { type: string, format: date-time }, km_capturado: { type: integer } } }
+                    recepcion: { type: object, nullable: true, properties: { url: { type: string }, tomada_en: { type: string, format: date-time }, km_capturado: { type: integer } } }
+  /contratos/{id}/envio:
+    parameters: [{ $ref: '#/components/parameters/id' }]
+    post:
+      tags: [Operacion]
+      summary: Enviar contrato y reglamento en PDF por correo (RF-20)
+      requestBody:
+        content: { application/json: { schema: { type: object, properties: { correo: { type: string, format: email } } } } }
+      responses:
+        '202': { description: Envío en cola }
+  /contratos/{id}/recepcion:
+    parameters: [{ $ref: '#/components/parameters/id' }]
+    post:
+      tags: [Operacion]
+      summary: Registrar recepción y calcular liquidación (RF-21)
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/Recepcion' } } }
+      responses:
+        '200': { description: Liquidación, content: { application/json: { schema: { $ref: '#/components/schemas/Liquidacion' } } } }
+  /contratos/{id}/concluir:
+    parameters: [{ $ref: '#/components/parameters/id' }]
+    post:
+      tags: [Operacion]
+      summary: Concluir tras liquidar saldo y aplicar o devolver el depósito
+      responses:
+        '200': { description: Concluido }
+        '409': { description: Saldo pendiente o incidente abierto, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
+  /contratos/{id}/cancelar:
+    parameters: [{ $ref: '#/components/parameters/id' }]
+    post:
+      tags: [Operacion]
+      summary: Cancelar con penalización (RF-25)
+      requestBody:
+        required: true
+        content: { application/json: { schema: { type: object, required: [motivo], properties: { motivo: { type: string } } } } }
+      responses:
+        '200': { description: Cancelado, content: { application/json: { schema: { type: object, properties: { penalizacion: { type: integer } } } } } }
+        '409': { description: Un contrato vigente no se cancela, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
+  /contratos/{id}/renovar:
+    parameters: [{ $ref: '#/components/parameters/id' }]
+    post:
+      tags: [Operacion]
+      summary: Crear contrato nuevo ligado al anterior (RF-24)
+      requestBody:
+        required: true
+        content: { application/json: { schema: { type: object, required: [entrada_prevista_en], properties: { entrada_prevista_en: { type: string, format: date-time } } } } }
+      responses:
+        '201': { description: Contrato nuevo en borrador }
+  /contratos/{id}/pdf:
+    parameters: [{ $ref: '#/components/parameters/id' }]
+    get:
+      tags: [Contratos]
+      summary: Descargar PDF del contrato o del reglamento
+      parameters:
+        - { name: documento, in: query, schema: { type: string, enum: [contrato, reglamento] } }
+      responses:
+        '200': { description: PDF, content: { application/pdf: { schema: { type: string, format: binary } } } }
+
+  /incidentes:
+    post:
+      tags: [Incidentes]
+      summary: Registrar incidente (RF-23)
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/IncidenteNuevo' } } }
+      responses:
+        '201': { description: Registrado }
+  /incidentes/{id}/cierre:
+    parameters: [{ $ref: '#/components/parameters/id' }]
+    post:
+      tags: [Incidentes]
+      summary: Cerrar incidente
+      responses:
+        '200': { description: Cerrado }
+
+  /tablero:
+    get:
+      tags: [Sistema]
+      summary: Alertas, contratos que vencen hoy y rezagados (RF-11)
+      responses:
+        '200': { description: OK }
+  /tarifas:
+    get:
+      tags: [Administracion]
+      summary: Catálogo vigente
+      responses:
+        '200': { description: OK }
+    post:
+      tags: [Administracion]
+      summary: Crear versión de tarifa (solo administrador)
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/TarifaNueva' } } }
+      responses:
+        '201': { description: Creada }
+  /parametros:
+    get:
+      tags: [Administracion]
+      summary: Listar parámetros
+      responses:
+        '200': { description: OK }
+    patch:
+      tags: [Administracion]
+      summary: Cambiar parámetros (solo administrador, con bitácora)
+      requestBody:
+        required: true
+        content: { application/json: { schema: { type: object, additionalProperties: true } } }
+      responses:
+        '200': { description: Actualizados }
+  /usuarios:
+    get:
+      tags: [Administracion]
+      summary: Listar usuarios (solo administrador)
+      responses:
+        '200': { description: OK }
+    post:
+      tags: [Administracion]
+      summary: Crear usuario con rol (solo administrador)
+      responses:
+        '201': { description: Creado }
+  /auditoria:
+    get:
+      tags: [Administracion]
+      summary: Consultar bitácora (administrador y titular)
+      parameters:
+        - { name: tabla, in: query, schema: { type: string } }
+        - { name: registro_id, in: query, schema: { type: string, format: uuid } }
+        - { name: usuario_id, in: query, schema: { type: string, format: uuid } }
+        - { name: desde, in: query, schema: { type: string, format: date-time } }
+        - { name: hasta, in: query, schema: { type: string, format: date-time } }
+      responses:
+        '200': { description: OK }
+  /exportaciones/{entidad}:
+    parameters:
+      - { name: entidad, in: path, required: true, schema: { type: string, enum: [clientes, vehiculos, contratos, documentos] } }
+    get:
+      tags: [Administracion]
+      summary: Exportar a CSV (administrador y titular; queda en bitácora) (RF-27)
+      responses:
+        '200': { description: CSV, content: { text/csv: { schema: { type: string } } } }
+  /cron/vigencias:
+    get:
+      tags: [Sistema]
+      summary: Revisión diaria de vigencias y envío de alertas (RF-10); solo Vercel Cron con secreto
+      security: [{ cron: [] }]
+      responses:
+        '200': { description: Resumen de alertas generadas y enviadas }
+  /cron/rezagados:
+    get:
+      tags: [Sistema]
+      summary: Marca contratos rezagados (RF-22); solo Vercel Cron con secreto
+      security: [{ cron: [] }]
+      responses:
+        '200': { description: Contratos actualizados }
 
 components:
+  securitySchemes:
+    sesion:
+      type: apiKey
+      in: cookie
+      name: sb-access-token
+    cron:
+      type: http
+      scheme: bearer
+  parameters:
+    id: { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+    pagina:
+      name: pagina
+      in: query
+      schema: { type: integer, minimum: 1, default: 1 }
+  responses:
+    Validacion:
+      description: Datos inválidos
+      content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } }
+    NoEncontrado:
+      description: No existe
+      content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } }
+    Prohibido:
+      description: El rol no tiene permiso
+      content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } }
   schemas:
-    OpenSatisfactionSurveyProps:
+    Error:
       type: object
-      additionalProperties: false
+      required: [codigo, mensaje]
       properties:
-        ticketNumber: { type: string, maxLength: 50, description: 'Número de ticket mencionado por el usuario. Omitir si no lo mencionó.' }
-        technician: { type: string, maxLength: 120, description: 'Nombre o correo del técnico. Omitir si no lo mencionó.' }
-    ShowTechnicianScorecardProps:
+        codigo: { type: string, examples: [VEHICULO_NO_DISPONIBLE, LICENCIA_VENCIDA, TRANSICION_INVALIDA] }
+        mensaje: { type: string }
+        detalle: { type: object, additionalProperties: true }
+    Centavos: { type: integer, description: Monto en centavos MXN }
+    EstadoContrato:
+      type: string
+      enum: [borrador, por_firmar, vigente, por_vencer, rezagado, recibido, concluido, cancelado, en_incidente]
+    ClienteNuevo:
       type: object
-      additionalProperties: false
-      required: [technician]
+      required: [nombre_completo, identificacion_numero]
       properties:
-        technician: { type: string, maxLength: 120, description: 'Nombre o correo del técnico a consultar.' }
-        period:
-          type: string
-          enum: [month, quarter, semester, all]
-          default: quarter
-          description: 'month=último mes, quarter=últimos 3 meses, semester=últimos 6 meses, all=todo.'
-    SurveyListItem:
+        nombre_completo: { type: string }
+        identificacion_numero: { type: string }
+        domicilio: { type: string }
+        ciudad: { type: string }
+        estado: { type: string }
+        telefono: { type: string }
+        celular: { type: string }
+        correo: { type: string, format: email }
+        requiere_factura: { type: boolean }
+        rfc: { type: string }
+        razon_social: { type: string }
+        aviso_privacidad_aceptado: { type: boolean }
+    Cliente:
+      allOf:
+        - { $ref: '#/components/schemas/ClienteNuevo' }
+        - type: object
+          properties:
+            id: { type: string, format: uuid }
+            numero_cliente: { type: integer }
+    PaginaClientes:
       type: object
       properties:
-        Id: { type: integer }
-        Title: { type: string, description: 'Ticket #' }
-        Created: { type: string, format: date-time }
-        m365live_Resolved: { type: string, enum: ['Sí', 'Parcialmente', 'No'] }
-        m365live_Understanding: { type: number, minimum: 1, maximum: 5 }
-        m365live_Speed: { type: number, minimum: 1, maximum: 5 }
-        m365live_Skill: { type: number, minimum: 1, maximum: 5 }
-        m365live_Communication: { type: number, minimum: 1, maximum: 5 }
-        m365live_WouldRecommend: { type: string, enum: ['Sí', 'No', 'No estoy seguro'] }
-        m365live_Comments: { type: string, nullable: true }
-        m365live_Technician:
+        datos: { type: array, items: { $ref: '#/components/schemas/Cliente' } }
+        total: { type: integer }
+    VehiculoNuevo:
+      type: object
+      required: [marca, modelo, placas, valor_asegurado]
+      properties:
+        marca: { type: string }
+        modelo: { type: string }
+        tipo: { type: string }
+        color: { type: string }
+        placas: { type: string }
+        kilometraje_actual: { type: integer }
+        valor_asegurado: { $ref: '#/components/schemas/Centavos' }
+        categoria_tarifa_id: { type: string, format: uuid }
+    Vehiculo:
+      allOf:
+        - { $ref: '#/components/schemas/VehiculoNuevo' }
+        - type: object
+          properties:
+            id: { type: string, format: uuid }
+            clave_auto: { type: integer }
+            estado: { type: string }
+    DocumentoNuevo:
+      type: object
+      required: [tipo]
+      properties:
+        tipo: { type: string, enum: [credencial, licencia, tarjeta_circulacion, poliza, constancia_fiscal, permiso_salida_pais, otro] }
+        numero: { type: string }
+        tipo_licencia: { type: string }
+        expedido_en: { type: string }
+        fecha_expedicion: { type: string, format: date }
+        fecha_vencimiento: { type: string, format: date }
+        aseguradora: { type: string }
+        archivos: { type: array, items: { type: string }, description: Rutas devueltas por /archivos/subida }
+    Documento:
+      allOf:
+        - { $ref: '#/components/schemas/DocumentoNuevo' }
+        - type: object
+          properties:
+            id: { type: string, format: uuid }
+            vigente: { type: boolean }
+    ContratoBorrador:
+      type: object
+      required: [cliente_id, vehiculo_id, salida_en, entrada_prevista_en]
+      properties:
+        cliente_id: { type: string, format: uuid }
+        vehiculo_id: { type: string, format: uuid }
+        vehiculo2_id: { type: string, format: uuid }
+        destino: { type: string }
+        salida_en: { type: string, format: date-time }
+        entrada_prevista_en: { type: string, format: date-time }
+        lugar_devolucion: { type: string }
+        salida_pais_autorizada: { type: boolean }
+        seguro_nocturno: { type: boolean }
+        referencia: { type: object, properties: { nombre: { type: string }, telefono: { type: string }, celular: { type: string } } }
+        tarifa_km_sobrescrita: { $ref: '#/components/schemas/Centavos' }
+        tarifa_km_nota: { type: string }
+        tarifa_dia_pactada: { $ref: '#/components/schemas/Centavos', description: Si difiere del catálogo exige tarifa_motivo }
+        tarifa_motivo: { type: string }
+        facturar_a:
           type: object
-          properties: { EMail: { type: string }, Title: { type: string } }
-    AddValidateRequest:
+          description: Datos de facturación del contrato; pueden ser de un tercero
+          properties:
+            nombre: { type: string }
+            rfc: { type: string }
+        conductores:
+          type: array
+          description: Al menos el arrendatario o un conductor adicional debe tener licencia vigente en todo el periodo
+          items:
+            type: object
+            properties:
+              nombre: { type: string }
+              licencia_numero: { type: string }
+              licencia_vencimiento: { type: string, format: date }
+        observaciones: { type: string }
+    Contrato:
+      allOf:
+        - { $ref: '#/components/schemas/ContratoBorrador' }
+        - type: object
+          properties:
+            id: { type: string, format: uuid }
+            folio: { type: [string, 'null'], pattern: '^D-[0-9]{5,}$', description: Serie digital propia; nulo hasta emitir }
+            folio_papel: { type: [string, 'null'], description: Número del talonario preimpreso (opcional) }
+            estado: { $ref: '#/components/schemas/EstadoContrato' }
+            dias: { type: integer }
+            anticipo: { $ref: '#/components/schemas/Centavos' }
+    Cotizacion:
       type: object
       properties:
-        listItemCreateInfo: { type: object }
-        formValues:
+        dias: { type: integer }
+        tarifa_dia: { $ref: '#/components/schemas/Centavos' }
+        renta_base: { $ref: '#/components/schemas/Centavos' }
+        anticipo: { $ref: '#/components/schemas/Centavos' }
+        tarifa_hora_extra: { $ref: '#/components/schemas/Centavos' }
+        tarifa_km_extra: { $ref: '#/components/schemas/Centavos' }
+        km_incluidos: { type: integer }
+    PagoNuevo:
+      type: object
+      required: [tipo, monto]
+      properties:
+        tipo: { type: string, enum: [anticipo, deposito_garantia, pago_saldo, devolucion_deposito, aplicacion_deposito] }
+        monto: { $ref: '#/components/schemas/Centavos' }
+        garantia_tipo: { type: string, enum: [efectivo, tarjeta_credito, visa_laser] }
+        forma: { type: string, enum: [efectivo, tarjeta_debito, tarjeta_credito, transferencia_deposito], description: Forma de este pago; un anticipo puede registrarse en varios pagos }
+        referencia: { type: string, description: Folio de la transferencia o autorización; nunca un número de tarjeta }
+        tarjeta_ultimos4: { type: string, pattern: '^[0-9]{4}$', description: Solo los últimos 4 dígitos }
+    Entrega:
+      type: object
+      required: [km_salida, gasolina_salida, inventario]
+      properties:
+        km_salida: { type: integer }
+        gasolina_salida: { type: integer, minimum: 0, maximum: 8 }
+        inventario: { $ref: '#/components/schemas/Inventario' }
+    Recepcion:
+      type: object
+      required: [km_entrada, gasolina_entrada, inventario, entrada_real_en]
+      properties:
+        entrada_real_en: { type: string, format: date-time }
+        km_entrada: { type: integer }
+        gasolina_entrada: { type: integer, minimum: 0, maximum: 8 }
+        odometro_danado: { type: boolean }
+        inventario: { $ref: '#/components/schemas/Inventario' }
+        otros_cargos: { type: array, items: { $ref: '#/components/schemas/Cargo' } }
+        bonificaciones: { type: array, items: { $ref: '#/components/schemas/Cargo' } }
+    Inventario:
+      type: object
+      properties:
+        refacciones: { type: boolean }
+        gato: { type: boolean }
+        herramienta: { type: boolean }
+        reflejantes: { type: boolean }
+        tapetes: { type: boolean }
+        radio: { type: boolean }
+        bocinas: { type: boolean }
+        cinturones: { type: boolean }
+        placas: { type: boolean }
+        antena: { type: boolean }
+        danos:
           type: array
-          items: { type: object, properties: { FieldName: { type: string }, FieldValue: { type: string } } }
-        bNewDocumentUpdate: { type: boolean }
+          items:
+            type: object
+            properties:
+              vista: { type: string, enum: [frente, atras, izquierda, derecha] }
+              x: { type: number }
+              y: { type: number }
+              nota: { type: string }
+    Cargo:
+      type: object
+      required: [concepto, monto]
+      properties:
+        concepto: { type: string }
+        monto: { $ref: '#/components/schemas/Centavos' }
+    Liquidacion:
+      type: object
+      properties:
+        dias: { type: integer }
+        lineas: { type: array, items: { $ref: '#/components/schemas/Cargo' } }
+        total: { $ref: '#/components/schemas/Centavos' }
+        saldo: { $ref: '#/components/schemas/Centavos', description: total menos anticipo }
+    IncidenteNuevo:
+      type: object
+      required: [contrato_id, tipo, ocurrido_en, avisado_en]
+      properties:
+        contrato_id: { type: string, format: uuid }
+        tipo: { type: string, enum: [accidente, robo, falla_mecanica, perdida_llaves, retencion_indebida, otro] }
+        ocurrido_en: { type: string, format: date-time }
+        avisado_en: { type: string, format: date-time }
+        descripcion: { type: string }
+    TarifaNueva:
+      type: object
+      required: [nombre, tarifa_dia]
+      properties:
+        nombre: { type: string }
+        tarifa_dia: { $ref: '#/components/schemas/Centavos' }
+        seguro_nocturno: { $ref: '#/components/schemas/Centavos' }
+        cuota_proteccion: { $ref: '#/components/schemas/Centavos' }

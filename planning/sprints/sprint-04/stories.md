@@ -1,31 +1,37 @@
 ---
-generated_by_model: 'gpt-6'
-generated_at: '2026-10-24T16:09:17Z'
-agent_roles: 'project-management-senior-project-manager + engineering-technical-writer'
-vision_command: 'continue_sprint --sprint 4'
+generated_by_model: 'claude-sonnet-5-5'
+generated_at: '2026-11-17T04:45:55.358Z'
+agent_roles: 'product-manager + project-management-project-shepherd'
+vision_command: 'generate_sprints'
 sprint_number: 4
 source_spec_kit: 'spec-kit/input/'
 ---
+# Sprint 4 Stories
 
-# Sprint 4 — Historias
+## S-07 · RF-07 — Alta y edición de vehículos
 
-Los criterios de aceptación completos están en `spec-kit/input/stories.md`.
+- **Prioridad:** Must
+- **Pantallas:** pantallas 9 Vehículos: listado (`spec-kit/input/mockups/previews/09-vehiculos-listado.html`); 10 Vehículo: ficha, documentos e historial (`spec-kit/input/mockups/previews/10-vehiculo-ficha.html`).
+- **Criterios de aceptación:**
+  - [ ] Captura de marca, modelo, tipo y color, placas, kilometraje, valor asegurado y observaciones.
+  - [ ] Clave de auto única y automática.
+  - [ ] Estado operativo: disponible, rentado, en mantenimiento o baja.
+  - [ ] El kilometraje actual no puede disminuir salvo por corrección de un administrador, que queda auditada.
 
-- **ST-19** — Ajuste de intención con la matriz de frases
-- **ST-20** — Despliegue en bajaworks
-- **ST-21** — Guion de la demo, slide deck y plan B
-- **ST-22** — README, licencia y verificación de marcas
+## S-08 · RF-08 — Documentos del vehículo
 
-## Ampliación de ST-21 — Slide deck (T-007)
+- **Prioridad:** Must
+- **Pantallas:** pantallas 10 Vehículo: ficha, documentos e historial (`spec-kit/input/mockups/previews/10-vehiculo-ficha.html`); 9 Vehículos: listado (`spec-kit/input/mockups/previews/09-vehiculos-listado.html`). El estado «No rentable» se ve en la 9.
+- **Criterios de aceptación:**
+  - [ ] Tarjeta de circulación (expedición y vigencia) y póliza de seguro (aseguradora, agente, contacto, expedición y vigencia), con imagen o PDF.
+  - [ ] Un vehículo con tarjeta o póliza vencida queda marcado como no rentable y no puede asignarse a un contrato nuevo.
 
-Incorporada por petición del autor el 2026-10-24. Complementa los criterios del Spec Kit para esta historia.
+## S-09 · RF-09 — Disponibilidad y bloqueos
 
-- Entregar PowerPoint editable (`.pptx`) y exportación PDF, en español y formato 16:9, para profesionales de TI y desarrolladores de SharePoint.
-- Seguir los seis bloques y tiempos de `apps/satisfaction-survey/docs/demo-script.md`, dejando tiempo para la demo y las preguntas dentro de los 60 minutos.
-- Cubrir concepto, caso de satisfacción, arquitectura y flujo de datos, herramientas y parámetros, construcción y despliegue, diagnóstico con `-developer on`, limitaciones y recursos.
-- Incluir notas del presentador en cada diapositiva del PPTX: qué decir, mensajes clave, tiempo estimado y, cuando corresponda, pasos de la demo y señales de transición al Workbench, VS Code, Copilot real o al plan B. Las notas deben poder usarse como guía durante la sesión y estar alineadas con `docs/demo-script.md`.
-- Usar capturas verificadas de T-004 para el respaldo de encuesta, tablero y diagnóstico. Se puede preparar el deck antes de recibirlas; T-007 no se cierra con marcadores pendientes.
-- Mantener datos ficticios de Contoso y evitar tenant, personas o marcas reales en la versión publicable. El material privado del evento permanece en `refdocs/event/`.
-- Verificar las afirmaciones sobre preview, versiones y licencias contra documentación oficial vigente al producir el deck; distinguir los hallazgos observados de las condiciones oficiales del producto.
-- Revisar visualmente todas las diapositivas y el PDF: sin recortes ni superposiciones, código y diagramas legibles por Teams, enlaces válidos y notas accesibles en la vista del presentador.
-- Incorporar el deck a los ensayos y registrar duración, cambios y aprobación de contenido por el autor antes de cerrar T-007.
+- **Prioridad:** Must
+- **Pantallas:** pantallas 3 Contrato: vehículo y fechas (`spec-kit/input/mockups/previews/03-contrato-vehiculo-fechas.html`); M2 Nuevo contrato (celular) (`spec-kit/input/mockups/previews/m2-movil-nuevo-contrato.html`).
+- **Criterios de aceptación:**
+  - [ ] Un vehículo no puede estar en dos contratos cuyas fechas se crucen, incluso si dos operadores lo intentan a la vez; la base de datos lo impide.
+  - [ ] El administrador puede bloquear un vehículo por mantenimiento con fecha de inicio y fin.
+  - [ ] Al elegir fechas en un contrato, la lista de vehículos muestra solo los disponibles y explica por qué no aparece uno (rentado, en mantenimiento o documentos vencidos).
+  - [ ] Las unidades reservadas están sujetas a cambio por una unidad similar (leyenda del formato impreso); el cambio queda registrado.

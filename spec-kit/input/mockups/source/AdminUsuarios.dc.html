@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Administración: usuarios y roles</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 1194px; height: 834px; box-sizing: border-box; display: flex; background: #F6F2E8; color: #1E1A16; font-family: 'Inter', system-ui, sans-serif; font-size: 16px; overflow: hidden">
+
+<nav aria-label="Principal" style="width: 112px; flex: none; background: #1E1A16; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 20px 0">
+<div style="width: 56px; height: 56px; border-radius: 14px; background: #B5141B; color: #fff; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; margin-bottom: 12px">MRA</div>
+<a href="Main.dc.html" style="width: 92px; height: 72px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Tablero</a>
+<a href="ContratosLista.dc.html" style="width: 92px; height: 72px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/></svg>Contratos</a>
+<a href="Cliente.dc.html" style="width: 92px; height: 72px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 5a3.5 3.5 0 010 6"/><path d="M18 14c2.2.7 3.5 2.6 3.5 6"/></svg>Clientes</a>
+<a href="VehiculosLista.dc.html" style="width: 92px; height: 72px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16v-4l2-5h12l2 5v4"/><path d="M3 16h18"/><circle cx="7.5" cy="17.5" r="1.8"/><circle cx="16.5" cy="17.5" r="1.8"/></svg>Vehículos</a>
+<a href="Main.dc.html" style="width: 92px; height: 72px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 17v-6a6 6 0 0112 0v6l1.5 2h-15z"/><path d="M10 21h4"/></svg>Alertas</a>
+<a href="AdminTarifas.dc.html" style="width: 92px; height: 72px; border-radius: 14px; background: #B5141B; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 600">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>Admin</a>
+</nav>
+
+<main style="flex: 1; min-width: 0; padding: 28px 36px 24px; display: flex; flex-direction: column; gap: 14px">
+
+<header style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px">
+<div>
+<div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; color: #6B645A">ADMINISTRACIÓN</div>
+<h1 style="margin: 4px 0 0; font-family: 'Space Grotesk', sans-serif; font-size: 34px; line-height: 1.1">Usuarios y roles</h1>
+</div>
+<div role="tablist" aria-label="Administración" style="display: flex; gap: 8px">
+<a role="tab" aria-selected="false" href="AdminTarifas.dc.html" style="height: 44px; padding: 0 18px; border-radius: 22px; border: 1px solid #CFC8B8; background: #fff; color: #1E1A16; font-size: 15px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; box-sizing: border-box">Tarifas y parámetros</a>
+<a role="tab" aria-selected="true" href="AdminUsuarios.dc.html" style="height: 44px; padding: 0 18px; border-radius: 22px; background: #1E1A16; color: #fff; font-size: 15px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; box-sizing: border-box">Usuarios y roles</a>
+<a role="tab" aria-selected="false" href="AdminBitacora.dc.html" style="height: 44px; padding: 0 18px; border-radius: 22px; border: 1px solid #CFC8B8; background: #fff; color: #1E1A16; font-size: 15px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; box-sizing: border-box">Bitácora y exportaciones</a>
+</div>
+</header>
+
+<section style="flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: 16px">
+
+<div style="background: #fff; border: 1px solid #E3DCCB; border-radius: 16px; padding: 16px 20px; display: flex; flex-direction: column; gap: 8px; min-height: 0">
+<div style="display: flex; justify-content: space-between; align-items: center"><h2 style="margin: 0; font-size: 18px; font-weight: 700">Equipo</h2><button style="height: 44px; padding: 0 18px; border-radius: 22px; border: 0; background: #B5141B; color: #fff; font: inherit; font-size: 14px; font-weight: 700">+ Nuevo usuario</button></div>
+<div style="display: grid; grid-template-columns: minmax(0, 1.8fr) 1fr 0.8fr 1fr; gap: 10px; padding: 8px 0; border-bottom: 1px solid #E3DCCB; font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: #6B645A"><span>USUARIO</span><span>ROL</span><span>MFA</span><span>ÚLTIMO ACCESO</span></div>
+<div style="display: grid; grid-template-columns: minmax(0, 1.8fr) 1fr 0.8fr 1fr; gap: 10px; padding: 10px 0; border-bottom: 1px solid #EFE9DB; font-size: 14px; align-items: center"><span><b>Mariana Rojas</b><span style="display: block; font-size: 12px; color: #6B645A">mariana@mexicorentadeautos.mx</span></span><span><span style="padding: 3px 10px; border-radius: 12px; background: #E8EEF7; color: #1F3A63; font-size: 12px; font-weight: 700">Operador</span></span><span style="color: #6B645A">Opcional</span><span style="color: #4A443B">Hoy 08:02</span></div>
+<div style="display: grid; grid-template-columns: minmax(0, 1.8fr) 1fr 0.8fr 1fr; gap: 10px; padding: 10px 0; border-bottom: 1px solid #EFE9DB; font-size: 14px; align-items: center"><span><b>Carolina Mendoza</b><span style="display: block; font-size: 12px; color: #6B645A">carolina@mexicorentadeautos.mx</span></span><span><span style="padding: 3px 10px; border-radius: 12px; background: #FBE9E7; color: #8E1016; font-size: 12px; font-weight: 700">Administrador</span></span><span style="color: #14583A; font-weight: 700">Activo</span><span style="color: #4A443B">Hoy 07:48</span></div>
+<div style="display: grid; grid-template-columns: minmax(0, 1.8fr) 1fr 0.8fr 1fr; gap: 10px; padding: 10px 0; border-bottom: 1px solid #EFE9DB; font-size: 14px; align-items: center"><span><b>Titular</b><span style="display: block; font-size: 12px; color: #6B645A">titular@mexicorentadeautos.mx</span></span><span><span style="padding: 3px 10px; border-radius: 12px; background: #E3F3EA; color: #14583A; font-size: 12px; font-weight: 700">Titular</span></span><span style="color: #14583A; font-weight: 700">Activo</span><span style="color: #4A443B">13/11 18:20</span></div>
+<div style="display: grid; grid-template-columns: minmax(0, 1.8fr) 1fr 0.8fr 1fr; gap: 10px; padding: 10px 0; font-size: 14px; align-items: center; color: #6B645A"><span><b>Luis Pérez</b><span style="display: block; font-size: 12px">luis@mexicorentadeautos.mx</span></span><span><span style="padding: 3px 10px; border-radius: 12px; background: #EFEAE0; color: #4A443B; font-size: 12px; font-weight: 700">Operador · desactivado</span></span><span>—</span><span>02/10 17:55</span></div>
+<div style="margin-top: auto; padding: 10px 12px; border-radius: 12px; background: #F6F2E8; font-size: 12px; color: #4A443B; line-height: 1.5">Desactivar a un usuario no borra su historial: sus acciones siguen visibles en la bitácora. El administrador y el titular deben usar verificación en dos pasos.</div>
+</div>
+
+<div style="background: #fff; border: 1px solid #E3DCCB; border-radius: 16px; padding: 16px 20px; display: flex; flex-direction: column; gap: 4px; min-height: 0">
+<h2 style="margin: 0 0 4px; font-size: 18px; font-weight: 700">Permisos por rol</h2>
+<div style="display: grid; grid-template-columns: minmax(0, 2.4fr) 1fr 1fr 1fr; gap: 6px; padding: 6px 0; border-bottom: 1px solid #E3DCCB; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; color: #6B645A; text-align: center"><span style="text-align: left">ACCIÓN</span><span>OPERADOR</span><span>ADMIN.</span><span>TITULAR</span></div>
+<div style="display: grid; grid-template-columns: minmax(0, 2.4fr) 1fr 1fr 1fr; gap: 6px; padding: 6px 0; border-bottom: 1px solid #EFE9DB; font-size: 13px; text-align: center; align-items: center"><span style="text-align: left">Crear clientes, vehículos y contratos</span><b style="color: #14583A">✓</b><b style="color: #14583A">✓</b><span style="color: #6B645A">Ver</span></div>
+<div style="display: grid; grid-template-columns: minmax(0, 2.4fr) 1fr 1fr 1fr; gap: 6px; padding: 6px 0; border-bottom: 1px solid #EFE9DB; font-size: 13px; text-align: center; align-items: center"><span style="text-align: left">Entregar y recibir vehículos</span><b style="color: #14583A">✓</b><b style="color: #14583A">✓</b><span style="color: #6B645A">—</span></div>
+<div style="display: grid; grid-template-columns: minmax(0, 2.4fr) 1fr 1fr 1fr; gap: 6px; padding: 6px 0; border-bottom: 1px solid #EFE9DB; font-size: 13px; text-align: center; align-items: center"><span style="text-align: left">Pactar tarifa en un contrato (con motivo)<span style="display: block; font-size: 11px; color: #7A4A00">Por confirmar con el cliente</span></span><span style="color: #7A4A00; font-weight: 700">?</span><b style="color: #14583A">✓</b><span style="color: #6B645A">—</span></div>
+<div style="display: grid; grid-template-columns: minmax(0, 2.4fr) 1fr 1fr 1fr; gap: 6px; padding: 6px 0; border-bottom: 1px solid #EFE9DB; font-size: 13px; text-align: center; align-items: center"><span style="text-align: left">Cambiar el catálogo y parámetros</span><span style="color: #6B645A">—</span><b style="color: #14583A">✓</b><span style="color: #6B645A">—</span></div>
+<div style="display: grid; grid-template-columns: minmax(0, 2.4fr) 1fr 1fr 1fr; gap: 6px; padding: 6px 0; border-bottom: 1px solid #EFE9DB; font-size: 13px; text-align: center; align-items: center"><span style="text-align: left">Eliminar un contrato en borrador</span><span style="color: #6B645A">—</span><b style="color: #14583A">✓</b><span style="color: #6B645A">—</span></div>
+<div style="display: grid; grid-template-columns: minmax(0, 2.4fr) 1fr 1fr 1fr; gap: 6px; padding: 6px 0; border-bottom: 1px solid #EFE9DB; font-size: 13px; text-align: center; align-items: center"><span style="text-align: left">Ver la bitácora</span><span style="color: #6B645A">—</span><b style="color: #14583A">✓</b><b style="color: #14583A">✓</b></div>
+<div style="display: grid; grid-template-columns: minmax(0, 2.4fr) 1fr 1fr 1fr; gap: 6px; padding: 6px 0; border-bottom: 1px solid #EFE9DB; font-size: 13px; text-align: center; align-items: center"><span style="text-align: left">Exportar a CSV</span><span style="color: #6B645A">—</span><b style="color: #14583A">✓</b><b style="color: #14583A">✓</b></div>
+<div style="display: grid; grid-template-columns: minmax(0, 2.4fr) 1fr 1fr 1fr; gap: 6px; padding: 6px 0; font-size: 13px; text-align: center; align-items: center"><span style="text-align: left">Gestionar usuarios</span><span style="color: #6B645A">—</span><b style="color: #14583A">✓</b><span style="color: #6B645A">—</span></div>
+<div style="margin-top: auto; font-size: 12px; color: #6B645A; line-height: 1.5">Los permisos se aplican en el servidor y en la base de datos, no solo ocultando botones. Esta matriz es una propuesta por defecto.</div>
+</div>
+
+</section>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1194,"height":834}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

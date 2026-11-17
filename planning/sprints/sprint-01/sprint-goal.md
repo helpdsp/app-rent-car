@@ -1,30 +1,39 @@
 ---
-generated_by_model: 'claude-opus-5-5'
-generated_at: '2026-10-24T13:40:00Z'
-agent_roles: 'IDE Agent + project-manager-senior + engineering-backend-architect + engineering-frontend-developer'
+generated_by_model: 'claude-sonnet-5-5'
+generated_at: '2026-11-17T04:45:55.358Z'
+agent_roles: 'product-sprint-prioritizer + project-management-project-shepherd'
 vision_command: 'generate_sprints'
 sprint_number: 1
 source_spec_kit: 'spec-kit/input/'
 ---
-
-# Sprint 1 — Datos y fundaciones
+# Sprint 1: Fundación y acceso
 
 ## Objetivo
-Tener el sitio de comunicación `/sites/encuestas`, la lista `Encuestas` con unas 120 respuestas de ejemplo en bajaworks, y la capa compartida (modelo, configuración, datos y lógica) con pruebas unitarias en verde. Resolver los spikes R1–R5 y R8.
 
-## Demo de cierre
-Mostrar la lista `Encuestas` con datos repartidos en 6 meses y la salida de `heft test` en verde.
-
-## Tareas del autor
-- [ ] Crear en el centro de administración de Microsoft 365 los técnicos ficticios **sin licencia**: Ana López, Sofía Herrera, Luis Ramírez, Diego Torres, Carmen Vega, Jorge Mendoza (`@bajaworks.org`). Al menos Ana, Sofía y Luis.
-- [ ] Copiar `demo.config.sample.psd1` → `demo.config.local.psd1` y llenar TenantUrl y los correos de los técnicos en orden T1…T6.
-- [ ] Ejecutar los scripts de aprovisionamiento (se abrirá el login web).
+El proyecto está desplegado en Vercel con base de datos y CI, y un administrador entra con verificación en dos pasos y crea usuarios con rol.
 
 ## Alcance
-9 historias · 15 tareas · 26 puntos. Código en `apps/satisfaction-survey/`.
 
-## Criterio de terminado
-- `npm run build` sin errores; pruebas unitarias en verde.
-- `node tools/check-branding.js` en verde.
-- Probado en tema claro y oscuro (si aplica a la UI).
-- Si cambió el agente, su `version` subió.
+- **Requisitos:** RF-01
+- **Pantallas (spec-kit/input/mockups/):** 8, 17
+- **Tareas:** 12 · **Puntos:** 28 (capacidad estimada: 25 a 30 por semana con una persona full-stack y una de QA)
+- **Duración:** 1 semana
+
+## Demo al cliente
+
+Inicio de sesión de un operador, un administrador con MFA y un titular; alta, desactivación y cambio de rol de usuarios.
+
+## Criterio de éxito
+
+Aprobación del cliente de lo demostrado, más las pruebas del sprint en verde en CI y ningún defecto crítico abierto.
+
+## Riesgos
+
+- Los proyectos de Vercel y Supabase deben existir al iniciar (la conexión de la sesión no pudo crear el de Vercel).
+- vitest 5.1.0 falla en este equipo y la 3.x que funciona tiene vulnerabilidades de desarrollo: buscar una versión sin vulnerabilidades que funcione aquí (probar la última 4.x) antes del primer despliegue.
+
+## Source
+
+- spec-kit/input/sprint-plan.md
+- spec-kit/input/product-prd.md
+- spec-kit/input/mockups/README.md

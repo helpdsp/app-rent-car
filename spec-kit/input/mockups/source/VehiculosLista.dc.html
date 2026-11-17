@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Vehículos: listado</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+body{margin:0}
+input{box-sizing:border-box;min-width:0;max-width:100%}
+</style>
+</helmet>
+<div style="width: 1194px; height: 834px; box-sizing: border-box; display: flex; background: #F6F2E8; color: #1E1A16; font-family: 'Inter', system-ui, sans-serif; font-size: 16px; overflow: hidden">
+
+<nav aria-label="Principal" style="width: 112px; flex: none; background: #1E1A16; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 20px 0">
+<div style="width: 56px; height: 56px; border-radius: 14px; background: #B5141B; color: #fff; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; margin-bottom: 12px">MRA</div>
+<a href="Main.dc.html" style="width: 92px; height: 72px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Tablero</a>
+<a href="ContratosLista.dc.html" style="width: 92px; height: 72px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/></svg>Contratos</a>
+<a href="Cliente.dc.html" style="width: 92px; height: 72px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 5a3.5 3.5 0 010 6"/><path d="M18 14c2.2.7 3.5 2.6 3.5 6"/></svg>Clientes</a>
+<a href="VehiculosLista.dc.html" style="width: 92px; height: 72px; border-radius: 14px; background: #B5141B; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 600">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16v-4l2-5h12l2 5v4"/><path d="M3 16h18"/><circle cx="7.5" cy="17.5" r="1.8"/><circle cx="16.5" cy="17.5" r="1.8"/></svg>Vehículos</a>
+<a href="Main.dc.html" style="width: 92px; height: 72px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 17v-6a6 6 0 0112 0v6l1.5 2h-15z"/><path d="M10 21h4"/></svg>Alertas</a>
+<a href="AdminTarifas.dc.html" style="width: 92px; height: 72px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>Admin</a>
+</nav>
+
+<main style="flex: 1; min-width: 0; padding: 28px 36px 24px; display: flex; flex-direction: column; gap: 16px">
+
+<header style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px">
+<div>
+<div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; color: #6B645A">FLOTA · 10 VEHÍCULOS</div>
+<h1 style="margin: 4px 0 0; font-family: 'Space Grotesk', sans-serif; font-size: 36px; line-height: 1.1">Vehículos</h1>
+</div>
+<div style="display: flex; gap: 12px; align-items: center">
+<label style="display: flex; align-items: center; gap: 10px; height: 48px; padding: 0 16px; border-radius: 24px; background: #fff; border: 1px solid #E3DCCB; width: 290px; box-sizing: border-box">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B645A" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+<input aria-label="Buscar vehículo" placeholder="Modelo, placas o clave" style="border: 0; outline: 0; background: transparent; font: inherit; font-size: 15px; width: 100%; color: #1E1A16">
+</label>
+<button style="height: 48px; padding: 0 22px; border-radius: 24px; border: 0; background: #B5141B; color: #fff; font: inherit; font-size: 16px; font-weight: 700">+ Nuevo vehículo</button>
+</div>
+</header>
+
+<div role="group" aria-label="Filtrar por estado" style="display: flex; gap: 8px; flex-wrap: wrap">
+<button aria-pressed="true" style="height: 44px; padding: 0 18px; border-radius: 22px; border: 0; background: #1E1A16; color: #fff; font: inherit; font-size: 15px; font-weight: 600">Todos · 10</button>
+<button style="height: 44px; padding: 0 18px; border-radius: 22px; border: 1px solid #CFC8B8; background: #fff; color: #1E1A16; font: inherit; font-size: 15px; font-weight: 600">Disponibles · 4</button>
+<button style="height: 44px; padding: 0 18px; border-radius: 22px; border: 1px solid #CFC8B8; background: #fff; color: #1E1A16; font: inherit; font-size: 15px; font-weight: 600">Rentados · 5</button>
+<button style="height: 44px; padding: 0 18px; border-radius: 22px; border: 1px solid #CFC8B8; background: #fff; color: #1E1A16; font: inherit; font-size: 15px; font-weight: 600">Mantenimiento · 1</button>
+<button style="height: 44px; padding: 0 18px; border-radius: 22px; border: 1px solid #F0C4BF; background: #FBE9E7; color: #8E1016; font: inherit; font-size: 15px; font-weight: 700">Documentos por vencer · 3</button>
+</div>
+
+<section aria-label="Listado" style="flex: 1; min-height: 0; background: #fff; border: 1px solid #E3DCCB; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column">
+<div style="display: grid; grid-template-columns: minmax(0, 2.2fr) 1.5fr 1fr 1.1fr 1.1fr 0.9fr; gap: 12px; padding: 12px 20px; background: #FBF9F3; border-bottom: 1px solid #E3DCCB; font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: #6B645A">
+<span>VEHÍCULO</span><span>ESTADO</span><span style="text-align: right">KILOMETRAJE</span><span>TARJETA CIRC.</span><span>PÓLIZA</span><span style="text-align: right">TARIFA / DÍA</span></div>
+
+<a href="VehiculoFicha.dc.html" style="display: grid; grid-template-columns: minmax(0, 2.2fr) 1.5fr 1fr 1.1fr 1.1fr 0.9fr; gap: 12px; padding: 0 20px; min-height: 62px; align-items: center; border-bottom: 1px solid #EFE9DB; color: #1E1A16; text-decoration: none; font-size: 15px"><span><b>Hyundai Elantra</b><span style="display: block; font-size: 13px; color: #6B645A">ATU-703-A · Azul · clave 0003</span></span><span><span style="padding: 3px 10px; border-radius: 12px; background: #E3F3EA; color: #14583A; font-size: 12px; font-weight: 700">Disponible</span></span><span style="text-align: right">47,215 km</span><span>14/03/2027</span><span>05/04/2027</span><span style="text-align: right; font-weight: 700">$1,633</span></a>
+<a href="VehiculoFicha.dc.html" style="display: grid; grid-template-columns: minmax(0, 2.2fr) 1.5fr 1fr 1.1fr 1.1fr 0.9fr; gap: 12px; padding: 0 20px; min-height: 62px; align-items: center; border-bottom: 1px solid #EFE9DB; color: #1E1A16; text-decoration: none; font-size: 15px"><span><b>Nissan Altima</b><span style="display: block; font-size: 13px; color: #6B645A">Blanco · clave 0006</span></span><span><span style="padding: 3px 10px; border-radius: 12px; background: #E3F3EA; color: #14583A; font-size: 12px; font-weight: 700">Disponible</span></span><span style="text-align: right">139,102 km</span><span>22/08/2027</span><span>19/01/2027</span><span style="text-align: right; font-weight: 700">$1,633</span></a>
+<a href="VehiculoFicha.dc.html" style="display: grid; grid-template-columns: minmax(0, 2.2fr) 1.5fr 1fr 1.1fr 1.1fr 0.9fr; gap: 12px; padding: 0 20px; min-height: 62px; align-items: center; border-bottom: 1px solid #EFE9DB; color: #1E1A16; text-decoration: none; font-size: 15px"><span><b>Kia Forte</b><span style="display: block; font-size: 13px; color: #6B645A">BAD-372-A · Negro · clave 0008</span></span><span><span style="padding: 3px 10px; border-radius: 12px; background: #E3F3EA; color: #14583A; font-size: 12px; font-weight: 700">Disponible</span></span><span style="text-align: right">88,305 km</span><span>03/06/2027</span><span>11/02/2027</span><span style="text-align: right; font-weight: 700">$1,633</span></a>
+<a href="VehiculoFicha.dc.html" style="display: grid; grid-template-columns: minmax(0, 2.2fr) 1.5fr 1fr 1.1fr 1.1fr 0.9fr; gap: 12px; padding: 0 20px; min-height: 62px; align-items: center; border-bottom: 1px solid #EFE9DB; color: #1E1A16; text-decoration: none; font-size: 15px"><span><b>Kia Forte</b><span style="display: block; font-size: 13px; color: #6B645A">BNB-791-A · Gris · clave 0002</span></span><span><span style="padding: 3px 10px; border-radius: 12px; background: #FFF1D6; color: #7A4A00; font-size: 12px; font-weight: 700">Rentado · 08160</span></span><span style="text-align: right">51,820 km</span><span>09/09/2027</span><span><span style="padding: 3px 8px; border-radius: 10px; background: #FFF1D6; color: #7A4A00; font-size: 13px; font-weight: 700">28/11/2026</span></span><span style="text-align: right; font-weight: 700">$1,633</span></a>
+<a href="VehiculoFicha.dc.html" style="display: grid; grid-template-columns: minmax(0, 2.2fr) 1.5fr 1fr 1.1fr 1.1fr 0.9fr; gap: 12px; padding: 0 20px; min-height: 62px; align-items: center; border-bottom: 1px solid #EFE9DB; color: #1E1A16; text-decoration: none; font-size: 15px"><span><b>Honda CR-V</b><span style="display: block; font-size: 13px; color: #6B645A">Negra · clave 0009</span></span><span><span style="padding: 3px 10px; border-radius: 12px; background: #FBE9E7; color: #8E1016; font-size: 12px; font-weight: 700">No rentable</span></span><span style="text-align: right">110,254 km</span><span><span style="padding: 3px 8px; border-radius: 10px; background: #FBE9E7; color: #8E1016; font-size: 13px; font-weight: 700">Vence hoy</span></span><span>30/05/2027</span><span style="text-align: right; font-weight: 700">$2,216</span></a>
+<a href="VehiculoFicha.dc.html" style="display: grid; grid-template-columns: minmax(0, 2.2fr) 1.5fr 1fr 1.1fr 1.1fr 0.9fr; gap: 12px; padding: 0 20px; min-height: 62px; align-items: center; border-bottom: 1px solid #EFE9DB; color: #1E1A16; text-decoration: none; font-size: 15px"><span><b>Mazda 3</b><span style="display: block; font-size: 13px; color: #6B645A">Clave 0005</span></span><span><span style="padding: 3px 10px; border-radius: 12px; background: #FBE9E7; color: #8E1016; font-size: 12px; font-weight: 700">Rezagado · 08155</span></span><span style="text-align: right">33,120 km</span><span>17/10/2027</span><span>08/03/2027</span><span style="text-align: right; font-weight: 700">$1,633</span></a>
+<a href="VehiculoFicha.dc.html" style="display: grid; grid-template-columns: minmax(0, 2.2fr) 1.5fr 1fr 1.1fr 1.1fr 0.9fr; gap: 12px; padding: 0 20px; min-height: 62px; align-items: center; color: #1E1A16; text-decoration: none; font-size: 15px"><span><b>Nissan Sentra</b><span style="display: block; font-size: 13px; color: #6B645A">Clave 0004</span></span><span><span style="padding: 3px 10px; border-radius: 12px; background: #E8EEF7; color: #1F3A63; font-size: 12px; font-weight: 700">Mantenimiento</span></span><span style="text-align: right">72,640 km</span><span>02/02/2027</span><span>14/06/2027</span><span style="text-align: right; font-weight: 700">$1,633</span></a>
+<div style="margin-top: auto; padding: 10px 20px; border-top: 1px solid #E3DCCB; font-size: 13px; color: #6B645A; display: flex; justify-content: space-between"><span>Mostrando 7 de 10</span><span>Un vehículo con tarjeta o póliza vencida queda como no rentable</span></div>
+</section>
+
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1194,"height":834}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

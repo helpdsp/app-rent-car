@@ -1,269 +1,180 @@
 ---
-generated_by_model: 'claude-opus-5-5'
-generated_at: '2026-10-24T13:10:00Z'
-agent_roles: 'IDE Agent + engineering-software-architect + engineering-frontend-developer'
+generated_by_model: 'claude-sonnet-5-5'
+generated_at: '2026-11-17T04:20:00Z'
+agent_roles: 'engineering-software-architect + engineering-backend-architect + engineering-devops-automator'
 vision_command: 'generate_spec_kit'
 source_brief: 'spec-kit/input/brief.md'
 source_product_prd: 'spec-kit/input/product-prd.md'
 ---
 
-# Especificación técnica
+# Technical specification — Contratos digitales de México Renta de Autos (MVP)
+
+Complementa `data-model.md` (esquema), `api-spec.yaml` (contrato HTTP) y `refdocs/decisiones-tecnicas-mvp.md` (razones de las decisiones).
 
 ## 1. Arquitectura
 
 ```
- Usuario ──► Microsoft 365 Copilot ──(intención + parámetros)──► Agente declarativo
-                                                                   │  acciones = tools
-                         ┌─────────────────────────────────────────┴──────────────┐
-                         ▼                                                        ▼
-         SatisfactionSurveyForm (inline)                  TechnicianScorecard (inline ⇄ fullscreen)
-                         │  SPHttpClient (SSO, permisos del usuario)              │
-                         └──────────────────────► SharePoint ◄────────────────────┘
-                                   /sites/encuestas  →  lista "Encuestas"
- PnP.PowerShell 1.5.0 (-UseWebLogin) ──► crea el sitio, la lista, los permisos y los datos de ejemplo
+Tableta / celular / PC (PWA)
+        │ HTTPS
+        ▼
+┌────────────── Vercel (Next.js, TypeScript) ──────────────┐
+│ App Router: UI táctil, asistentes por pasos              │
+│ Route handlers /api/*: autorización por rol, validación  │
+│ (Zod), casos de uso, motor de tarifas (lib/pricing)      │
+│ Vercel Cron: /api/cron/vigencias, /api/cron/rezagados    │
+└───────┬───────────────┬────────────────┬─────────────────┘
+        │ SQL (pooler)  │ Storage (URL   │ HTTPS
+        ▼               │ firmada)       ▼
+┌── Supabase ───────┐   ▼            Resend (correo)
+│ Postgres + RLS    │ Buckets privados
+│ Auth (MFA)        │ documentos / evidencias /
+│ Storage           │ contratos / firmas
+└───────────────────┘
 ```
 
-- **Hosting:** el paquete `.sppkg` se sube al App Catalog del tenant (`includeClientSideAssets: true`). Con **Add to Teams** el agente se sincroniza al catálogo de agentes del tenant.
-- **Un solo agente** agrupa los dos componentes (`config/copilot-agent.json → agents[0].components = [idEncuesta, idTablero]`).
-- **Sin backend.** Toda la lógica corre en el cliente. Los datos se leen y escriben con REST de SharePoint usando la identidad del usuario.
+**Principio:** la base de datos es la autoridad de integridad (folio, exclusión de fechas, transiciones, auditoría). El servidor valida y orquesta; la interfaz nunca decide reglas de negocio.
 
-## 2. Estructura del proyecto (`apps/satisfaction-survey/`)
+## 2. Estructura del repositorio
 
 ```
-apps/satisfaction-survey/
-├─ config/                      # generado; se editan copilot-agent.json, config.json y package-solution.json
-├─ copilot/                     # agente declarativo
-│  ├─ manifest.json             # nombre y descripción del agente (Contoso)
-│  ├─ declarativeAgent.json     # versión, instrucciones, frases de inicio, acciones
-│  ├─ ai-plugin.json            # description_for_model
-│  └─ instruction.txt           # instrucciones en español con ejemplos de intención
-├─ src/
-│  ├─ copilotComponents/
-│  │  ├─ satisfactionSurveyForm/        # generado por el autor
-│  │  │  ├─ SatisfactionSurveyFormCopilotComponent.tsx
-│  │  │  ├─ SatisfactionSurveyFormCopilotComponentProperties.ts   # zod: ticketNumber?, technician?
-│  │  │  ├─ ...manifest.json            # tool OpenSatisfactionSurvey, solo inline
-│  │  │  ├─ components/SatisfactionSurveyForm.tsx (+ subcomponentes)
-│  │  │  └─ loc/{en-us,es-es}.js, mystrings.d.ts
-│  │  └─ technicianScorecard/           # el autor lo agrega con `yo @microsoft/sharepoint`
-│  │     ├─ TechnicianScorecardCopilotComponent.tsx
-│  │     ├─ TechnicianScorecardCopilotComponentProperties.ts      # zod: technician, period?
-│  │     ├─ ...manifest.json            # tool ShowTechnicianScorecard, inline + fullscreen
-│  │     ├─ components/TechnicianScorecard.tsx (+ subcomponentes)
-│  │     └─ loc/...
-│  └─ shared/
-│     ├─ config/settings.ts             # nombre de la lista, clave de la storage entity, ruta por defecto
-│     ├─ config/fields.ts               # prefijo m365live_ y nombres internos de las columnas
-│     ├─ model/survey.ts                # tipos, DIMENSIONS, valores de las opciones
-│     ├─ services/SiteResolver.ts       # RF-19
-│     ├─ services/SurveyRepository.ts   # leer, consultar duplicados, crear
-│     ├─ services/PeopleService.ts      # buscar personas, URL de la foto
-│     ├─ logic/validation.ts            # reglas de RF-07
-│     ├─ logic/aggregation.ts           # promedios, distribución, tendencia, fuerte y débil
-│     ├─ logic/period.ts                # rangos de fechas por periodo
-│     ├─ logic/scoreGeometry.ts         # valor → radio (por área)
-│     └─ ui/ RatingScale.tsx, ChoiceGroup.tsx, ScoreCircle.tsx, TrendChart.tsx, DistributionBar.tsx, PersonField.tsx
-├─ provisioning/
-│  ├─ Connect-Demo.ps1                  # Import-Module 1.5.0 + Connect-PnPOnline -UseWebLogin
-│  ├─ New-DemoSite.ps1                  # RF-15
-│  ├─ New-SurveyList.ps1                # RF-16
-│  ├─ Import-SampleData.ps1             # RF-17
-│  ├─ Reset-DemoData.ps1                # RF-18
-│  ├─ Set-DemoConfig.ps1                # RF-19 (storage entity, opcional)
-│  ├─ Deploy-Demo.ps1                   # orquesta los scripts anteriores
-│  ├─ demo.config.sample.psd1           # plantilla de configuración (se versiona)
-│  ├─ demo.config.local.psd1            # configuración real (excluida de Git)
-│  └─ sample-data/surveys.json          # ~120 respuestas con técnicos T1–T6
-├─ docs/ demo-script.md, deployment.md, screenshots/
-├─ tools/check-branding.js              # RF-21
-├─ README.md (es), README.en.md, LICENSE (MIT)
+apps/web/
+  src/app/            rutas (App Router) y route handlers (api/)
+  src/lib/pricing/    motor de tarifas (función pura, ya implementado)
+  src/lib/db/         esquema Drizzle, migraciones, cliente
+  src/lib/auth/       sesión, roles, guardas
+  src/lib/pdf/        plantillas React → PDF
+  src/lib/storage/    URLs firmadas
+  src/lib/mail/       envío con Resend
+  src/lib/audit/      utilidades de bitácora (lectura)
+  src/lib/validation/ esquemas Zod compartidos con el cliente
+  drizzle/            migraciones SQL (triggers, funciones, exclusión)
+  tests/              integración y e2e
 ```
 
-## 3. Agente declarativo
+## 3. Módulos y responsabilidades
 
-- `declarativeAgent.json`:
-  - `name`: "Encuestas de Satisfacción".
-  - `conversation_starters`: "Calificar la atención de un ticket" y "¿Cómo va el desempeño de un técnico?".
-  - `version`: se **sube con cada cambio** del agente (ver la guía de Microsoft).
-- `instruction.txt` (español):
-  - Rol: asistente de satisfacción de soporte de Contoso.
-  - Si el usuario quiere calificar, evaluar, responder una encuesta o dar su opinión sobre una atención o un ticket → invocar `OpenSatisfactionSurvey`. Pasar `ticketNumber` y `technician` **solo si el usuario los mencionó**.
-  - Si el usuario pregunta por el desempeño, las calificaciones o la satisfacción de un técnico → invocar `ShowTechnicianScorecard`. Convertir "este mes / trimestre / semestre / todo" en el valor de `period`.
-  - Nunca inventar números de ticket ni nombres. Responder en el idioma del usuario. El texto completo vive en `copilot/instruction.txt`. Copilot **no repite ni inventa cifras**: el componente presenta los datos ("deja que el componente hable"), porque no hay garantía de que el modelo vea lo que el componente dibuja.
-- Tools (manifiestos de los componentes): las descripciones dicen claramente cuándo usarlas y traen palabras clave en español e inglés (calificar, encuesta, satisfacción, opinión, rate, survey, feedback, desempeño, performance).
+| Módulo | Responsabilidad | RF |
+|---|---|---|
+| Autenticación | Sesión de Supabase, MFA, cierre por inactividad, guarda de rol en cada handler | RF-01 |
+| Auditoría | Triggers escriben; la API solo lee con filtros | RF-02 |
+| Catálogo y parámetros | Versionado de tarifas; parámetros tipados; copia al emitir | RF-03 |
+| Clientes / Vehículos / Documentos | CRUD, validación, subida directa a Storage | RF-04…08 |
+| Disponibilidad | Consulta con motivo de exclusión; exclusión por rango en BD | RF-09 |
+| Alertas | Cron diario, idempotente por `(documento, días, vencimiento)` | RF-10 |
+| Contratos | Casos de uso: borrador, emitir, firmar, entregar, recibir, concluir, cancelar, renovar | RF-12…26 |
+| Motor de tarifas | Cálculo puro; recibe parámetros, no lee la BD | RF-14, RF-21 |
+| PDF | Render del contrato (carátula + 21 cláusulas) y reglamento; hash SHA-256 | RF-17 |
+| Firma | Captura en canvas, guarda PNG y hash del PDF | RF-18 |
+| Correo | Cola simple con reintentos y registro de resultado | RF-10, RF-20 |
+| Exportaciones | CSV por flujo, con bitácora | RF-27 |
 
-## 4. Contratos de las tools (zod → JSON Schema)
+## 4. Flujos críticos
 
-```ts
-// OpenSatisfactionSurvey
-z.object({
-  ticketNumber: z.string().max(50).optional()
-    .describe('Número de ticket mencionado por el usuario, p. ej. "4521". Omitir si no lo mencionó.'),
-  technician: z.string().max(120).optional()
-    .describe('Nombre o correo del técnico que atendió. Omitir si no lo mencionó.')
-});
+### 4.1 Emitir un contrato (transaccional)
+1. Validar entrada con Zod y el rol del usuario.
+2. En **una transacción**: bloquear la fila del vehículo; comprobar que al menos un conductor (arrendatario o adicional) tenga licencia vigente durante todo el periodo, y tarjeta y póliza del vehículo vigentes; validar que los pagos del anticipo sumen la renta base; calcular la cotización con `lib/pricing`; copiar tarifas y parámetros al contrato; consumir `seq_folio_contrato`; cambiar el estado a `por_firmar`; insertar el evento en `outbox`.
+3. Si la exclusión de rango falla (`23P01`), responder 409 `VEHICULO_NO_DISPONIBLE`.
+4. Fuera de la transacción: generar los PDF y guardar su ruta y hash.
 
-// ShowTechnicianScorecard
-z.object({
-  technician: z.string().max(120)
-    .describe('Nombre o correo del técnico a consultar.'),
-  period: z.enum(['month', 'quarter', 'semester', 'all']).optional()
-    .describe('Periodo: month=último mes, quarter=últimos 3 meses (predeterminado), semester=últimos 6 meses, all=todo.')
-});
-```
+Una falla al generar el PDF **no** revierte el folio; el contrato queda emitido con el PDF pendiente y un reintento manual.
 
-## 5. Datos y acceso a SharePoint
+### 4.2 Firmar
+Guardar la imagen de firma en el bucket `firmas`; calcular el hash del PDF vigente; registrar usuario, fecha, hora y dispositivo; marcar el PDF como inmutable. Una corrección posterior genera una versión nueva del PDF y exige firmar de nuevo.
 
-### 5.1 Encontrar el sitio de datos (RF-19)
+### 4.3 Entregar
+Validar anticipo (suma de pagos ≥ renta base), depósito y firma. Registrar km de salida (≥ kilometraje del vehículo, con la foto del tablero ligada al valor capturado), gasolina en octavos, inventario y los seis ángulos de foto obligatorios. La captura funciona con la cámara del celular o de la tableta; las fotos suben directo a Storage y cada una guarda usuario, dispositivo y huella. Pasar a `vigente`, actualizar el estado del vehículo a `rentado` y encolar el envío del PDF.
 
-Es el mismo patrón que usa el ejemplo de Microsoft `time-off-absence` (`shared/listsSiteConfig.ts`). Ese ejemplo confirma que **dentro de Copilot no hay página de SharePoint y `pageContext.web.absoluteUrl` apunta a la raíz del tenant**.
+### 4.4 Recibir y liquidar
+Registrar km de entrada (≥ salida), gasolina, inventario, daños y evidencias. Calcular con `liquidar()`: renta base, retraso, km excedente, otros cargos y bonificaciones. Guardar una fila por línea en `contrato_cargos`; el saldo es total menos anticipo. Pasar a `recibido`; `concluido` solo con saldo en cero y depósito aplicado o devuelto.
 
-1. `ambient = context.pageContext.web.absoluteUrl`, que es la raíz del tenant. De ahí solo se usa el **origin**.
-2. `GET {ambient}/_api/web/GetStorageEntity('SatisfactionSurveySite')`. Esta llamada funciona desde cualquier sitio, incluida la raíz. Si `Value` no está vacío, se usa ese valor, que puede ser una ruta (`/sites/encuestas`) o una URL completa.
-3. Si no, se usa la ruta compilada `DEFAULT_SITE_PATH = '/sites/encuestas'`.
-4. `resolveSiteUrl(ambient, path)`: si es una URL completa se usa tal cual; si es una ruta, se combina con el `origin`.
+### 4.5 Alertas de vigencia
+Cron diario (America/Tijuana). Para cada documento con vencimiento en `{30, 15, 7, 0}` días: insertar alerta con `ON CONFLICT DO NOTHING`, enviar correo, marcar `enviada` o `error`. Al subir el documento renovado, las alertas pendientes pasan a `atendida`.
 
-**Nunca lanza error:** si cualquier paso falla, se usa la ruta por defecto. El resultado se guarda en memoria durante toda la vida del componente.
+### 4.6 Rezagados
+Cron cada 15 minutos en horario de mostrador: contratos `vigente` o `por_vencer` con `entrada_prevista_en < ahora` pasan a `rezagado`; `por_vencer` se marca dentro de las 2 horas previas.
 
-La storage entity es **opcional**. En bajaworks no hace falta porque el sitio usa la ruta por defecto. Escribirla tiene requisitos que el README debe explicar:
-- Un administrador debe permitir una vez los cambios al property bag (`Set-SPOTenant -AllowWebPropertyBagUpdateWhenDenyAddAndCustomizePagesIsEnabled $true`).
-- Hay que ser administrador de la colección de sitios del App Catalog.
+## 5. Reglas de dominio
 
-### 5.2 Operaciones (`SurveyRepository`)
+- **Motor de tarifas:** `apps/web/src/lib/pricing/index.ts`; funciones puras, centavos enteros, caso de referencia 08160. Los supuestos del reglamento se pasan como parámetros (tolerancia, hora desde la que se cobra un día, divisor).
+- **Copia al emitir:** el contrato guarda tarifa, hora extra, km extra, seguro nocturno, km por día, deducible y valor asegurado; el catálogo cambia sin alterar contratos viejos.
+- **Dinero:** `bigint` en centavos; la interfaz formatea MXN. Nunca punto flotante.
+- **Folios:** serie propia `D-00001` generada con una secuencia de Postgres que inicia en 1; huecos permitidos, reutilización prohibida. Es distinta de los folios de papel (no consecutivos, de 08160 a 09834 y más) para no chocar con ellos; `folio_papel` es opcional durante la transición.
+- **Eliminación:** lógica. El administrador puede eliminar contratos en borrador; un contrato emitido solo se cancela.
 
-| Operación | Llamada REST |
+## 6. Seguridad y privacidad
+
+| Tema | Decisión |
 |---|---|
-| Usuario actual | `GET {site}/_api/web/currentuser?$select=Id,Email,Title` |
-| Buscar duplicado | `GET {site}/_api/web/lists/getbytitle('Encuestas')/items?$select=Id,...&$filter=Title eq '{t}' and AuthorId eq {me}&$top=1` |
-| Resolver técnico a Id de sitio | `POST {site}/_api/web/ensureuser` con `{ logonName: email }` → `Id`. Es el patrón probado en `time-off-absence` |
-| Crear respuesta | `POST {site}/_api/web/lists/getbytitle('Encuestas')/items` con `{ Title, m365live_TechnicianId, m365live_Resolved, m365live_Understanding, m365live_Speed, m365live_Skill, m365live_Communication, m365live_WouldRecommend, m365live_Comments }`. Cabeceras: `Accept` y `Content-Type: application/json;odata=nometadata` y **`'odata-version': ''`**, como en el ejemplo. Plan B: `AddValidateUpdateItemUsingPath` con el campo Persona por claims (`[{"Key":"i:0#.f\|membership\|{email}"}]`), que no necesita `ensureuser` |
-| Encuestas de un técnico | `GET .../items?$select=Id,Title,Created,m365live_Resolved,m365live_Understanding,m365live_Speed,m365live_Skill,m365live_Communication,m365live_WouldRecommend,m365live_Comments,m365live_Technician/EMail,m365live_Technician/Title&$expand=m365live_Technician&$filter=m365live_Technician/EMail eq '{email}' and Created ge datetime'{desde}'&$orderby=Created desc&$top=5000` |
-| Técnicos con encuestas (para resolver nombres) | `GET .../items?$select=m365live_Technician/EMail,m365live_Technician/Title&$expand=m365live_Technician&$top=5000`, con valores únicos calculados en el cliente |
-| Buscar personas (formulario) | `POST {site}/_api/SP.UI.ApplicationPages.ClientPeoplePickerWebServiceInterface.clientPeoplePickerSearchUser` (PrincipalType=1) |
-| Foto | `{site}/_layouts/15/userphoto.aspx?size=S&accountname={email}` |
+| Autenticación | Supabase Auth; MFA obligatorio para administrador y titular |
+| Autorización | Guarda de rol en cada route handler **y** RLS en las tablas; el cliente nunca usa la clave de servicio |
+| Archivos sensibles | Buckets privados; URLs firmadas de pocos minutos; cada lectura de `documentos` genera `SELECT_SENSIBLE` en la bitácora |
+| Tarjetas | No se almacena número; solo tipo de garantía y últimos 4 dígitos |
+| Auditoría | Solo agregado; sin `UPDATE`/`DELETE` para ningún rol |
+| Secretos | Variables de entorno en Vercel (sensibles); clave de servicio de Supabase solo en el servidor; secreto de cron en cabecera `Authorization` |
+| Transporte | HTTPS; cabeceras de seguridad (CSP, HSTS, `X-Content-Type-Options`) |
+| Validación de archivos | Tipo MIME y tamaño máximo (foto 10 MB, PDF 15 MB, video 100 MB); extensión verificada por contenido |
+| Privacidad | Aviso aceptado con versión y fecha; retención configurable; anonimización a solicitud (ARCO) |
+| Residencia | Supabase en el oeste de EE. UU.; debe constar en el aviso de privacidad |
+| Abuso | Límite de intentos de inicio de sesión; límite de solicitudes por usuario en endpoints de subida y exportación |
 
-**Cómo se identifica al técnico en el tablero:**
-- Si el parámetro es un correo, se busca por correo exacto.
-- Si es un nombre, se busca entre los técnicos que tienen encuestas, sin distinguir acentos ni mayúsculas, primero por coincidencia exacta y luego por "contiene".
-- Si hay 0 coincidencias, se muestra "No encontré encuestas para '{x}'" con sugerencias.
-- Si hay más de una, se muestra un selector.
+## 7. Experiencia de uso (decisiones de UX del brief)
 
-### 5.3 Modelo
-Ver `data-model.md`.
+Responsive para escritorio y tableta, con celular soportado en captura y consulta (tablero, nuevo contrato, fotos y kilometraje, comparación de fotos, cobro); la firma y la administración se piden en tableta o escritorio; un solo tema visual; flujo simple con asistentes por pasos; accesibilidad básica (contraste, controles táctiles de al menos 44 px, etiquetas de formulario). Estilo visual pendiente de `clarify_spec_kit`. Los formularios guardan borrador automáticamente para tolerar cortes de conexión breves.
 
-## 6. Interfaz
+## 8. Entornos y despliegue
 
-- **Fluent UI v9** dentro de `FluentProvider`, con el tema del host (`webLightTheme` / `webDarkTheme`), como en el scaffold. Se mantienen `IdPrefixProvider` y `targetDocument`.
-- **Se reemplaza la interfaz de ejemplo del scaffold.** Se mantienen sus patrones de bridge: `requestDisplayModeAsync`, `sendFollowUpMessageAsync` y `openLinkAsync`.
-- **`RatingScale`:** `role="radiogroup"` con 5 `role="radio"`, flechas para moverse, etiqueta visible al seleccionar y sin valor inicial.
-- **`ScoreCircle` (SVG):**
-  - Radio exterior `R`.
-  - Relleno `r = R·√((v−1)/4)`.
-  - Contornos guía para los valores 2, 3 y 4 en `R·√((k−1)/4)`.
-  - Valor numérico al centro o debajo.
-  - `aria-label="Comunicación: 4.3 de 5"`.
-  - Color de relleno: `tokens.colorBrandBackground`. No transmite significado solo por color.
-- **`TrendChart`:** polilínea SVG por dimensión con puntos mensuales y leyenda con texto.
-- **Tamaños:** la encuesta es inline. Si hace falta, se pide altura con `requestSizeChangeAsync`. El tablero arranca inline y "Ver detalle" llama a `requestDisplayModeAsync('fullscreen')`. La vista se adapta a `hostContext.displayMode`.
-
-## 7. Lógica (funciones puras con pruebas)
-
-- `validation.ts`: `validate(draft) → errors[]`. La regla del comentario: `resolved !== 'Sí' || min(dim) <= 2`.
-- `period.ts`: `rangeFor(period, now)` → `{from}`. Mes = 1, trimestre = 3, semestre = 6 meses atrás desde `now`; `all` = sin filtro.
-- `aggregation.ts`: `summarize(items)` → `{ n, overall, byDim: {avg, dist[5]}, resolvedPct: {si, parcial, no}, recommendPct, strongest, weakest, monthly: [{month, byDim}] }`.
-  - `overall` es el promedio de los 4 promedios.
-  - Si `n < 5`, `insufficient: true`.
-  - Empates en la dimensión más fuerte o más débil: se usa el orden canónico de las dimensiones.
-- `scoreGeometry.ts`: `fillRadius(v, R)`, que limita `v` a [1, 5].
-
-## 8. Aprovisionamiento (PnP.PowerShell 1.5.0)
-
-- Cada script empieza con `Import-Module PnP.PowerShell -RequiredVersion 1.5.0 -Force`, porque en la máquina del autor también está `SharePointPnPPowerShellOnline` 3.29.
-- La conexión es siempre `Connect-PnPOnline -Url $url -UseWebLogin`. Solo funciona en Windows.
-- Configuración en `demo.config.local.psd1` (excluido de Git):
-  ```powershell
-  @{ TenantUrl = 'https://<tenant>.sharepoint.com'; SiteAlias = 'encuestas'; SiteTitle = 'Encuestas de Satisfacción'; Lcid = 3082; FieldPrefix = 'm365live_'
-     Technicians = @('ana.lopez@<dominio>', ...) }   # 3 a 6 usuarios del tenant, en el orden T1…T6
-  ```
-- **Técnicos de ejemplo = usuarios ficticios SIN licencia.** El tenant del autor tiene solo 2 licencias. Los técnicos se crean como usuarios en Entra ID (centro de administración → Agregar usuario → *Crear usuario sin licencia*), lo que no tiene costo. No necesitan iniciar sesión: solo existir, para que el campo Persona los resuelva. El README explica este paso para quien clone el repo. Los dos usuarios con licencia hacen otro papel: el dueño del sitio responde en vivo y el segundo es la cuenta **sin permisos de administrador** para la prueba P5.
-- `New-DemoSite.ps1`:
-  - `New-PnPSite -Type CommunicationSite -Title -Url -Lcid -Wait`, conectando a la URL raíz del tenant.
-  - Si el sitio ya existe (se comprueba conectándose a él), se reutiliza.
-  - Español = LCID 3082. La plantilla es "Tema" (sitio de comunicación vacío).
-- `New-SurveyList.ps1` (idempotente: comprueba antes de crear cada cosa):
-  - Crea la lista genérica `Encuestas`. El campo `Title` se renombra a "Ticket #" y se indexa.
-  - Agrega los campos de `data-model.md` con `Add-PnPField` (o `-FieldXml` donde haga falta). Indexa `m365live_Technician`.
-  - Crea la vista "Todas las encuestas" con las columnas principales.
-  - **Permisos:**
-    - Rompe la herencia de la lista.
-    - Da Contribute a *Everyone except external users* (`c:0-.f|rolemanager|spo-grid-all-users/{tenantId}`).
-    - Configura `ReadSecurity=1` (todos leen todo) y `WriteSecurity=2` (cada quien edita solo lo suyo).
-- `Import-SampleData.ps1`:
-  - Lee `sample-data/surveys.json`.
-  - Relaciona T1…T6 con `Technicians[i]`. Si hay menos de 6 técnicos, se omiten los perfiles que sobran.
-  - Crea cada respuesta con `Add-PnPListItem`.
-  - Después ejecuta `Set-PnPListItem -UpdateType UpdateOverwriteVersion -Values @{Created=..; Modified=..}`.
-  - Marca cada elemento con `m365live_IsSample = $true`.
-- `Reset-DemoData.ps1 [-OnlyLive] [-Reseed]`: con `-OnlyLive` borra solo los elementos con `m365live_IsSample = $false`, es decir, los creados durante la demo.
-- `Set-DemoConfig.ps1` (opcional): `Set-PnPStorageEntity -Key 'SatisfactionSurveySite' -Value '/sites/<alias>' -Scope Tenant`, conectado al App Catalog. Requisitos: permitir los cambios al property bag (lo hace una vez un administrador) y ser administrador de la colección de sitios del App Catalog. Si falla, solo muestra una advertencia, porque la ruta por defecto sigue funcionando.
-- Las funciones `Ensure-List` y `Ensure-Field` siguen el mismo patrón idempotente que `copilot-readiness-action-centre/scripts/provision.ps1` (comprobar → crear). A diferencia de los ejemplos de Microsoft, que usan `-ClientId` porque PnP 2.2+ ya no trae una aplicación de Entra predeterminada, aquí se usa **`-UseWebLogin`** con PnP 1.5.0, así que no hace falta registrar ninguna aplicación.
-
-## 9. Datos de ejemplo (`surveys.json`)
-
-Se generan una sola vez de forma determinista (con una semilla fija) y se versionan para poder revisarlos.
-
-| Perfil | Usuario ficticio sugerido | Historia | Respuestas |
+| Entorno | Hosting | Base de datos | Uso |
 |---|---|---|---|
-| T1 | Ana López | Comunicación alta, **Rapidez baja**. Es la protagonista del guion | ~30 |
-| T2 | Sofía Herrera | Excelente en todo | ~25 |
-| T3 | Luis Ramírez | **Mejora mes a mes** (de 2.5 a 4.5) | ~25 |
-| T4 | Diego Torres | Habilidad alta, Comunicación baja | ~20 |
-| T5 | Carmen Vega | Regular | ~16 |
-| T6 | Jorge Mendoza | **Solo 3 respuestas** (para mostrar "datos insuficientes") | 3 |
+| Local | `next dev` | Supabase local (Docker) o proyecto de desarrollo | Desarrollo |
+| Preview | Vercel (por rama) | Proyecto Supabase de pruebas | Revisión de PR; protegido con autenticación de Vercel |
+| Producción | Vercel (`rent-car-mvp`) | Proyecto Supabase de producción | Cliente |
 
-Ana es T1 para que, si solo se configuran 3 técnicos, la protagonista del guion siempre tenga datos.
+- Proyecto Vercel: directorio raíz `apps/web`, región de funciones `sfo1`.
+- CI: instalar, `lint`, `tsc --noEmit`, pruebas unitarias y de integración contra Postgres efímero, `next build`.
+- Migraciones: Drizzle; se aplican antes del despliegue; las migraciones con triggers son SQL versionado.
+- Copias de seguridad: las diarias de Supabase; prueba de restauración antes del piloto.
 
-Los comentarios son ficticios, en español y consistentes con las calificaciones. Los números de ticket son únicos y van del 1000 al 3999. **Del 4000 en adelante se reservan para la demo en vivo** (p. ej. 4521), para que no choquen con la regla de no duplicar. Las fechas se reparten en los últimos 6 meses y se calculan relativas al día en que se ejecuta el script, para que la demo siempre tenga datos recientes.
+### Variables de entorno
+`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` (solo servidor), `DATABASE_URL` (pooler), `RESEND_API_KEY`, `MAIL_FROM`, `CRON_SECRET`, `APP_TIMEZONE=America/Tijuana`.
 
-## 10. Calidad, build y despliegue
+## 9. Observabilidad y errores
 
-- `npm run build` ejecuta `heft test --clean --production && heft package-solution --production`. Las pruebas unitarias de jest viven junto al código (`*.test.ts`).
-- Durante el desarrollo: `npm run start` y luego `https://<tenant>.sharepoint.com/_layouts/15/copilotworkbench.aspx`.
-- Despliegue:
-  1. Subir `solution/satisfaction-survey.sppkg` al App Catalog.
-  2. Activarlo.
-  3. **Add to Teams**.
-  4. Esperar la sincronización y probar en Copilot Chat.
-  5. Hacerlo **24–48 h antes del evento**.
-- `tools/check-branding.js` busca `Konica|Minolta|KMBS|SKNA|bajaworks` (sin distinguir mayúsculas) en `apps/satisfaction-survey/` y en los docs públicos, sin contar `node_modules`, `lib`, `temp` ni los archivos `*.local.*`. Si encuentra algo, termina con error. Se ejecuta antes de cada commit o publicación.
+- Registro estructurado por solicitud con identificador de correlación; sin datos personales en los logs.
+- Errores de negocio con código estable (`VEHICULO_NO_DISPONIBLE`, `LICENCIA_VENCIDA`, `TRANSICION_INVALIDA`, `SALDO_PENDIENTE`) y mensaje en español.
+- Alertas operativas: fallos del cron, correos fallidos y PDF pendientes se muestran en el tablero del administrador.
 
-## 11. Riesgos técnicos y validaciones previas (spikes del Sprint 1)
+## 10. Rendimiento y capacidad
 
-| # | Riesgo | Validación |
+Volumen asumido: una sucursal, decenas de contratos al mes, hasta 5,000 clientes. Listados paginados con índices; PDF en menos de 5 s; subida directa a Storage para no pasar archivos por las funciones de Vercel (límite de tamaño de solicitud).
+
+## 11. Preparación para GHL
+
+`ghl_contact_id` en clientes y contratos, `ghl_opportunity_id` en contratos y la tabla `outbox`. Un futuro worker leerá `outbox` y escribirá en GHL a un ritmo menor a 10 solicitudes por segundo, con idempotencia por identificador externo. Fuera del MVP; ver `refdocs/decisiones-tecnicas-mvp.md` §7 para los hallazgos pendientes de verificar.
+
+## 12. Decisiones y alternativas descartadas
+
+| Decisión | Alternativa descartada | Razón |
 |---|---|---|
-| R1 | ~~Qué devuelve `pageContext.web.absoluteUrl` dentro de Copilot~~ | **Resuelto** con el ejemplo `time-off-absence`: devuelve la raíz del tenant. Se aplica el patrón de §5.1 |
-| R2 | Escribir el campo Persona desde Copilot (ensureuser + `m365live_TechnicianId`) | El patrón ya está probado en `time-off-absence`. Solo falta confirmarlo con un usuario sin permisos de administrador (emanuel). Plan B: AddValidate |
-| R3 | Que `clientPeoplePickerSearchUser` responda desde el host de Copilot | Prueba en el Workbench. Plan B: elegir el técnico de una lista de quienes ya tienen encuestas |
-| R4 | Que `Set-PnPListItem -UpdateType UpdateOverwriteVersion` cambie `Created` en la versión 1.5.0 | Probarlo con 1 elemento (el parámetro ya se verificó que existe) |
-| R5 | Que `Get-PnPTenantId` y el claim de *Everyone except external users* funcionen en 1.5.0 | Probarlo. Plan B: pasar el TenantId como parámetro en la configuración local |
-| R6 | Cambios en la preview entre rc.0 y GA | Fijar versiones en `package.json`; actualizar solo después de probar |
-| R7 | Retraso en la sincronización del agente | Desplegar con anticipación; subir `version` en cada cambio |
-| R8 | Que los usuarios sin licencia se resuelvan en el campo Persona (al importar con PnP y en el selector del formulario) | Spike en S1 con 1 usuario sin licencia. Plan B: asignarles temporalmente una licencia de prueba o usar solo los 2 usuarios con licencia |
-| R10 | **Zips de agente viejos en `teams/`.** El build escribe el paquete del agente en `teams/<nombre-del-agente>.zip` y el empaquetado mete **todos** los zips de esa carpeta en el `.sppkg`. Si cambia el nombre del agente, el zip anterior se queda ahí y desplegaría un segundo agente. Se detectó el 2026-10-24 al renombrar el agente | Borrar `teams/*.zip` antes de compilar cuando cambie el nombre del agente; `teams/*.zip` está en `.gitignore`. El build de rc.0 sube solo la versión hotfix del manifiesto (`teams/.copilot-agent-hotfix.json`). El nombre del zip sale de `config/copilot-agent.json → name` (el build elimina todo carácter fuera de a-z, 0-9 y -), por eso ahí va **sin acento** ("Encuestas de Satisfaccion" → `encuestas-de-satisfaccion.zip`). El nombre visible con acento vive en `copilot/manifest.json` y `declarativeAgent.json` |
-| R11 | **Licencia de Microsoft 365 Copilot obligatoria** para ejecutar componentes en Copilot (403 `copilot_license_required`, observado el 2026-10-24 con una cuenta *Copilot Chat Basic*; también falla el ejemplo My Day) | Asignar una licencia de Microsoft 365 Copilot a la cuenta del presentador (y a la de la prueba sin permisos de administrador). Plan B para la sesión: demo en el **Copilot Workbench**, que no exige licencia. Documentarlo en el README como requisito |
-| R9 | Estilos de Fluent v9 dentro del iframe de Copilot. Los ejemplos (beta.2, React 17) tuvieron que inyectar los tokens del tema como variables CSS en línea (`themeVars.ts`) | Con rc.0 y React 18 debería bastar `FluentProvider` + `targetDocument` (como en el scaffold). Si en Copilot se ve sin estilos, se aplica el mismo `themeToCssVars` del ejemplo |
+| Postgres con exclusión por rango | Calendarios de GHL o D1 | Garantía atómica contra dobles reservas |
+| Supabase Storage | R2 | Un proveedor menos; misma política de acceso con URLs firmadas |
+| Vercel | Cloudflare Workers + OpenNext | Next.js nativo, sin adaptador ni límites de runtime |
+| Firma propia en canvas | Firma nativa de GHL | Control del PDF y de la evidencia; GHL fuera del MVP |
+| Sin modo offline | PWA con cola local | Complejidad no justificada para una sucursal con conexión estable |
 
-## 12. Patrones adoptados de los ejemplos de Microsoft (`pnp/spfx-copilot-apps`)
+## 13. Riesgos técnicos
 
-Revisados en la copia local del autor. Los ejemplos usan **SPFx 1.24.0-beta.2 + React 17** (`ReactDOM.render`); este proyecto usa **rc.0 + React 18** (`createRoot`), así que se copian los **patrones**, no el código de montaje.
+1. **Concurrencia de reservas:** cubrir con pruebas contra Postgres real.
+2. **PDF fiel al formato impreso:** validar contra el contrato 08160 con el cliente.
+3. **Video desde tableta:** tamaño y conectividad; fijar límites tras una prueba en sitio.
+4. **Dependencia de un solo proveedor en mostrador:** definir contingencia (impresión del formato en blanco).
+5. **Vulnerabilidades de herramientas de desarrollo** (`vitest`): actualizar antes del primer despliegue.
 
-| Patrón | Ejemplo | Cómo se aplica aquí |
-|---|---|---|
-| Sitio de datos = origin del contexto + ruta compilada, que se puede reemplazar con una storage entity | `time-off-absence/shared/listsSiteConfig.ts` | §5.1 (`SiteResolver`) |
-| **Puerto HTTP**: el servicio de datos no conoce tipos de SPFx; una fábrica adapta `SPHttpClient` a una interfaz `{ get, post }` | `createTimeOffDataService.ts` | `SurveyRepository` recibe un `IHttpPort`; la fábrica vive en cada componente. Así se puede probar con jest sin SPFx |
-| `ensureuser` → Id + `POST items` con `odata=nometadata` y `'odata-version': ''` | `SharePointTimeOffDataService.ts` | §5.2 |
-| **Nunca lanzar error en la carga** y recurrir a datos en memoria | `InMemoryTimeOffDataService.ts` | **Tablero**: si falla la lectura, muestra los datos de ejemplo del JSON con una etiqueta visible **"Datos de demostración (sin conexión)"**. Sirve como plan B en el escenario. **Encuesta**: nunca finge un envío exitoso; muestra el error y permite reintentar |
-| **Contador `propertiesVersion`**: cuando Copilot vuelve a invocar la tool con el componente ya montado, se reinicia el estado local | `TimeOffOverviewCopilotComponent.tsx` | Los dos componentes. Por ejemplo, pedir el tablero de Ana y luego el de Luis en la misma conversación |
-| Lógica pura en `logic/` con pruebas `*.test.ts` junto al código | `time-off-absence/*/logic` | §7 |
-| Una tool por componente, con instrucciones del tipo "cuando el usuario pida X, llama a Y" y "deja que el componente hable" (no repetir los datos en texto) | `time-off-absence/copilot/instruction.txt` | §3 |
-| Script de aprovisionamiento idempotente con `Ensure-List` / `Ensure-Field` | `copilot-readiness-action-centre/scripts/provision.ps1` | §8 |
+## 14. Mockups
+
+La interfaz tiene 22 pantallas diseñadas (18 de tableta de 1194×834 y 4 de celular de 390×844) en `spec-kit/input/mockups/`: vistas HTML navegables en `previews/`, capturas en `png/` e índice con requisitos en `README.md`. Reglas de uso:
+
+- La implementación sigue la **estructura, los datos mostrados y las reglas visibles** de cada pantalla (estados, avisos, validaciones, qué se pide en cada paso). Los datos de ejemplo no son requisitos.
+- Colores, tipografías y espaciado de los mockups son la propuesta visual: rojo de la marca (#B5141B) sobre papel crema (#F6F2E8), Inter para texto y Space Grotesk para títulos, controles de 44 px o más. El estilo visual definitivo se cierra en `clarify_spec_kit`.
+- Los componentes repetidos (barra lateral, pasos del contrato, chips de estado, tarjetas, tablas) se construyen una sola vez y se reutilizan.
+- La firma y la administración no tienen versión de celular.
+- Las pruebas E2E comparan capturas de la aplicación contra `png/` (ver el plan de pruebas).

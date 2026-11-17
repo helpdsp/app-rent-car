@@ -1,32 +1,27 @@
 ---
-generated_by_model: 'claude-opus-5-5'
-generated_at: '2026-10-24T13:40:00Z'
-agent_roles: 'IDE Agent + project-manager-senior + engineering-frontend-developer + design-ux-architect'
+generated_by_model: 'claude-sonnet-5-5'
+generated_at: '2026-11-17T04:45:55.358Z'
+agent_roles: 'project-management-senior-project-manager + engineering-backend-architect + engineering-frontend-developer'
 vision_command: 'generate_sprints'
 sprint_number: 2
 source_spec_kit: 'spec-kit/input/'
 ---
-
 # Sprint 2 Tasks
 
-| Task | Title | RF | Component | Route | Story | Owner role | Points | Status |
-|---|---|---|---|---|---|---|---|---|
-| T-001 | Controles UI: `RatingScale` (radiogroup accesible), `ChoiceGroup`, `PersonField` (People Picker REST + foto) | RF-06 | shared/ui | — | ST-10 | frontend | 3 | done |
-| T-002 | `ScoreCircle` SVG (relleno por área, contornos 2–4, aria-label) | RF-12 | shared/ui | — | ST-10 | frontend | 1 | done |
-| T-003 | Schema zod `ticketNumber?`/`technician?` + manifiesto solo inline (tool ya renombrada a `OpenSatisfactionSurvey` con descripción, 2026-10-24) | RF-05 | SatisfactionSurveyForm | — | ST-11 | frontend | 1 | done |
-| T-004 | Reemplazar la UI de ejemplo: bloques Contexto → Resultado → 4 dimensiones → Recomendación → Comentario | RF-06 | SatisfactionSurveyForm | — | ST-12 | frontend | 3 | done |
-| T-005 | Validación en vivo + comentario condicional + Enviar deshabilitado | RF-07 | SatisfactionSurveyForm | — | ST-12 | frontend | 1 | done |
-| T-006 | Localización es-es / en-us (`loc/`) | RF-06 | SatisfactionSurveyForm | — | ST-12 | frontend | 1 | done |
-| T-007 | Detección de duplicado → modo lectura | RF-08 | SatisfactionSurveyForm | — | ST-13 | frontend | 1 | done |
-| T-008 | Envío + confirmación + botón seguimiento (`sendFollowUpMessageAsync`) + errores con reintento | RF-09 | SatisfactionSurveyForm | — | ST-13 | frontend | 2 | done |
-| T-009 | Agente: frases de inicio en `declarativeAgent.json` (nombre, descripciones, `ai-plugin.json` e `instruction.txt` ya hechos el 2026-10-24) | RF-01 | copilot | — | ST-18 | ai | 2 | done |
-| T-010 | Build `.sppkg`, guía de despliegue inicial en `docs/deployment.md`, primera matriz de intención (I1–I5, I11) | RF-01 | docs | — | ST-18 | qa | 1 | done |
+| Task | Title | RF | Component | Route | Location | Mockup | Owner role | Points | Status |
+|---|---|---|---|---|---|---|---|---|---|
+| S02-T01 | Función `fn_auditar` y triggers en todas las tablas de negocio existentes; plantilla para las nuevas | RF-02 | DB | — | drizzle/0002_auditoria.sql | — | fullstack | 3 | todo |
+| S02-T02 | Tabla `auditoria` de solo agregado (sin UPDATE ni DELETE para ningún rol) y pruebas de que se rechaza | RF-02 | DB | — | drizzle/0002_auditoria.sql | — | fullstack | 2 | todo |
+| S02-T03 | Pantalla Bitácora: filtros por registro, usuario y fechas; `GET /api/auditoria` | RF-02 | BitacoraPage | /admin/bitacora | apps/web/src/app/admin/bitacora/page.tsx | 18 | fullstack | 3 | todo |
+| S02-T04 | Tablas `tarifas` y `parametros` con versionado y semilla (500 km, ÷8, 5.ª hora, 20 % y 24 h, deducible 30 % y 20 %, alertas 30/15/7/0) | RF-03 | DB | — | drizzle/0003_tarifas.sql | — | fullstack | 3 | todo |
+| S02-T05 | Pantalla Tarifas y parámetros: versión nueva de tarifa, edición de parámetros y datos legales pendientes | RF-03 | TarifasPage | /admin/tarifas | apps/web/src/app/admin/tarifas/page.tsx | 16 | fullstack | 3 | todo |
+| S02-T06 | Conectar los parámetros al motor de tarifas (tolerancia, redondeo, hora desde la que se cobra un día) | RF-03 | lib/pricing | — | apps/web/src/lib/pricing/parametros.ts | — | fullstack | 2 | todo |
+| S02-T07 | Aviso de privacidad con versión y fecha de aceptación; texto configurable | RF-28 | privacidad | — | apps/web/src/lib/privacidad/ | — | fullstack | 2 | todo |
+| S02-T08 | Política de retención configurable y proceso de anonimización por solicitud (ARCO) conservando lo contractual | RF-28 | privacidad | /admin/privacidad | apps/web/src/lib/privacidad/arco.ts | — | fullstack | 3 | todo |
+| S02-T09 | Buckets privados de Storage, URLs firmadas de corta duración y entrada `SELECT_SENSIBLE` al leer | RF-05 | lib/storage | /api/archivos/* | apps/web/src/lib/storage/ | — | fullstack | 3 | todo |
+| S02-T10 | Cabeceras de seguridad (CSP, HSTS, nosniff) y límite de solicitudes en subida y exportación | RNF | seguridad | — | apps/web/next.config.ts, middleware.ts | — | fullstack | 2 | todo |
+| S02-T11 | Pruebas de bitácora inmutable, tarifas versionadas y anonimización (T-02, T-03, T-04, T-07) | RF-02 | tests | — | apps/web/tests/auditoria.test.ts | — | qa | 3 | todo |
 
+**Total:** 11 tareas · 29 puntos.
 
-## Notas de estado (2026-10-24)
-
-- T-001…T-009 implementados; `heft test` en verde (61 pruebas) y sin advertencias de lint.
-- T-010 en curso: guía en `apps/satisfaction-survey/docs/deployment.md`. Falta generar el `.sppkg` (el autor tenía `npm run start` corriendo), desplegar en el tenant y correr la matriz I1–I5 e I11 junto con los spikes R2, R3 y R9.
-- Extra: `updateModelContextAsync` informa al modelo cuando se guarda una encuesta, para que pueda confirmarlo con datos reales.
-- 2026-10-24: desplegado en el tenant (paquete 1.0.0.3, agente 1.0.0.3, `toolDiscovery: static`). En Copilot la herramienta se selecciona con los argumentos correctos, pero la ejecución devuelve **403 `copilot_license_required`**: la cuenta del autor es *Copilot Chat (Basic)*. Bloqueado por licencia (riesgo R11). El Workbench funciona de punta a punta.
-- Cierre del sprint 2: despliegue hecho y diagnosticado con `-developer on`. La matriz de intención en Copilot real (I1–I5, I11) y la prueba R2 con la cuenta sin permisos de administrador quedan **condicionadas a la licencia** y pasan al sprint 4. Lo que se pudo verificar: I1 (Matched/Selected, argumentos exactos). Decisión del autor: opción C (Workbench + diagnóstico en vivo).
+Las ubicaciones son sugeridas bajo `apps/web/`. «Mockup» remite a los números de `spec-kit/input/mockups/README.md`: la tarea está terminada cuando la pantalla coincide con su mockup en estructura, datos mostrados y reglas visibles.

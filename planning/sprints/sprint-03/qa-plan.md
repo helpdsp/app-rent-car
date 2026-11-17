@@ -1,17 +1,38 @@
 ---
-generated_by_model: 'claude-opus-5-5'
-generated_at: '2026-10-24T13:40:00Z'
-agent_roles: 'IDE Agent + project-manager-senior + engineering-frontend-developer + design-ui-designer'
+generated_by_model: 'claude-sonnet-5-5'
+generated_at: '2026-11-17T04:45:55.358Z'
+agent_roles: 'testing-api-tester + product-manager'
 vision_command: 'generate_sprints'
 sprint_number: 3
 source_spec_kit: 'spec-kit/input/'
 ---
+# Sprint 3 QA Plan
 
-# Sprint 3 — Plan de QA
+## Casos del plan de pruebas
 
-- [ ] Casos W6–W10 de `test-plan.md` §2. Los valores de T1 se comparan con el cálculo hecho a mano a partir del JSON.
-- [ ] Intención I6–I10 en Copilot.
-- [ ] Contraste de los círculos ≥ 3:1 en los dos temas; los números siempre visibles.
-- [ ] Revisión de privacidad: ningún dato de `Author` en la interfaz ni en la red.
+- T-10
+- T-11
+- T-12
+- T-13
 
-Referencia: `spec-kit/input/test-plan.md`.
+(Descripción de cada caso en `spec-kit/input/test-plan.md`.)
+
+## Puntos de atención
+
+- Un cliente con la misma identificación devuelve 409 de posible duplicado.
+- Los archivos solo se leen con URL firmada y cada lectura queda en la bitácora.
+
+## Entrada
+
+- Historias del sprint con criterios de aceptación y datos de prueba definidos.
+- Pantallas del sprint disponibles en `spec-kit/input/mockups/`.
+
+## Salida
+
+- Pruebas del sprint en verde en CI.
+- Sin defectos críticos abiertos.
+- Demo aceptada por el cliente.
+
+## Riesgos monitoreados
+
+- La subida de fotos desde tableta depende de la conectividad real del mostrador: probar tamaños en sitio.

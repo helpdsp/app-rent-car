@@ -1,29 +1,38 @@
 ---
-generated_by_model: 'claude-opus-5-5'
-generated_at: '2026-10-24T13:40:00Z'
-agent_roles: 'IDE Agent + project-manager-senior + engineering-frontend-developer + design-ui-designer'
+generated_by_model: 'claude-sonnet-5-5'
+generated_at: '2026-11-17T04:45:55.358Z'
+agent_roles: 'product-sprint-prioritizer + project-management-project-shepherd'
 vision_command: 'generate_sprints'
 sprint_number: 3
 source_spec_kit: 'spec-kit/input/'
 ---
-
-# Sprint 3 — Tablero del técnico
+# Sprint 3: Clientes y sus documentos
 
 ## Objetivo
-Tablero `TechnicianScorecard` en vista inline y de pantalla completa, con un círculo por dimensión (1 = contorno, 5 = lleno), distribución, tendencia mensual por `Creado` y comentarios recientes, sin mostrar quién respondió.
 
-## Demo de cierre
-"¿Cómo va el desempeño de Ana López este trimestre?" → 4 círculos inline → "Ver detalle" → pantalla completa → cambio de periodo.
-
-## Tareas del autor
-- [x] Ejecutar `yo @microsoft/sharepoint` en `apps/satisfaction-survey`: Copilot Component, nombre `technician-scorecard`, plantilla React (ST-14). Hecho el 2026-10-24.
-- [ ] Volver a desplegar el `.sppkg` y sincronizar el agente.
+El operador registra a un cliente una sola vez, con foto de credencial y licencia, y lo encuentra por nombre, identificación, teléfono o RFC.
 
 ## Alcance
-4 historias · 9 tareas · 13 puntos. Código en `apps/satisfaction-survey/`.
 
-## Criterio de terminado
-- `npm run build` sin errores; pruebas unitarias en verde.
-- `node tools/check-branding.js` en verde.
-- Probado en tema claro y oscuro (si aplica a la UI).
-- Si cambió el agente, su `version` subió.
+- **Requisitos:** RF-04, RF-05, RF-06
+- **Pantallas (spec-kit/input/mockups/):** 2
+- **Tareas:** 10 · **Puntos:** 26 (capacidad estimada: 25 a 30 por semana con una persona full-stack y una de QA)
+- **Duración:** 1 semana
+
+## Demo al cliente
+
+Alta de un cliente con documentos desde la tableta; búsqueda; un posible duplicado se detecta.
+
+## Criterio de éxito
+
+Aprobación del cliente de lo demostrado, más las pruebas del sprint en verde en CI y ningún defecto crítico abierto.
+
+## Riesgos
+
+- La subida de fotos desde tableta depende de la conectividad real del mostrador: probar tamaños en sitio.
+
+## Source
+
+- spec-kit/input/sprint-plan.md
+- spec-kit/input/product-prd.md
+- spec-kit/input/mockups/README.md

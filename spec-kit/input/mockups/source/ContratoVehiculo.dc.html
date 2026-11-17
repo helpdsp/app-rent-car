@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Contrato: vehículo y fechas</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+body{margin:0}
+input{box-sizing:border-box;min-width:0;max-width:100%}
+</style>
+</helmet>
+<div style="width: 1194px; height: 834px; box-sizing: border-box; display: flex; background: #F6F2E8; color: #1E1A16; font-family: 'Inter', system-ui, sans-serif; font-size: 16px; overflow: hidden">
+
+<nav aria-label="Principal" style="width: 112px; flex: none; background: #1E1A16; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 20px 0">
+<div style="width: 56px; height: 56px; border-radius: 14px; background: #B5141B; color: #fff; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; margin-bottom: 16px">MRA</div>
+<a href="Main.dc.html" style="width: 92px; height: 76px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Tablero</a>
+<a href="ContratosLista.dc.html" style="width: 92px; height: 76px; border-radius: 14px; background: #B5141B; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 600">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/></svg>Contratos</a>
+<a href="Cliente.dc.html" style="width: 92px; height: 76px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 5a3.5 3.5 0 010 6"/><path d="M18 14c2.2.7 3.5 2.6 3.5 6"/></svg>Clientes</a>
+<a href="VehiculosLista.dc.html" style="width: 92px; height: 76px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16v-4l2-5h12l2 5v4"/><path d="M3 16h18"/><circle cx="7.5" cy="17.5" r="1.8"/><circle cx="16.5" cy="17.5" r="1.8"/></svg>Vehículos</a>
+<a href="Main.dc.html" style="width: 92px; height: 76px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 17v-6a6 6 0 0112 0v6l1.5 2h-15z"/><path d="M10 21h4"/></svg>Alertas</a>
+<a href="AdminTarifas.dc.html" style="width: 92px; height: 76px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>Admin</a>
+</nav>
+
+<main style="flex: 1; min-width: 0; padding: 28px 36px 24px; display: flex; flex-direction: column; gap: 18px">
+
+<header style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px">
+<div>
+<div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; color: #6B645A">NUEVO CONTRATO · BORRADOR</div>
+<h1 style="margin: 4px 0 0; font-family: 'Space Grotesk', sans-serif; font-size: 34px; line-height: 1.1">Vehículo y fechas</h1>
+</div>
+<div style="font-size: 14px; color: #6B645A; text-align: right">Cliente<br><b style="color: #1E1A16; font-size: 16px">Ricardo Medina Salazar · No. 00127</b></div>
+</header>
+
+<ol aria-label="Pasos del contrato" style="list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600">
+<li style="display: flex; align-items: center; gap: 8px; color: #14583A"><span style="width: 30px; height: 30px; border-radius: 15px; background: #14583A; color: #fff; display: inline-flex; align-items: center; justify-content: center">✓</span>Cliente</li>
+<li aria-hidden="true" style="flex: 1; height: 2px; background: #14583A"></li>
+<li aria-current="step" style="display: flex; align-items: center; gap: 8px; color: #B5141B"><span style="width: 30px; height: 30px; border-radius: 15px; background: #B5141B; color: #fff; display: inline-flex; align-items: center; justify-content: center">2</span>Vehículo y fechas</li>
+<li aria-hidden="true" style="flex: 1; height: 2px; background: #CFC8B8"></li>
+<li style="display: flex; align-items: center; gap: 8px; color: #6B645A"><span style="width: 30px; height: 30px; border-radius: 15px; border: 2px solid #CFC8B8; display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box">3</span>Cobro y garantía</li>
+<li aria-hidden="true" style="flex: 1; height: 2px; background: #CFC8B8"></li>
+<li style="display: flex; align-items: center; gap: 8px; color: #6B645A"><span style="width: 30px; height: 30px; border-radius: 15px; border: 2px solid #CFC8B8; display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box">4</span>Firma</li>
+<li aria-hidden="true" style="flex: 1; height: 2px; background: #CFC8B8"></li>
+<li style="display: flex; align-items: center; gap: 8px; color: #6B645A"><span style="width: 30px; height: 30px; border-radius: 15px; border: 2px solid #CFC8B8; display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box">5</span>Entrega</li>
+</ol>
+
+<section style="flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 4fr); gap: 18px">
+
+<div style="display: flex; flex-direction: column; gap: 16px; min-height: 0">
+
+<div style="background: #fff; border: 1px solid #E3DCCB; border-radius: 16px; padding: 18px 22px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-size: 18px; font-weight: 700">Fechas y destino</h2>
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px">
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600; color: #4A443B">Salida<input value="16/11/2026 · 11:00" style="height: 48px; border: 1px solid #CFC8B8; border-radius: 12px; padding: 0 14px; font: inherit; font-size: 16px; font-weight: 400; color: #1E1A16; background: #fff"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600; color: #4A443B">Entrega prevista<input value="19/11/2026 · 11:00" style="height: 48px; border: 1px solid #CFC8B8; border-radius: 12px; padding: 0 14px; font: inherit; font-size: 16px; font-weight: 400; color: #1E1A16; background: #fff"></label>
+</div>
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px">
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600; color: #4A443B">Destino<input value="Nogales" style="height: 48px; border: 1px solid #CFC8B8; border-radius: 12px; padding: 0 14px; font: inherit; font-size: 16px; font-weight: 400; color: #1E1A16; background: #fff"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600; color: #4A443B">Lugar de devolución<input value="Sucursal Mexicali" style="height: 48px; border: 1px solid #CFC8B8; border-radius: 12px; padding: 0 14px; font: inherit; font-size: 16px; font-weight: 400; color: #1E1A16; background: #fff"></label>
+</div>
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; border-radius: 12px; background: #F6F2E8">
+<div><div style="font-size: 15px; font-weight: 600">Salida del país</div><div style="font-size: 13px; color: #6B645A">No autorizada. Requiere permiso por escrito (cláusula 9.ª)</div></div>
+<span style="flex: none; width: 56px; height: 32px; border-radius: 16px; background: #CFC8B8; padding: 3px; box-sizing: border-box; display: inline-flex"><span style="width: 26px; height: 26px; border-radius: 13px; background: #fff"></span></span>
+</div>
+</div>
+
+<div style="background: #fff; border: 1px solid #E3DCCB; border-radius: 16px; padding: 18px 22px; display: flex; flex-direction: column; gap: 12px; flex: 1; min-height: 0">
+<div style="display: flex; align-items: baseline; justify-content: space-between"><h2 style="margin: 0; font-size: 18px; font-weight: 700">Vehículos para estas fechas</h2><span style="font-size: 13px; color: #6B645A">2 disponibles · 2 no disponibles</span></div>
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px">
+<button aria-pressed="true" style="text-align: left; padding: 14px 16px; border: 2px solid #B5141B; border-radius: 14px; background: #FBE9E7; font: inherit; color: #1E1A16; display: flex; flex-direction: column; gap: 4px; min-height: 92px"><span style="display: flex; justify-content: space-between; gap: 8px"><b style="font-size: 16px">Hyundai Elantra</b><span style="font-size: 12px; font-weight: 700; color: #14583A; background: #E3F3EA; padding: 2px 8px; border-radius: 10px">Disponible</span></span><span style="font-size: 14px; color: #4A443B">ATU-703-A · Azul</span><span style="font-size: 15px; font-weight: 700">$1,633 por día</span></button>
+<button style="text-align: left; padding: 14px 16px; border: 1px solid #CFC8B8; border-radius: 14px; background: #fff; font: inherit; color: #1E1A16; display: flex; flex-direction: column; gap: 4px; min-height: 92px"><span style="display: flex; justify-content: space-between; gap: 8px"><b style="font-size: 16px">Nissan Altima</b><span style="font-size: 12px; font-weight: 700; color: #14583A; background: #E3F3EA; padding: 2px 8px; border-radius: 10px">Disponible</span></span><span style="font-size: 14px; color: #4A443B">Blanco</span><span style="font-size: 15px; font-weight: 700">$1,633 por día</span></button>
+<div style="padding: 14px 16px; border: 1px dashed #CFC8B8; border-radius: 14px; background: #FBF9F3; color: #6B645A; display: flex; flex-direction: column; gap: 4px; min-height: 92px"><span style="display: flex; justify-content: space-between; gap: 8px"><b style="font-size: 16px; color: #4A443B">Kia Forte</b><span style="font-size: 12px; font-weight: 700; color: #7A4A00; background: #FFF1D6; padding: 2px 8px; border-radius: 10px">Rentado</span></span><span style="font-size: 14px">BNB-791-A · Gris</span><span style="font-size: 13px">En renta hasta hoy 17:30 (folio 08160)</span></div>
+<div style="padding: 14px 16px; border: 1px dashed #CFC8B8; border-radius: 14px; background: #FBF9F3; color: #6B645A; display: flex; flex-direction: column; gap: 4px; min-height: 92px"><span style="display: flex; justify-content: space-between; gap: 8px"><b style="font-size: 16px; color: #4A443B">Honda CR-V</b><span style="font-size: 12px; font-weight: 700; color: #8E1016; background: #FBE9E7; padding: 2px 8px; border-radius: 10px">Documentos</span></span><span style="font-size: 14px">Negra</span><span style="font-size: 13px">Tarjeta de circulación vence hoy</span></div>
+</div>
+</div>
+
+</div>
+
+<aside aria-label="Cotización" style="background: #fff; border: 1px solid #E3DCCB; border-radius: 16px; padding: 20px 22px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-size: 18px; font-weight: 700">Cotización</h2>
+<div style="font-size: 14px; color: #6B645A">Se calcula con el reglamento y se guarda una copia de las tarifas al emitir.</div>
+<div style="display: flex; justify-content: space-between; padding: 10px 0; border-top: 1px solid #EFE9DB; font-size: 15px"><span>Tarifa por 24 h<span style="display: block; font-size: 12px; color: #6B645A">Catálogo $1,633 · editable con motivo</span></span><b>$1,633</b></div>
+<div style="display: flex; justify-content: space-between; padding: 10px 0; border-top: 1px solid #EFE9DB; font-size: 15px"><span>Días de renta</span><b>3</b></div>
+<div style="display: flex; justify-content: space-between; padding: 10px 0; border-top: 1px solid #EFE9DB; font-size: 15px"><span>Kilómetros incluidos</span><b>1,500 (500 por día)</b></div>
+<div style="display: flex; justify-content: space-between; padding: 10px 0; border-top: 1px solid #EFE9DB; font-size: 15px"><span>Hora extra (tarifa ÷ 8)</span><b>$204</b></div>
+<div style="display: flex; justify-content: space-between; padding: 10px 0; border-top: 1px solid #EFE9DB; font-size: 15px"><span>Km excedente</span><b>$3 por km</b></div>
+<div style="margin-top: auto; background: #F6F2E8; border-radius: 14px; padding: 16px 18px">
+<div style="font-size: 13px; font-weight: 600; letter-spacing: 0.06em; color: #6B645A">ANTICIPO A COBRAR · PAGO POR ADELANTADO</div>
+<div style="font-family: 'Space Grotesk', sans-serif; font-size: 44px; font-weight: 700; line-height: 1.15">$4,899</div>
+<div style="font-size: 13px; color: #6B645A">3 días × $1,633</div>
+</div>
+<a href="ContratoCobro.dc.html" style="height: 56px; border-radius: 28px; background: #B5141B; color: #fff; font-size: 18px; font-weight: 700; text-decoration: none; display: flex; align-items: center; justify-content: center">Continuar al cobro</a>
+<div style="font-size: 12px; color: #6B645A; text-align: center">Licencia vigente hasta 27/05/2028: cubre todo el periodo</div>
+</aside>
+
+</section>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1194,"height":834}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

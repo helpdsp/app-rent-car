@@ -1,24 +1,39 @@
 ---
-generated_by_model: 'gpt-6'
-generated_at: '2026-10-24T16:09:17Z'
-agent_roles: 'testing-reality-checker + engineering-technical-writer'
-vision_command: 'continue_sprint --sprint 4'
+generated_by_model: 'claude-sonnet-5-5'
+generated_at: '2026-11-17T04:45:55.358Z'
+agent_roles: 'testing-api-tester + product-manager'
+vision_command: 'generate_sprints'
 sprint_number: 4
 source_spec_kit: 'spec-kit/input/'
 ---
+# Sprint 4 QA Plan
 
-# Sprint 4 — Plan de QA
+## Casos del plan de pruebas
 
-- [ ] Criterio de §4: ≥ 9/10 en I1–I10 en tres corridas; I11 no abre ningún componente.
-- [ ] R1–R4 de `test-plan.md` §6.
-- [ ] Ensayo completo con el plan B probado en el equipo del evento.
-- [ ] T-007: PPTX editable y PDF revisados diapositiva por diapositiva; formato 16:9 y legibilidad al compartir por Teams, sin recortes ni superposiciones.
-- [ ] T-007: cada diapositiva del PPTX tiene notas del presentador con qué decir y tiempo estimado; incluye pasos y señales de transición donde corresponda, alineados con los seis bloques del guion. Comprobarlas en la vista del presentador; deck incluido en el ensayo de 60 minutos y contenido revisado por el autor.
-- [ ] T-007: capturas finales de T-004 incorporadas, enlaces comprobados, afirmaciones de producto verificadas y versión publicable con datos ficticios; sin marcadores pendientes.
+- T-14
+- T-15
+- T-20
+- T-21
+- T-22
 
-Referencia: `spec-kit/input/test-plan.md`.
+(Descripción de cada caso en `spec-kit/input/test-plan.md`.)
 
-Registro de resultados locales, W9/W10 y R2 (README en otro tenant): [qa-evidence.md](qa-evidence.md). Corridas C1/C2/C3: [matriz de intención](../../../apps/satisfaction-survey/docs/intent-matrix.md). Los registros siguen pendientes de ejecución manual; no sustituyen evidencia.
+## Puntos de atención
 
-- [ ] Heredado del sprint 2 (solo si hay licencia de Microsoft 365 Copilot): matriz I2–I5 e I11 en Copilot real y prueba R2 con la cuenta sin permisos de administrador.
-- [ ] Ensayar el segmento `-developer on` en una conversación nueva (Agent version, Actions, Executed actions → Response data).
+- 20 intentos paralelos sobre el mismo vehículo y fechas: solo uno gana.
+- Una renta que termina a las 11:00 no choca con otra que empieza a las 11:00.
+
+## Entrada
+
+- Historias del sprint con criterios de aceptación y datos de prueba definidos.
+- Pantallas del sprint disponibles en `spec-kit/input/mockups/`.
+
+## Salida
+
+- Pruebas del sprint en verde en CI.
+- Sin defectos críticos abiertos.
+- Demo aceptada por el cliente.
+
+## Riesgos monitoreados
+
+- La restricción de exclusión por rango debe probarse contra Postgres real con concurrencia, no con simulaciones.

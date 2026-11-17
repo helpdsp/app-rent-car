@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1194">
+<title>15 · Conductor adicional, referencia, pagaré y facturar a</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+body{margin:0}
+input{box-sizing:border-box;min-width:0;max-width:100%}
+</style>
+</head>
+<body>
+<div style="width: 1194px; height: 834px; box-sizing: border-box; display: flex; background: #F6F2E8; color: #1E1A16; font-family: 'Inter', system-ui, sans-serif; font-size: 16px; overflow: hidden">
+
+<nav aria-label="Principal" style="width: 112px; flex: none; background: #1E1A16; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 20px 0">
+<div style="width: 56px; height: 56px; border-radius: 14px; background: #B5141B; color: #fff; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; margin-bottom: 12px">MRA</div>
+<a href="01-tablero.html" style="width: 92px; height: 72px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Tablero</a>
+<a href="11-contratos-listado.html" style="width: 92px; height: 72px; border-radius: 14px; background: #B5141B; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 600">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/></svg>Contratos</a>
+<a href="02-cliente.html" style="width: 92px; height: 72px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 5a3.5 3.5 0 010 6"/><path d="M18 14c2.2.7 3.5 2.6 3.5 6"/></svg>Clientes</a>
+<a href="09-vehiculos-listado.html" style="width: 92px; height: 72px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16v-4l2-5h12l2 5v4"/><path d="M3 16h18"/><circle cx="7.5" cy="17.5" r="1.8"/><circle cx="16.5" cy="17.5" r="1.8"/></svg>Vehículos</a>
+<a href="01-tablero.html" style="width: 92px; height: 72px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 17v-6a6 6 0 0112 0v6l1.5 2h-15z"/><path d="M10 21h4"/></svg>Alertas</a>
+<a href="16-admin-tarifas-parametros.html" style="width: 92px; height: 72px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>Admin</a>
+</nav>
+
+<main style="flex: 1; min-width: 0; padding: 28px 36px 24px; display: flex; flex-direction: column; gap: 14px">
+
+<header style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px">
+<div>
+<div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; color: #6B645A">NUEVO CONTRATO · DATOS ADICIONALES (OPCIONALES)</div>
+<h1 style="margin: 4px 0 0; font-family: 'Space Grotesk', sans-serif; font-size: 32px; line-height: 1.1">Conductor, referencia, pagaré y facturación</h1>
+</div>
+<div style="font-size: 14px; color: #6B645A; text-align: right">Hyundai Elantra · Ricardo Medina<br><b style="color: #1E1A16">16/11 → 19/11</b></div>
+</header>
+
+<section style="flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); gap: 14px">
+
+<div style="background: #fff; border: 1px solid #E3DCCB; border-radius: 16px; padding: 14px 18px; display: flex; flex-direction: column; gap: 8px; min-height: 0">
+<div style="display: flex; justify-content: space-between; align-items: center"><h2 style="margin: 0; font-size: 17px; font-weight: 700">Conductor adicional</h2><span style="padding: 3px 10px; border-radius: 12px; background: #E3F3EA; color: #14583A; font-size: 12px; font-weight: 700">Licencia vigente en todo el periodo</span></div>
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px">
+<label style="display: flex; flex-direction: column; gap: 3px; font-size: 12px; font-weight: 600; color: #4A443B">Nombre<input value="Mario Esquivel Ruiz" style="height: 44px; border: 1px solid #CFC8B8; border-radius: 10px; padding: 0 12px; font: inherit; font-size: 15px; font-weight: 400; color: #1E1A16; background: #fff"></label>
+<label style="display: flex; flex-direction: column; gap: 3px; font-size: 12px; font-weight: 600; color: #4A443B">Teléfono o celular<input value="686 555 0177" style="height: 44px; border: 1px solid #CFC8B8; border-radius: 10px; padding: 0 12px; font: inherit; font-size: 15px; font-weight: 400; color: #1E1A16; background: #fff"></label>
+<label style="display: flex; flex-direction: column; gap: 3px; font-size: 12px; font-weight: 600; color: #4A443B">Domicilio<input value="Calle Sexta 340, Centro" style="height: 44px; border: 1px solid #CFC8B8; border-radius: 10px; padding: 0 12px; font: inherit; font-size: 15px; font-weight: 400; color: #1E1A16; background: #fff"></label>
+<label style="display: flex; flex-direction: column; gap: 3px; font-size: 12px; font-weight: 600; color: #4A443B">Ciudad / Estado<input value="Mexicali, B.C." style="height: 44px; border: 1px solid #CFC8B8; border-radius: 10px; padding: 0 12px; font: inherit; font-size: 15px; font-weight: 400; color: #1E1A16; background: #fff"></label>
+<label style="display: flex; flex-direction: column; gap: 3px; font-size: 12px; font-weight: 600; color: #4A443B">Licencia (número)<input value="B2201880432" style="height: 44px; border: 1px solid #CFC8B8; border-radius: 10px; padding: 0 12px; font: inherit; font-size: 15px; font-weight: 400; color: #1E1A16; background: #fff"></label>
+<label style="display: flex; flex-direction: column; gap: 3px; font-size: 12px; font-weight: 600; color: #4A443B">Vence<input value="24/05/2027" style="height: 44px; border: 1px solid #CFC8B8; border-radius: 10px; padding: 0 12px; font: inherit; font-size: 15px; font-weight: 400; color: #1E1A16; background: #fff"></label>
+</div>
+<div style="font-size: 12px; color: #6B645A">Firma en la pantalla de firma. Su foto de licencia se agrega como documento.</div>
+</div>
+
+<div style="background: #fff; border: 1px solid #E3DCCB; border-radius: 16px; padding: 14px 18px; display: flex; flex-direction: column; gap: 8px; min-height: 0">
+<h2 style="margin: 0; font-size: 17px; font-weight: 700">Referencia del cliente</h2>
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px">
+<label style="display: flex; flex-direction: column; gap: 3px; font-size: 12px; font-weight: 600; color: #4A443B">Nombre<input value="Elena Salazar" style="height: 44px; border: 1px solid #CFC8B8; border-radius: 10px; padding: 0 12px; font: inherit; font-size: 15px; font-weight: 400; color: #1E1A16; background: #fff"></label>
+<label style="display: flex; flex-direction: column; gap: 3px; font-size: 12px; font-weight: 600; color: #4A443B">Teléfono<input value="686 555 0123" style="height: 44px; border: 1px solid #CFC8B8; border-radius: 10px; padding: 0 12px; font: inherit; font-size: 15px; font-weight: 400; color: #1E1A16; background: #fff"></label>
+<label style="display: flex; flex-direction: column; gap: 3px; font-size: 12px; font-weight: 600; color: #4A443B">Celular<input value="686 555 0124" style="height: 44px; border: 1px solid #CFC8B8; border-radius: 10px; padding: 0 12px; font: inherit; font-size: 15px; font-weight: 400; color: #1E1A16; background: #fff"></label>
+<div></div>
+</div>
+<button style="margin-top: auto; height: 48px; border: 1px dashed #B0A793; border-radius: 12px; background: #FBF9F3; font: inherit; font-size: 15px; font-weight: 600; color: #1E1A16">+ Agregar segundo auto</button>
+</div>
+
+<div style="background: #fff; border: 1px solid #E3DCCB; border-radius: 16px; padding: 14px 18px; display: flex; flex-direction: column; gap: 8px; min-height: 0">
+<div style="display: flex; justify-content: space-between; align-items: center"><h2 style="margin: 0; font-size: 17px; font-weight: 700">Pagaré</h2><span style="display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: #14583A">Activado<span style="width: 48px; height: 28px; border-radius: 14px; background: #14583A; padding: 3px; box-sizing: border-box; display: inline-flex; justify-content: flex-end"><span style="width: 22px; height: 22px; border-radius: 11px; background: #fff"></span></span></span></div>
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px">
+<label style="display: flex; flex-direction: column; gap: 3px; font-size: 12px; font-weight: 600; color: #4A443B">Monto<input value="$8,000.00" style="height: 44px; border: 1px solid #CFC8B8; border-radius: 10px; padding: 0 12px; font: inherit; font-size: 15px; font-weight: 400; color: #1E1A16; background: #fff"></label>
+<label style="display: flex; flex-direction: column; gap: 3px; font-size: 12px; font-weight: 600; color: #4A443B">Interés mensual<input value="Sin interés pactado" style="height: 44px; border: 1px solid #CFC8B8; border-radius: 10px; padding: 0 12px; font: inherit; font-size: 15px; font-weight: 400; color: #1E1A16; background: #fff"></label>
+<label style="display: flex; flex-direction: column; gap: 3px; font-size: 12px; font-weight: 600; color: #4A443B">Ciudad y fecha<input value="Mexicali, B.C. · 16/11/2026" style="height: 44px; border: 1px solid #CFC8B8; border-radius: 10px; padding: 0 12px; font: inherit; font-size: 15px; font-weight: 400; color: #1E1A16; background: #fff"></label>
+<label style="display: flex; flex-direction: column; gap: 3px; font-size: 12px; font-weight: 600; color: #4A443B">Suscriptor<input value="Ricardo Medina Salazar" style="height: 44px; border: 1px solid #CFC8B8; border-radius: 10px; padding: 0 12px; font: inherit; font-size: 15px; font-weight: 400; color: #1E1A16; background: #fff"></label>
+</div>
+<div style="font-size: 12px; color: #6B645A">Opcional. Va en el PDF solo si está activado y se firma en la pantalla de firma.</div>
+</div>
+
+<div style="background: #fff; border: 1px solid #E3DCCB; border-radius: 16px; padding: 14px 18px; display: flex; flex-direction: column; gap: 8px; min-height: 0">
+<div style="display: flex; justify-content: space-between; align-items: center"><h2 style="margin: 0; font-size: 17px; font-weight: 700">Facturar a</h2><span style="display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: #6B645A">Otra persona<span style="width: 48px; height: 28px; border-radius: 14px; background: #CFC8B8; padding: 3px; box-sizing: border-box; display: inline-flex"><span style="width: 22px; height: 22px; border-radius: 11px; background: #fff"></span></span></span></div>
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px">
+<label style="display: flex; flex-direction: column; gap: 3px; font-size: 12px; font-weight: 600; color: #4A443B">Nombre o razón social<input placeholder="Igual al cliente" style="height: 44px; border: 1px solid #CFC8B8; border-radius: 10px; padding: 0 12px; font: inherit; font-size: 15px; font-weight: 400; color: #1E1A16; background: #fff"></label>
+<label style="display: flex; flex-direction: column; gap: 3px; font-size: 12px; font-weight: 600; color: #4A443B">RFC<input placeholder="Igual al cliente" style="height: 44px; border: 1px solid #CFC8B8; border-radius: 10px; padding: 0 12px; font: inherit; font-size: 15px; font-weight: 400; color: #1E1A16; background: #fff"></label>
+</div>
+<div style="font-size: 12px; color: #6B645A; line-height: 1.5">Si se deja vacío se usan los datos fiscales del cliente. Sirve cuando otra persona o empresa paga la renta. El sistema solo captura estos datos; no emite la factura.</div>
+</div>
+
+</section>
+
+<footer style="display: flex; align-items: center; justify-content: space-between; gap: 16px">
+<span style="font-size: 13px; color: #6B645A">Todo en esta pantalla es opcional; el contrato avanza sin llenarla.</span>
+<div style="display: flex; gap: 10px">
+<a href="04-contrato-cobro-garantia.html" style="height: 52px; padding: 0 24px; border-radius: 26px; border: 1px solid #CFC8B8; background: #fff; color: #1E1A16; font-size: 16px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; box-sizing: border-box">Omitir</a>
+<a href="04-contrato-cobro-garantia.html" style="height: 52px; padding: 0 28px; border-radius: 26px; background: #B5141B; color: #fff; font-size: 17px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; box-sizing: border-box">Guardar y volver al cobro</a>
+</div>
+</footer>
+
+</main>
+</div>
+</body>
+</html>

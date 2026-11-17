@@ -1,18 +1,40 @@
 ---
-generated_by_model: 'claude-opus-5-5'
-generated_at: '2026-10-24T13:40:00Z'
-agent_roles: 'IDE Agent + project-manager-senior + engineering-frontend-developer + design-ux-architect'
+generated_by_model: 'claude-sonnet-5-5'
+generated_at: '2026-11-17T04:45:55.358Z'
+agent_roles: 'testing-api-tester + product-manager'
 vision_command: 'generate_sprints'
 sprint_number: 2
 source_spec_kit: 'spec-kit/input/'
 ---
+# Sprint 2 QA Plan
 
-# Sprint 2 — Plan de QA
+## Casos del plan de pruebas
 
-- [ ] Casos W1–W5 y W10 de `test-plan.md` §2 en el Copilot Workbench.
-- [ ] Intención I1–I5 e I11 en Copilot (bajaworks) tras la sincronización.
-- [ ] Accesibilidad del formulario con teclado y lector de pantalla (§5).
-- [ ] Un usuario sin permisos de administrador puede enviar, y no puede editar respuestas ajenas (P5).
+- T-02
+- T-03
+- T-04
+- T-07
 
-Referencia: `spec-kit/input/test-plan.md`.
-- [ ] Spikes heredados del sprint 1 (`apps/satisfaction-survey/docs/spikes.md`): **R2** (escribir el campo Persona desde Copilot con la cuenta sin permisos de administrador), **R3** (búsqueda de personas desde el host de Copilot) y **R9** (estilos de Fluent v9 en el iframe, en tema claro y oscuro).
+(Descripción de cada caso en `spec-kit/input/test-plan.md`.)
+
+## Puntos de atención
+
+- Ningún rol, incluido el de servicio, puede hacer UPDATE ni DELETE en `auditoria`.
+- Un cambio de tarifa no altera contratos ya emitidos.
+- Cada lectura de un archivo sensible genera una entrada de bitácora.
+
+## Entrada
+
+- Historias del sprint con criterios de aceptación y datos de prueba definidos.
+- Pantallas del sprint disponibles en `spec-kit/input/mockups/`.
+
+## Salida
+
+- Pruebas del sprint en verde en CI.
+- Sin defectos críticos abiertos.
+- Demo aceptada por el cliente.
+
+## Riesgos monitoreados
+
+- La residencia de datos en EE. UU. debe constar en el aviso de privacidad antes del piloto.
+- La redondeo de la hora extra (truncar o redondear) sigue por confirmar con el cliente.

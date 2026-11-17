@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Firma en tableta</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 1194px; height: 834px; box-sizing: border-box; display: flex; background: #F6F2E8; color: #1E1A16; font-family: 'Inter', system-ui, sans-serif; font-size: 16px; overflow: hidden">
+
+<nav aria-label="Principal" style="width: 112px; flex: none; background: #1E1A16; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 20px 0">
+<div style="width: 56px; height: 56px; border-radius: 14px; background: #B5141B; color: #fff; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; margin-bottom: 16px">MRA</div>
+<a href="Main.dc.html" style="width: 92px; height: 76px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Tablero</a>
+<a href="ContratosLista.dc.html" style="width: 92px; height: 76px; border-radius: 14px; background: #B5141B; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 600">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/></svg>Contratos</a>
+<a href="Cliente.dc.html" style="width: 92px; height: 76px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 5a3.5 3.5 0 010 6"/><path d="M18 14c2.2.7 3.5 2.6 3.5 6"/></svg>Clientes</a>
+<a href="VehiculosLista.dc.html" style="width: 92px; height: 76px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16v-4l2-5h12l2 5v4"/><path d="M3 16h18"/><circle cx="7.5" cy="17.5" r="1.8"/><circle cx="16.5" cy="17.5" r="1.8"/></svg>Vehículos</a>
+<a href="Main.dc.html" style="width: 92px; height: 76px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 17v-6a6 6 0 0112 0v6l1.5 2h-15z"/><path d="M10 21h4"/></svg>Alertas</a>
+<a href="AdminTarifas.dc.html" style="width: 92px; height: 76px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>Admin</a>
+</nav>
+
+<main style="flex: 1; min-width: 0; padding: 28px 36px 24px; display: flex; flex-direction: column; gap: 18px">
+
+<header style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px">
+<div>
+<div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; color: #6B645A">CONTRATO D-00001 · POR FIRMAR</div>
+<h1 style="margin: 4px 0 0; font-family: 'Space Grotesk', sans-serif; font-size: 34px; line-height: 1.1">Firma del arrendatario</h1>
+</div>
+<div style="font-size: 14px; color: #6B645A; text-align: right">Entregue la tableta al cliente<br><b style="color: #1E1A16; font-size: 16px">Ricardo Medina Salazar</b></div>
+</header>
+
+<ol aria-label="Pasos del contrato" style="list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600">
+<li style="display: flex; align-items: center; gap: 8px; color: #14583A"><span style="width: 30px; height: 30px; border-radius: 15px; background: #14583A; color: #fff; display: inline-flex; align-items: center; justify-content: center">✓</span>Cliente</li>
+<li aria-hidden="true" style="flex: 1; height: 2px; background: #14583A"></li>
+<li style="display: flex; align-items: center; gap: 8px; color: #14583A"><span style="width: 30px; height: 30px; border-radius: 15px; background: #14583A; color: #fff; display: inline-flex; align-items: center; justify-content: center">✓</span>Vehículo y fechas</li>
+<li aria-hidden="true" style="flex: 1; height: 2px; background: #14583A"></li>
+<li style="display: flex; align-items: center; gap: 8px; color: #14583A"><span style="width: 30px; height: 30px; border-radius: 15px; background: #14583A; color: #fff; display: inline-flex; align-items: center; justify-content: center">✓</span>Cobro y garantía</li>
+<li aria-hidden="true" style="flex: 1; height: 2px; background: #14583A"></li>
+<li aria-current="step" style="display: flex; align-items: center; gap: 8px; color: #B5141B"><span style="width: 30px; height: 30px; border-radius: 15px; background: #B5141B; color: #fff; display: inline-flex; align-items: center; justify-content: center">4</span>Firma</li>
+<li aria-hidden="true" style="flex: 1; height: 2px; background: #CFC8B8"></li>
+<li style="display: flex; align-items: center; gap: 8px; color: #6B645A"><span style="width: 30px; height: 30px; border-radius: 15px; border: 2px solid #CFC8B8; display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box">5</span>Entrega</li>
+</ol>
+
+<section style="flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 18px">
+
+<div style="background: #fff; border: 1px solid #E3DCCB; border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; min-height: 0">
+<div role="tablist" aria-label="Documento" style="display: flex; gap: 8px">
+<button role="tab" aria-selected="true" style="height: 44px; padding: 0 18px; border-radius: 22px; border: 0; background: #1E1A16; color: #fff; font: inherit; font-size: 15px; font-weight: 600">Contrato</button>
+<button role="tab" aria-selected="false" style="height: 44px; padding: 0 18px; border-radius: 22px; border: 1px solid #CFC8B8; background: #fff; color: #1E1A16; font: inherit; font-size: 15px; font-weight: 600">Reglamento</button>
+<span style="margin-left: auto; align-self: center; font-size: 13px; color: #6B645A">Página 1 de 2</span>
+</div>
+<div style="flex: 1; min-height: 0; background: #FBF7E9; border: 1px solid #E3DCCB; border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 10px; overflow: hidden">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 10px">
+<div><div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; color: #B5141B">MÉXICO RENTA DE AUTOS</div><div style="font-size: 12px; color: #4A443B">Calz. de Las Américas 837-E, Mexicali, B.C.</div></div>
+<div style="border: 2px solid #B5141B; border-radius: 8px; padding: 4px 10px; text-align: center"><div style="font-size: 11px; letter-spacing: 0.1em">CONTRATO</div><div style="font-weight: 700; color: #B5141B; font-size: 16px">D-00001</div></div>
+</div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 13px">
+<div style="border: 1px solid #D8CFB8; border-radius: 6px; padding: 6px 8px"><div style="font-size: 11px; color: #6B645A; font-weight: 600">NOMBRE</div>Ricardo Medina Salazar</div>
+<div style="border: 1px solid #D8CFB8; border-radius: 6px; padding: 6px 8px"><div style="font-size: 11px; color: #6B645A; font-weight: 600">LICENCIA · TIPO A</div>B2302042880 · vence 27/05/2028</div>
+<div style="border: 1px solid #D8CFB8; border-radius: 6px; padding: 6px 8px"><div style="font-size: 11px; color: #6B645A; font-weight: 600">AUTO · PLACAS</div>Hyundai Elantra · ATU-703-A</div>
+<div style="border: 1px solid #D8CFB8; border-radius: 6px; padding: 6px 8px"><div style="font-size: 11px; color: #6B645A; font-weight: 600">DESTINO</div>Nogales</div>
+<div style="border: 1px solid #D8CFB8; border-radius: 6px; padding: 6px 8px"><div style="font-size: 11px; color: #6B645A; font-weight: 600">SALIDA</div>16/11/26 · 11:00</div>
+<div style="border: 1px solid #D8CFB8; border-radius: 6px; padding: 6px 8px"><div style="font-size: 11px; color: #6B645A; font-weight: 600">ENTRADA</div>19/11/26 · 11:00</div>
+<div style="border: 1px solid #D8CFB8; border-radius: 6px; padding: 6px 8px"><div style="font-size: 11px; color: #6B645A; font-weight: 600">TARIFA 24 H · DÍAS</div>$1,633 · 3</div>
+<div style="border: 1px solid #D8CFB8; border-radius: 6px; padding: 6px 8px"><div style="font-size: 11px; color: #6B645A; font-weight: 600">HORA EXTRA · KM EXTRA</div>$204 · $3</div>
+</div>
+<div style="border: 1px solid #D8CFB8; border-radius: 6px; padding: 8px; font-size: 13px; display: flex; justify-content: space-between"><span><b>Anticipo</b> pagado en efectivo</span><b>$4,899</b></div>
+<div style="display: flex; flex-direction: column; gap: 5px; margin-top: 2px" aria-hidden="true"><div style="height: 6px; background: #E5DCC3; border-radius: 3px"></div><div style="height: 6px; background: #E5DCC3; border-radius: 3px; width: 96%"></div><div style="height: 6px; background: #E5DCC3; border-radius: 3px; width: 92%"></div><div style="height: 6px; background: #E5DCC3; border-radius: 3px; width: 97%"></div><div style="height: 6px; background: #E5DCC3; border-radius: 3px; width: 60%"></div></div>
+<div style="font-size: 12px; color: #6B645A; margin-top: auto">Cláusulas 1.ª a 21.ª en la página 2. Deslice para leer.</div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 14px; min-height: 0">
+<div style="background: #fff; border: 1px solid #E3DCCB; border-radius: 16px; padding: 16px 20px; display: flex; flex-direction: column; gap: 10px; flex: 1; min-height: 0">
+<div style="display: flex; justify-content: space-between; align-items: baseline"><h2 style="margin: 0; font-size: 18px; font-weight: 700">Firme dentro del recuadro</h2><button style="height: 44px; padding: 0 16px; border-radius: 22px; border: 1px solid #CFC8B8; background: #fff; font: inherit; font-size: 15px; font-weight: 600; color: #1E1A16">Borrar</button></div>
+<div role="img" aria-label="Área de firma táctil, con una firma de ejemplo" style="flex: 1; min-height: 0; border: 2px dashed #B0A793; border-radius: 14px; background: #FDFCF8; position: relative">
+<svg viewBox="0 0 520 180" preserveAspectRatio="xMidYMid meet" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><path d="M60 120 C80 40 110 40 105 100 C100 150 140 60 160 90 C175 112 190 70 215 85 C240 100 250 60 275 95 C290 118 300 80 330 82 C360 84 380 110 450 70" fill="none" stroke="#1E1A16" stroke-width="3" stroke-linecap="round"/></svg>
+<div aria-hidden="true" style="position: absolute; left: 24px; right: 24px; bottom: 36px; height: 1px; background: #B0A793"></div>
+<div style="position: absolute; left: 24px; bottom: 10px; font-size: 12px; color: #6B645A">Firma del arrendatario</div>
+</div>
+<label style="display: flex; gap: 12px; align-items: flex-start; font-size: 14px; color: #4A443B; line-height: 1.4"><input type="checkbox" checked style="width: 28px; height: 28px; flex: none; accent-color: #B5141B; margin: 0"><span>He leído todas las cláusulas, tarifas, términos y condiciones del anverso y reverso de este contrato y del reglamento, y estoy de acuerdo con ellas.</span></label>
+</div>
+
+<div style="background: #fff; border: 1px solid #E3DCCB; border-radius: 16px; padding: 14px 20px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; font-size: 13px">
+<div><div style="color: #6B645A; font-weight: 600">ARRENDATARIO</div><span style="color: #7A4A00; font-weight: 700">Firmando ahora</span></div>
+<div><div style="color: #6B645A; font-weight: 600">CONDUCTOR ADICIONAL</div>No aplica</div>
+<div><div style="color: #6B645A; font-weight: 600">PAGARÉ</div>No aplica</div>
+</div>
+
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 14px">
+<div style="font-size: 12px; color: #6B645A; max-width: 340px">Al confirmar, el PDF queda inmutable y se guarda su huella (SHA-256), fecha, hora, usuario y dispositivo.</div>
+<a href="Entrega.dc.html" style="height: 60px; padding: 0 32px; border-radius: 30px; background: #B5141B; color: #fff; font-size: 18px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; box-sizing: border-box">Confirmar firma</a>
+</div>
+</div>
+
+</section>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1194,"height":834}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

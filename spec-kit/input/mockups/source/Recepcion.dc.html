@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Recepción y liquidación</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+body{margin:0}
+input{box-sizing:border-box;min-width:0;max-width:100%}
+</style>
+</helmet>
+<div style="width: 1194px; height: 834px; box-sizing: border-box; display: flex; background: #F6F2E8; color: #1E1A16; font-family: 'Inter', system-ui, sans-serif; font-size: 16px; overflow: hidden">
+
+<nav aria-label="Principal" style="width: 112px; flex: none; background: #1E1A16; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 20px 0">
+<div style="width: 56px; height: 56px; border-radius: 14px; background: #B5141B; color: #fff; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; margin-bottom: 16px">MRA</div>
+<a href="Main.dc.html" style="width: 92px; height: 76px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Tablero</a>
+<a href="ContratosLista.dc.html" style="width: 92px; height: 76px; border-radius: 14px; background: #B5141B; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 600">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/></svg>Contratos</a>
+<a href="Cliente.dc.html" style="width: 92px; height: 76px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 5a3.5 3.5 0 010 6"/><path d="M18 14c2.2.7 3.5 2.6 3.5 6"/></svg>Clientes</a>
+<a href="VehiculosLista.dc.html" style="width: 92px; height: 76px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16v-4l2-5h12l2 5v4"/><path d="M3 16h18"/><circle cx="7.5" cy="17.5" r="1.8"/><circle cx="16.5" cy="17.5" r="1.8"/></svg>Vehículos</a>
+<a href="Main.dc.html" style="width: 92px; height: 76px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 17v-6a6 6 0 0112 0v6l1.5 2h-15z"/><path d="M10 21h4"/></svg>Alertas</a>
+<a href="AdminTarifas.dc.html" style="width: 92px; height: 76px; border-radius: 14px; color: #CFC8B8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-size: 13px; font-weight: 500">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>Admin</a>
+</nav>
+
+<main style="flex: 1; min-width: 0; padding: 28px 36px 24px; display: flex; flex-direction: column; gap: 18px">
+
+<header style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px">
+<div>
+<div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; color: #6B645A">CONTRATO No. 08155 · MAZDA 3 · ANDRÉS COTA</div>
+<h1 style="margin: 4px 0 0; font-family: 'Space Grotesk', sans-serif; font-size: 34px; line-height: 1.1">Recepción y liquidación</h1>
+</div>
+<span style="height: 40px; padding: 0 16px; border-radius: 20px; background: #FBE9E7; color: #8E1016; font-size: 14px; font-weight: 700; display: inline-flex; align-items: center; box-sizing: border-box">Rezagado · 2 h 20 min</span>
+</header>
+
+<section style="flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 18px">
+
+<div style="display: flex; flex-direction: column; gap: 14px; min-height: 0">
+
+<div style="background: #fff; border: 1px solid #E3DCCB; border-radius: 16px; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-size: 18px; font-weight: 700">Datos de la devolución</h2>
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; font-size: 14px">
+<div><div style="color: #6B645A; font-size: 12px; font-weight: 600">ENTRADA PREVISTA</div>16/11/2026 · 11:00</div>
+<div><div style="color: #6B645A; font-size: 12px; font-weight: 600">ENTRADA REAL</div><b>16/11/2026 · 13:20</b></div>
+</div>
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px">
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600; color: #4A443B">Km de entrada<input value="33,120 km" style="height: 52px; border: 1px solid #CFC8B8; border-radius: 12px; padding: 0 14px; font: inherit; font-size: 20px; font-weight: 600; color: #1E1A16; background: #fff"></label>
+<div style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600; color: #4A443B">Km de salida<div style="height: 52px; border-radius: 12px; padding: 0 14px; background: #F6F2E8; display: flex; align-items: center; font-size: 20px; font-weight: 600; color: #1E1A16">31,480 km</div></div>
+</div>
+<div style="font-size: 13px; color: #6B645A">Recorridos 1,640 km · incluidos 1,500 (3 días × 500) · excedente 140 km</div>
+</div>
+
+<div style="background: #fff; border: 1px solid #E3DCCB; border-radius: 16px; padding: 16px 20px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; justify-content: space-between; align-items: baseline"><h2 style="margin: 0; font-size: 18px; font-weight: 700">Gasolina de entrada</h2><span style="font-size: 13px; color: #6B645A">Salida: lleno</span></div>
+<div role="group" aria-label="Nivel de gasolina en octavos" style="display: grid; grid-template-columns: repeat(9, 1fr); gap: 6px">
+<button style="height: 46px; border: 1px solid #CFC8B8; border-radius: 10px; background: #fff; font: inherit; font-size: 13px; font-weight: 600; color: #1E1A16">Vacío</button>
+<button style="height: 46px; border: 1px solid #CFC8B8; border-radius: 10px; background: #fff; font: inherit; font-size: 13px; font-weight: 600; color: #1E1A16">1/8</button>
+<button style="height: 46px; border: 1px solid #CFC8B8; border-radius: 10px; background: #fff; font: inherit; font-size: 13px; font-weight: 600; color: #1E1A16">2/8</button>
+<button style="height: 46px; border: 1px solid #CFC8B8; border-radius: 10px; background: #fff; font: inherit; font-size: 13px; font-weight: 600; color: #1E1A16">3/8</button>
+<button style="height: 46px; border: 1px solid #CFC8B8; border-radius: 10px; background: #fff; font: inherit; font-size: 13px; font-weight: 600; color: #1E1A16">4/8</button>
+<button aria-pressed="true" style="height: 46px; border: 2px solid #B5141B; border-radius: 10px; background: #FBE9E7; font: inherit; font-size: 13px; font-weight: 700; color: #1E1A16">5/8</button>
+<button style="height: 46px; border: 1px solid #CFC8B8; border-radius: 10px; background: #fff; font: inherit; font-size: 13px; font-weight: 600; color: #1E1A16">6/8</button>
+<button style="height: 46px; border: 1px solid #CFC8B8; border-radius: 10px; background: #fff; font: inherit; font-size: 13px; font-weight: 600; color: #1E1A16">7/8</button>
+<button style="height: 46px; border: 1px solid #CFC8B8; border-radius: 10px; background: #fff; font: inherit; font-size: 13px; font-weight: 600; color: #1E1A16">Lleno</button>
+</div>
+<div style="font-size: 13px; color: #7A4A00; background: #FFF1D6; border-radius: 10px; padding: 8px 12px">Falta 3/8 de tanque respecto a la salida: se sugiere un cargo por gasolina.</div>
+</div>
+
+<div style="background: #fff; border: 1px solid #E3DCCB; border-radius: 16px; padding: 12px 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; min-height: 0">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px"><h2 style="margin: 0; font-size: 18px; font-weight: 700">Fotos: entrega y hoy</h2><span style="font-size: 12px; color: #6B645A">Mismos 6 ángulos que en la entrega</span></div>
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px 8px">
+<div><div style="font-size: 12px; font-weight: 600">Frente</div><div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 4px"><div style="height: 34px; border-radius: 6px; background: #E8E1CF; font-size: 11px; color: #4A443B; display: flex; align-items: center; justify-content: center">Entrega</div><div style="height: 34px; border-radius: 6px; background: #D9E8DF; font-size: 11px; color: #14583A; font-weight: 700; display: flex; align-items: center; justify-content: center">Hoy ✓</div></div></div>
+<div><div style="font-size: 12px; font-weight: 600">Atrás</div><div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 4px"><div style="height: 34px; border-radius: 6px; background: #E8E1CF; font-size: 11px; color: #4A443B; display: flex; align-items: center; justify-content: center">Entrega</div><div style="height: 34px; border-radius: 6px; background: #D9E8DF; font-size: 11px; color: #14583A; font-weight: 700; display: flex; align-items: center; justify-content: center">Hoy ✓</div></div></div>
+<div><div style="font-size: 12px; font-weight: 600">Izquierda</div><div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 4px"><div style="height: 34px; border-radius: 6px; background: #E8E1CF; font-size: 11px; color: #4A443B; display: flex; align-items: center; justify-content: center">Entrega</div><div style="height: 34px; border-radius: 6px; background: #D9E8DF; font-size: 11px; color: #14583A; font-weight: 700; display: flex; align-items: center; justify-content: center">Hoy ✓</div></div></div>
+<div><div style="font-size: 12px; font-weight: 600">Derecha</div><div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 4px"><div style="height: 34px; border-radius: 6px; background: #E8E1CF; font-size: 11px; color: #4A443B; display: flex; align-items: center; justify-content: center">Entrega</div><div style="height: 34px; border-radius: 6px; background: #D9E8DF; font-size: 11px; color: #14583A; font-weight: 700; display: flex; align-items: center; justify-content: center">Hoy ✓</div></div></div>
+<div><div style="font-size: 12px; font-weight: 600">Tablero y km</div><div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 4px"><div style="height: 34px; border-radius: 6px; background: #E8E1CF; font-size: 11px; color: #4A443B; display: flex; align-items: center; justify-content: center">Entrega</div><div style="height: 34px; border-radius: 6px; background: #D9E8DF; font-size: 11px; color: #14583A; font-weight: 700; display: flex; align-items: center; justify-content: center">Hoy ✓</div></div></div>
+<div><div style="font-size: 12px; font-weight: 600">Interior</div><div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 4px"><div style="height: 34px; border-radius: 6px; background: #E8E1CF; font-size: 11px; color: #4A443B; display: flex; align-items: center; justify-content: center">Entrega</div><button style="height: 34px; border: 2px dashed #B5141B; border-radius: 6px; background: #FBE9E7; font: inherit; font-size: 11px; font-weight: 700; color: #8E1016; padding: 0">+ Tomar</button></div></div>
+</div>
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 13px"><span style="color: #8E1016; font-weight: 600">Daño nuevo: rayón en defensa delantera</span><span style="color: #14583A; font-weight: 600">Video ✓ · Faltan 1 foto</span></div>
+</div>
+
+</div>
+
+<aside aria-label="Liquidación" style="background: #fff; border: 1px solid #E3DCCB; border-radius: 16px; padding: 20px 22px; display: flex; flex-direction: column; gap: 6px; min-height: 0">
+<h2 style="margin: 0 0 6px; font-size: 18px; font-weight: 700">Liquidación</h2>
+<div style="display: flex; justify-content: space-between; align-items: baseline; padding: 9px 0; border-top: 1px solid #EFE9DB; font-size: 15px"><span>Renta base<span style="display: block; font-size: 13px; color: #6B645A">3 días × $1,633</span></span><b>$4,899</b></div>
+<div style="display: flex; justify-content: space-between; align-items: baseline; padding: 9px 0; border-top: 1px solid #EFE9DB; font-size: 15px"><span>Retraso en devolución<span style="display: block; font-size: 13px; color: #6B645A">2 h 20 min = 3 horas × $204</span></span><b>$612</b></div>
+<div style="display: flex; justify-content: space-between; align-items: baseline; padding: 9px 0; border-top: 1px solid #EFE9DB; font-size: 15px"><span>Kilometraje excedente<span style="display: block; font-size: 13px; color: #6B645A">140 km × $3</span></span><b>$420</b></div>
+<div style="display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-top: 1px solid #EFE9DB; font-size: 15px"><span>Gasolina faltante<span style="display: block; font-size: 13px; color: #6B645A">3/8 de tanque · monto editable</span></span><span style="width: 96px; height: 44px; border: 1px solid #CFC8B8; border-radius: 10px; display: flex; align-items: center; justify-content: flex-end; padding: 0 12px; box-sizing: border-box; font-weight: 700">$300</span></div>
+<div style="display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-top: 1px solid #EFE9DB; font-size: 15px"><span>Limpieza<span style="display: block; font-size: 13px; color: #6B645A">Entre $500 y $5,000 según el caso</span></span><span style="width: 96px; height: 44px; border: 1px solid #CFC8B8; border-radius: 10px; display: flex; align-items: center; justify-content: flex-end; padding: 0 12px; box-sizing: border-box; font-weight: 700">$500</span></div>
+<button style="height: 44px; border: 1px dashed #B0A793; border-radius: 12px; background: #fff; font: inherit; font-size: 14px; font-weight: 600; color: #1E1A16; margin-top: 4px">+ Otro cargo o bonificación</button>
+
+<div style="margin-top: 6px; background: #F6F2E8; border-radius: 14px; padding: 12px 16px; display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; font-size: 15px; align-items: baseline">
+<span>Total de la renta</span><b style="font-size: 18px">$6,731</b>
+<span>Anticipo pagado</span><b>− $4,899</b>
+<span style="font-weight: 700">Saldo a cobrar</span><b style="font-family: 'Space Grotesk', sans-serif; font-size: 30px; color: #B5141B">$1,832</b>
+</div>
+
+<div style="border: 1px solid #E3DCCB; border-radius: 14px; padding: 10px 16px; font-size: 14px; display: flex; flex-direction: column; gap: 4px">
+<div style="display: flex; justify-content: space-between"><span>Depósito en garantía (efectivo)</span><b>$8,000</b></div>
+<div style="display: flex; justify-content: space-between; color: #4A443B"><span>Se aplica al saldo</span><span>− $1,832</span></div>
+<div style="display: flex; justify-content: space-between"><b>Se devuelve al cliente</b><b style="color: #14583A">$6,168</b></div>
+</div>
+
+<div style="margin-top: auto; display: flex; gap: 10px">
+<a href="Main.dc.html" style="height: 56px; padding: 0 22px; border-radius: 28px; border: 1px solid #CFC8B8; background: #fff; color: #1E1A16; font-size: 16px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; box-sizing: border-box">Registrar incidente</a>
+<a href="Main.dc.html" style="flex: 1; height: 56px; border-radius: 28px; background: #B5141B; color: #fff; font-size: 17px; font-weight: 700; text-decoration: none; display: flex; align-items: center; justify-content: center">Aplicar depósito y concluir</a>
+</div>
+</aside>
+
+</section>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1194,"height":834}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>
