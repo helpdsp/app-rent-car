@@ -5,7 +5,7 @@ agent_roles: 'engineering-api-platform-engineer + engineering-devops-automator'
 vision_command: 'generate_sprints'
 sprint_number: 18
 source_spec_kit: 'spec-kit/input/'
-source_refdocs: 'refdocs/etapa-dos-pos-mvp.md'
+source_refdocs: 'refdocs/plan-detallado-sprint-18-integraciones-ghl.md'
 ---
 # Sprint 18 Tasks
 
@@ -17,6 +17,7 @@ source_refdocs: 'refdocs/etapa-dos-pos-mvp.md'
 | S18-T04 | Cliente y plantillas de WhatsApp Business Cloud API (Meta Graph API) | RF-38 | lib | — | apps/web/src/lib/comunicaciones/whatsapp.ts | — | backend | 4 | todo |
 | S18-T05 | Cron de recordatorios preventivos de devolución (24h y 2h antes) vía WhatsApp | RF-38 | API | /api/cron/recordatorios | apps/web/src/app/api/cron/recordatorios/route.ts | — | backend | 4 | todo |
 | S18-T06 | Panel de configuración de integraciones (API Keys de Resend, WhatsApp, GHL) en Admin | RF-38 | UI | /admin/integraciones | apps/web/src/app/admin/integraciones/page.tsx | — | frontend | 3 | todo |
-| S18-T07 | Pruebas de integración del worker outbox, envíos de WhatsApp y correos con mock | RF-38 | tests | — | apps/web/tests/integraciones.test.ts | — | qa | 3 | todo |
+| S18-T07 | Webhook receptor de reservas online de GHL Rentals hacia reservaciones PWA | RF-38 | API | /api/integraciones/ghl/webhook | apps/web/src/app/api/integraciones/ghl/webhook/route.ts | — | backend | 3 | todo |
+| S18-T08 | Pruebas de integración del worker outbox, envíos de WhatsApp y correos con mock | RF-38 | tests | — | apps/web/tests/integraciones.test.ts | — | qa | 3 | todo |
 
-**Total:** 7 tareas · 25 puntos.
+**Total:** 8 tareas · 28 puntos.
