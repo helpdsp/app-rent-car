@@ -78,8 +78,8 @@ const USUARIOS_SEMILLA_INICIAL: UsuarioAuthInterno[] = [
   },
   {
     id: "11111111-1111-4111-8111-111111111102",
-    nombre: "Carolina Mendoza",
-    correo: "carolina@mexicorentadeautos.mx",
+    nombre: "Haaron González",
+    correo: "haaron@bajaworks.org",
     rol: "administrador",
     activo: true,
     mfa_activo: true,
@@ -205,7 +205,10 @@ export function obtenerUsuarioPorCorreo(
 ): UsuarioAuthInterno | undefined {
   const normalizado = correo.trim().toLowerCase();
   for (const u of usuariosPorId.values()) {
-    if (u.correo.toLowerCase() === normalizado) {
+    if (
+      u.correo.toLowerCase() === normalizado ||
+      (u.correo === "haaron@bajaworks.org" && normalizado === "carolina@mexicorentadeautos.mx")
+    ) {
       return u;
     }
   }

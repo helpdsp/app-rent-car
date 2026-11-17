@@ -15,8 +15,8 @@ import { MRA_TOKENS } from "@/components/ui";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [correo, setCorreo] = useState("operador@mexicorentadeautos.mx");
-  const [password, setPassword] = useState("contrasena-ejemplo");
+  const [correo, setCorreo] = useState("haaron@bajaworks.org");
+  const [password, setPassword] = useState("admin-mra-2026");
   const [mostrarPassword, setMostrarPassword] = useState(false);
 
   const [digitos, setDigitos] = useState<string[]>(["4", "8", "1", "", "", ""]);
@@ -589,7 +589,7 @@ export default function LoginPage() {
         <button
           type="button"
           onClick={() => {
-            setCorreo("carolina@mexicorentadeautos.mx");
+            setCorreo("haaron@bajaworks.org");
             setPassword("admin-mra-2026");
             setDigitos(["4", "8", "1", "2", "0", "6"]);
           }}
@@ -603,7 +603,7 @@ export default function LoginPage() {
             cursor: "pointer",
           }}
         >
-          Administrador con MFA (Carolina)
+          Administrador Principal (Haaron - haaron@bajaworks.org)
         </button>
         <button
           type="button"

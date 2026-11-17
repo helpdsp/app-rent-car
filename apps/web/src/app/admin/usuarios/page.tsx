@@ -41,12 +41,12 @@ const EQUIPO_INICIAL: UsuarioVista[] = [
   },
   {
     id: "11111111-1111-4111-8111-111111111102",
-    nombre: "Carolina Mendoza",
-    correo: "carolina@mexicorentadeautos.mx",
+    nombre: "Haaron González",
+    correo: "haaron@bajaworks.org",
     rol: "administrador",
     activo: true,
     mfa_activo: true,
-    ultimoAccesoTexto: "Hoy 07:48",
+    ultimoAccesoTexto: "En línea (Sesión activa)",
   },
   {
     id: "11111111-1111-4111-8111-111111111103",
