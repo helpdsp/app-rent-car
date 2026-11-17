@@ -1,26 +1,25 @@
 /**
- * @generated_by_model gemini-3.8-flash
- * @generated_at 2026-11-17T05:40:00Z
- * @agent_roles engineering-frontend-developer
- * @vision_command start_sprint --sprint 3
- * @sprint_number 3
- * @task_id S03-T09
+ * @generated_by_model gemini-2.5-pro
+ * @generated_at 2026-11-17T06:05:00Z
+ * @agent_roles engineering-frontend-developer + design-ui-designer + design-ux-architect
+ * @vision_command start_sprint --sprint 13
+ * @sprint_number 13
+ * @task_id S13-T03, S13-T05
  */
 
 "use client";
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { MRA_TOKENS, SidebarNav, SurfaceCard } from "@/components/ui";
+import { SidebarNav, Icons } from "@/components/ui";
+import { ClienteModal } from "@/components/clientes/ClienteModal";
 import { obtenerClientes, type ClienteRow } from "@/lib/db/sprint3";
 
 export default function ClientesListPage() {
   const [termino, setTermino] = useState("");
   const [lista, setLista] = useState<ClienteRow[]>(obtenerClientes());
-  const [mostrarAlta, setMostrarAlta] = useState(false);
-  const [nuevoNombre, setNuevoNombre] = useState("");
-  const [nuevaId, setNuevaId] = useState("");
-  const [nuevoTel, setNuevoTel] = useState("");
+  const [mostrarModalAlta, setMostrarModalAlta] = useState(false);
+  const [clienteAEditar, setClienteAEditar] = useState<ClienteRow | null>(null);
   const [aviso, setAviso] = useState<string | null>(null);
 
   function buscar(e: React.FormEvent) {
@@ -28,314 +27,277 @@ export default function ClientesListPage() {
     setLista(obtenerClientes(termino));
   }
 
-  function crearClienteRapido(e: React.FormEvent) {
-    e.preventDefault();
-    if (!nuevoNombre || !nuevaId || !nuevoTel) return;
-
-    const max = lista.reduce((m, c) => Math.max(m, c.numero_cliente), 100);
-    const nuevo: ClienteRow = {
-      id: `cli-${Date.now()}`,
-      numero_cliente: max + 1,
-      nombre_completo: nuevoNombre.trim(),
-      identificacion_numero: nuevaId.trim(),
-      domicilio: "Mexicali, B.C.",
-      ciudad: "Mexicali",
-      estado: "B.C.",
-      telefono: nuevoTel.trim(),
-      celular: nuevoTel.trim(),
-      correo: null,
-      requiere_factura: false,
-      razon_social: null,
-      rfc: null,
-      domicilio_fiscal: null,
-      regimen_fiscal: null,
-      aviso_privacidad_version: "2026.1",
-      aviso_privacidad_aceptado_en: new Date().toISOString(),
-      ghl_contact_id: null,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-      created_by: null,
-      deleted_at: null,
-    };
-
-    setLista([nuevo, ...lista]);
-    setNuevoNombre("");
-    setNuevaId("");
-    setNuevoTel("");
-    setMostrarAlta(false);
-    setAviso(`Cliente ${nuevo.nombre_completo} registrado con número ${nuevo.numero_cliente}.`);
+  function handleGuardarCliente(datos: Partial<ClienteRow>) {
+    if (clienteAEditar) {
+      // Editar
+      setLista(
+        lista.map((c) =>
+          c.id === clienteAEditar.id ? { ...c, ...datos, updated_at: new Date().toISOString() } : c
+        )
+      );
+      setAviso(`Cliente ${datos.nombre_completo} actualizado.`);
+      setClienteAEditar(null);
+    } else {
+      // Alta
+      const max = lista.reduce((m, c) => Math.max(m, c.numero_cliente), 100);
+      const nuevo: ClienteRow = {
+        id: `cli-${Date.now()}`,
+        numero_cliente: max + 1,
+        nombre_completo: datos.nombre_completo || "",
+        identificacion_numero: datos.identificacion_numero || "",
+        domicilio: datos.domicilio || "Mexicali, B.C.",
+        ciudad: "Mexicali",
+        estado: "B.C.",
+        telefono: datos.telefono || "",
+        celular: datos.celular || "",
+        correo: datos.correo || null,
+        requiere_factura: false,
+        razon_social: null,
+        rfc: null,
+        domicilio_fiscal: null,
+        regimen_fiscal: null,
+        aviso_privacidad_version: "2026.1",
+        aviso_privacidad_aceptado_en: new Date().toISOString(),
+        ghl_contact_id: null,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        created_by: null,
+        deleted_at: null,
+      };
+      setLista([nuevo, ...lista]);
+      setAviso(`Cliente ${nuevo.nombre_completo} registrado con número #${nuevo.numero_cliente}.`);
+    }
   }
 
   return (
-    <div
-      style={{
-        minWidth: 1194,
-        minHeight: 834,
-        boxSizing: "border-box",
-        display: "flex",
-        background: MRA_TOKENS.colors.paperCream,
-        color: MRA_TOKENS.colors.ink,
-        fontFamily: MRA_TOKENS.fonts.sans,
-        fontSize: 16,
-        overflow: "hidden",
-      }}
-    >
+    <div className="w-full min-h-screen flex flex-col md:flex-row bg-[#F6F2E8] text-[#1E1A16] font-sans pb-20 md:pb-0">
       <SidebarNav seccionActiva="clientes" />
 
-      <main
-        style={{
-          flex: 1,
-          minWidth: 0,
-          padding: "28px 36px 24px",
-          display: "flex",
-          flexDirection: "column",
-          gap: 16,
-        }}
-      >
-        <header
-          style={{
-            display: "flex",
-            alignItems: "flex-end",
-            justifyContent: "space-between",
-            gap: 24,
-          }}
-        >
+      <main className="flex-1 min-w-0 p-4 sm:p-6 md:p-8 flex flex-col gap-5">
+        {/* Encabezado Responsivo */}
+        <header className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
-            <div
-              style={{
-                fontSize: 13,
-                fontWeight: 600,
-                letterSpacing: "0.08em",
-                color: MRA_TOKENS.colors.textMuted,
-              }}
-            >
-              CATÁLOGO DE CLIENTES
+            <div className="flex items-center gap-2">
+              <div className="w-10 h-10 rounded-xl bg-[#1E1A16] text-[#F6F2E8] flex items-center justify-center shadow-sm">
+                <Icons.Clientes size={22} color="#F6F2E8" />
+              </div>
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#1E1A16]">
+                Clientes
+              </h1>
             </div>
-            <h1
-              style={{
-                margin: "4px 0 0",
-                fontFamily: MRA_TOKENS.fonts.display,
-                fontSize: 34,
-                lineHeight: 1.1,
-              }}
-            >
-              Clientes registrados
-            </h1>
+            <p className="text-sm text-[#7E756B] mt-1">
+              Catálogo de conductores registrados y expedientes de identidad.
+            </p>
           </div>
 
           <button
             type="button"
-            onClick={() => setMostrarAlta((v) => !v)}
-            style={{
-              height: 44,
-              padding: "0 22px",
-              borderRadius: 22,
-              background: MRA_TOKENS.colors.brandRed,
-              color: "#fff",
-              fontSize: 15,
-              fontWeight: 700,
-              border: 0,
-              cursor: "pointer",
+            onClick={() => {
+              setClienteAEditar(null);
+              setMostrarModalAlta(true);
             }}
+            className="w-full sm:w-auto min-h-[44px] px-5 py-2.5 rounded-xl bg-[#B5141B] hover:bg-[#8F1015] text-white font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2"
           >
-            + Nuevo cliente
+            <Icons.Plus size={18} />
+            <span>Nuevo Cliente</span>
           </button>
         </header>
 
+        {/* Notificación de aviso */}
         {aviso && (
-          <div
-            role="status"
-            style={{
-              padding: "8px 14px",
-              borderRadius: 10,
-              background: MRA_TOKENS.colors.statusSuccessBg,
-              color: MRA_TOKENS.colors.statusSuccessText,
-              fontSize: 13,
-              fontWeight: 600,
-            }}
-          >
-            {aviso}
+          <div className="p-3.5 px-4 rounded-xl bg-[#DCFCE7] border border-[#86EFAC] text-[#166534] text-sm font-semibold flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Icons.Success size={18} />
+              <span>{aviso}</span>
+            </div>
+            <button
+              onClick={() => setAviso(null)}
+              className="text-[#166534] hover:opacity-75"
+              aria-label="Cerrar notificación"
+            >
+              <Icons.Close size={16} />
+            </button>
           </div>
         )}
 
-        {mostrarAlta && (
-          <form
-            onSubmit={crearClienteRapido}
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1.5fr 1fr 1fr auto",
-              gap: 10,
-              padding: 14,
-              background: "#fff",
-              borderRadius: 12,
-              border: `1px solid ${MRA_TOKENS.colors.borderCard}`,
-              alignItems: "center",
-            }}
-          >
+        {/* Barra de Búsqueda */}
+        <form onSubmit={buscar} className="flex gap-2">
+          <div className="relative flex-1">
             <input
-              placeholder="Nombre completo"
-              value={nuevoNombre}
-              onChange={(e) => setNuevoNombre(e.target.value)}
-              required
-              style={{
-                height: 40,
-                padding: "0 10px",
-                border: `1px solid ${MRA_TOKENS.colors.borderInput}`,
-                borderRadius: 8,
-              }}
+              placeholder="Buscar por nombre, # de cliente, teléfono, INE o licencia..."
+              value={termino}
+              onChange={(e) => setTermino(e.target.value)}
+              className="w-full h-12 pl-11 pr-4 rounded-xl border border-[#D5CDBE] bg-white text-sm text-[#1E1A16] placeholder-[#A89F91] focus:outline-none focus:ring-2 focus:ring-[#B5141B]"
             />
-            <input
-              placeholder="Identificación / Licencia"
-              value={nuevaId}
-              onChange={(e) => setNuevaId(e.target.value)}
-              required
-              style={{
-                height: 40,
-                padding: "0 10px",
-                border: `1px solid ${MRA_TOKENS.colors.borderInput}`,
-                borderRadius: 8,
-              }}
-            />
-            <input
-              placeholder="Teléfono / Celular"
-              value={nuevoTel}
-              onChange={(e) => setNuevoTel(e.target.value)}
-              required
-              style={{
-                height: 40,
-                padding: "0 10px",
-                border: `1px solid ${MRA_TOKENS.colors.borderInput}`,
-                borderRadius: 8,
-              }}
-            />
-            <button
-              type="submit"
-              style={{
-                height: 40,
-                padding: "0 18px",
-                borderRadius: 8,
-                border: 0,
-                background: MRA_TOKENS.colors.ink,
-                color: "#fff",
-                fontWeight: 700,
-                cursor: "pointer",
-              }}
-            >
-              Guardar
-            </button>
-          </form>
-        )}
-
-        <form onSubmit={buscar} style={{ display: "flex", gap: 10 }}>
-          <input
-            placeholder="Buscar por nombre, número de cliente, INE, licencia, teléfono o RFC..."
-            value={termino}
-            onChange={(e) => setTermino(e.target.value)}
-            style={{
-              flex: 1,
-              height: 48,
-              borderRadius: 12,
-              border: `1px solid ${MRA_TOKENS.colors.borderInput}`,
-              padding: "0 14px",
-              background: "#fff",
-              fontSize: 15,
-            }}
-          />
+            <div className="absolute left-3.5 top-3.5 text-[#A89F91]">
+              <Icons.Search size={20} />
+            </div>
+          </div>
           <button
             type="submit"
-            style={{
-              height: 48,
-              padding: "0 22px",
-              borderRadius: 12,
-              background: MRA_TOKENS.colors.ink,
-              color: "#fff",
-              fontWeight: 700,
-              border: 0,
-              cursor: "pointer",
-            }}
+            className="min-h-[44px] px-5 rounded-xl bg-[#1E1A16] hover:bg-[#332C25] text-white font-semibold text-sm transition-colors flex items-center gap-2"
           >
-            Buscar
+            <Icons.Filter size={18} />
+            <span className="hidden sm:inline">Buscar</span>
           </button>
         </form>
 
-        <SurfaceCard style={{ flex: 1, gap: 10, minHeight: 0 }}>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "100px 2fr 1.2fr 1fr 1fr",
-              gap: 12,
-              padding: "8px 0",
-              borderBottom: `1px solid ${MRA_TOKENS.colors.borderCard}`,
-              fontSize: 12,
-              fontWeight: 700,
-              letterSpacing: "0.05em",
-              color: MRA_TOKENS.colors.textMuted,
-            }}
-          >
-            <span>NO.</span>
-            <span>NOMBRE COMPLETO</span>
-            <span>IDENTIFICACIÓN</span>
-            <span>TELÉFONO</span>
-            <span style={{ textAlign: "right" }}>ACCIONES</span>
-          </div>
-
-          {lista.map((c, idx) => (
+        {/* 1. Vista Móvil en Tarjetas Táctiles (<md) */}
+        <div className="flex flex-col gap-3 md:hidden">
+          {lista.map((cliente) => (
             <div
-              key={c.id}
-              style={{
-                display: "grid",
-                gridTemplateColumns: "100px 2fr 1.2fr 1fr 1fr",
-                gap: 12,
-                padding: "10px 0",
-                borderBottom:
-                  idx === lista.length - 1
-                    ? "none"
-                    : `1px solid ${MRA_TOKENS.colors.borderDivider}`,
-                fontSize: 14,
-                alignItems: "center",
-              }}
+              key={cliente.id}
+              className="p-4 rounded-2xl bg-white border border-[#E5DECE] shadow-sm flex flex-col gap-3"
             >
-              <b style={{ color: MRA_TOKENS.colors.textSecondary }}>
-                #{String(c.numero_cliente).padStart(5, "0")}
-              </b>
-              <span>
-                <b>{c.nombre_completo}</b>
-                <span
-                  style={{
-                    display: "block",
-                    fontSize: 12,
-                    color: MRA_TOKENS.colors.textMuted,
+              <div className="flex items-start justify-between">
+                <div>
+                  <span className="text-xs font-bold text-[#B5141B] bg-[#B5141B]/10 px-2 py-0.5 rounded-md">
+                    #{cliente.numero_cliente}
+                  </span>
+                  <h3 className="text-base font-bold text-[#1E1A16] mt-1">
+                    {cliente.nombre_completo}
+                  </h3>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setClienteAEditar(cliente);
+                    setMostrarModalAlta(true);
                   }}
+                  className="p-2 rounded-lg text-[#7E756B] hover:text-[#1E1A16] hover:bg-[#F2ECE1]"
+                  aria-label="Editar cliente"
                 >
-                  {c.correo ?? "Sin correo"}
-                </span>
-              </span>
-              <span>{c.identificacion_numero}</span>
-              <span>{c.telefono ?? c.celular ?? "—"}</span>
-              <div style={{ textAlign: "right" }}>
+                  <Icons.Edit size={18} />
+                </button>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 text-xs text-[#665E55] pt-2 border-t border-[#F2ECE1]">
+                <div className="flex items-center gap-1.5">
+                  <Icons.Phone size={14} />
+                  <span>{cliente.telefono || "Sin tel."}</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <Icons.FileCheck size={14} />
+                  <span>{cliente.identificacion_numero || "S/N"}</span>
+                </div>
+                <div className="flex items-center gap-1.5 col-span-2">
+                  <Icons.Location size={14} />
+                  <span className="truncate">{cliente.domicilio}</span>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-end gap-2 pt-2 border-t border-[#F2ECE1]">
                 <Link
-                  href={`/clientes/${c.id}`}
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    height: 36,
-                    padding: "0 14px",
-                    borderRadius: 18,
-                    border: `1px solid ${MRA_TOKENS.colors.borderInput}`,
-                    background: "#fff",
-                    color: MRA_TOKENS.colors.ink,
-                    fontSize: 13,
-                    fontWeight: 600,
-                    textDecoration: "none",
-                  }}
+                  href={`/clientes/${cliente.id}`}
+                  className="min-h-[40px] px-3.5 py-1.5 rounded-xl border border-[#D5CDBE] text-xs font-semibold text-[#1E1A16] hover:bg-[#F6F2E8] flex items-center gap-1.5"
                 >
-                  Ver ficha
+                  <Icons.Eye size={15} />
+                  Ver expediente
+                </Link>
+                <Link
+                  href={`/contratos/nuevo?cliente=${cliente.id}`}
+                  className="min-h-[40px] px-3.5 py-1.5 rounded-xl bg-[#1E1A16] text-xs font-semibold text-white hover:bg-[#332C25] flex items-center gap-1.5"
+                >
+                  <Icons.Contratos size={15} />
+                  Nueva Renta
                 </Link>
               </div>
             </div>
           ))}
-        </SurfaceCard>
+
+          {lista.length === 0 && (
+            <div className="p-8 text-center bg-white rounded-2xl border border-[#E5DECE] text-[#7E756B]">
+              <Icons.Clientes size={32} className="mx-auto mb-2 opacity-40" />
+              <p className="font-medium text-sm">No se encontraron clientes.</p>
+            </div>
+          )}
+        </div>
+
+        {/* 2. Vista de Escritorio en Tabla Tradicional (md y superior) */}
+        <div className="hidden md:block bg-white rounded-2xl border border-[#E5DECE] shadow-sm overflow-hidden">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="bg-[#FAF7F2] border-b border-[#E5DECE] text-xs font-bold text-[#7E756B] uppercase tracking-wider">
+                <th className="py-3.5 px-4"># Cliente</th>
+                <th className="py-3.5 px-4">Nombre Completo</th>
+                <th className="py-3.5 px-4">Identificación</th>
+                <th className="py-3.5 px-4">Teléfono</th>
+                <th className="py-3.5 px-4">Ciudad</th>
+                <th className="py-3.5 px-4 text-right">Acciones</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[#F2ECE1] text-sm">
+              {lista.map((cliente) => (
+                <tr key={cliente.id} className="hover:bg-[#FAF7F2] transition-colors">
+                  <td className="py-3.5 px-4 font-bold text-[#B5141B]">
+                    #{cliente.numero_cliente}
+                  </td>
+                  <td className="py-3.5 px-4 font-semibold text-[#1E1A16]">
+                    {cliente.nombre_completo}
+                  </td>
+                  <td className="py-3.5 px-4 text-[#4B443B]">
+                    {cliente.identificacion_numero}
+                  </td>
+                  <td className="py-3.5 px-4 text-[#4B443B]">
+                    {cliente.telefono || "—"}
+                  </td>
+                  <td className="py-3.5 px-4 text-[#7E756B]">
+                    {cliente.ciudad}
+                  </td>
+                  <td className="py-3.5 px-4 text-right">
+                    <div className="flex items-center justify-end gap-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setClienteAEditar(cliente);
+                          setMostrarModalAlta(true);
+                        }}
+                        className="p-2 rounded-lg text-[#7E756B] hover:text-[#1E1A16] hover:bg-[#F2ECE1] transition-colors"
+                        title="Editar datos"
+                      >
+                        <Icons.Edit size={16} />
+                      </button>
+                      <Link
+                        href={`/clientes/${cliente.id}`}
+                        className="p-2 rounded-lg text-[#7E756B] hover:text-[#1E1A16] hover:bg-[#F2ECE1] transition-colors"
+                        title="Ver expediente"
+                      >
+                        <Icons.Eye size={16} />
+                      </Link>
+                      <Link
+                        href={`/contratos/nuevo?cliente=${cliente.id}`}
+                        className="px-3 py-1.5 rounded-lg bg-[#1E1A16] hover:bg-[#332C25] text-white text-xs font-semibold transition-colors flex items-center gap-1.5"
+                      >
+                        <Icons.Plus size={14} />
+                        Rentar
+                      </Link>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+
+              {lista.length === 0 && (
+                <tr>
+                  <td colSpan={6} className="py-10 text-center text-[#7E756B]">
+                    No se encontraron clientes con el término buscado.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </main>
+
+      {/* Modal de Cliente con soporte de cancelación y dirty check */}
+      <ClienteModal
+        isOpen={mostrarModalAlta}
+        clienteEditar={clienteAEditar}
+        onClose={() => {
+          setMostrarModalAlta(false);
+          setClienteAEditar(null);
+        }}
+        onSave={handleGuardarCliente}
+      />
     </div>
   );
 }

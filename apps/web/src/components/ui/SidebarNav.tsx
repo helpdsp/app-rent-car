@@ -1,19 +1,21 @@
 /**
- * @generated_by_model gemini-4-argon
- * @generated_at 2026-11-17T05:15:00Z
- * @agent_roles engineering-frontend-developer + design-ui-designer
- * @vision_command start_sprint --sprint 1
- * @sprint_number 1
- * @task_id S01-T11
+ * @generated_by_model gemini-2.5-pro
+ * @generated_at 2026-11-17T06:05:00Z
+ * @agent_roles engineering-frontend-developer + design-ui-designer + design-ux-architect
+ * @vision_command start_sprint --sprint 13
+ * @sprint_number 13
+ * @task_id S13-T02
  */
 
 import React from "react";
 import Link from "next/link";
 import { MRA_TOKENS } from "./tokens";
+import { Icons } from "./icons";
 
 export type SeccionNavegacion =
   | "tablero"
   | "contratos"
+  | "reservaciones"
   | "clientes"
   | "vehiculos"
   | "alertas"
@@ -27,203 +29,138 @@ const ITEMS_NAVEGACION: Array<{
   id: SeccionNavegacion;
   etiqueta: string;
   href: string;
-  icono: React.ReactNode;
+  icono: (activo: boolean) => React.ReactNode;
 }> = [
   {
     id: "tablero",
     etiqueta: "Tablero",
     href: "/",
-    icono: (
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        aria-hidden="true"
-      >
-        <path d="M3 11l9-8 9 8" />
-        <path d="M5 10v10h14V10" />
-      </svg>
-    ),
+    icono: (activo) => <Icons.Tablero size={22} color={activo ? "#ffffff" : "#CFC8B8"} />,
   },
   {
     id: "contratos",
     etiqueta: "Contratos",
     href: "/contratos",
-    icono: (
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        aria-hidden="true"
-      >
-        <path d="M7 3h7l4 4v14H7z" />
-        <path d="M14 3v4h4" />
-      </svg>
-    ),
+    icono: (activo) => <Icons.Contratos size={22} color={activo ? "#ffffff" : "#CFC8B8"} />,
+  },
+  {
+    id: "reservaciones",
+    etiqueta: "Reservas",
+    href: "/reservaciones",
+    icono: (activo) => <Icons.Reservaciones size={22} color={activo ? "#ffffff" : "#CFC8B8"} />,
   },
   {
     id: "clientes",
     etiqueta: "Clientes",
     href: "/clientes",
-    icono: (
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        aria-hidden="true"
-      >
-        <circle cx="9" cy="8" r="3.5" />
-        <path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6" />
-        <path d="M16 5a3.5 3.5 0 010 6" />
-        <path d="M18 14c2.2.7 3.5 2.6 3.5 6" />
-      </svg>
-    ),
+    icono: (activo) => <Icons.Clientes size={22} color={activo ? "#ffffff" : "#CFC8B8"} />,
   },
   {
     id: "vehiculos",
     etiqueta: "Vehículos",
     href: "/vehiculos",
-    icono: (
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        aria-hidden="true"
-      >
-        <path d="M4 16v-4l2-5h12l2 5v4" />
-        <path d="M3 16h18" />
-        <circle cx="7.5" cy="17.5" r="1.8" />
-        <circle cx="16.5" cy="17.5" r="1.8" />
-      </svg>
-    ),
+    icono: (activo) => <Icons.Vehiculos size={22} color={activo ? "#ffffff" : "#CFC8B8"} />,
   },
   {
     id: "alertas",
     etiqueta: "Alertas",
     href: "/alertas",
-    icono: (
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        aria-hidden="true"
-      >
-        <path d="M6 17v-6a6 6 0 0112 0v6l1.5 2h-15z" />
-        <path d="M10 21h4" />
-      </svg>
-    ),
+    icono: (activo) => <Icons.Alertas size={22} color={activo ? "#ffffff" : "#CFC8B8"} />,
   },
   {
     id: "admin",
     etiqueta: "Admin",
     href: "/admin/usuarios",
-    icono: (
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        aria-hidden="true"
-      >
-        <circle cx="12" cy="12" r="3" />
-        <path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1" />
-      </svg>
-    ),
+    icono: (activo) => <Icons.Admin size={22} color={activo ? "#ffffff" : "#CFC8B8"} />,
   },
 ];
 
 export function SidebarNav({ seccionActiva }: SidebarNavProps) {
   return (
-    <nav
-      aria-label="Principal"
-      style={{
-        width: 112,
-        flex: "none",
-        background: MRA_TOKENS.colors.ink,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 6,
-        padding: "20px 0",
-        minHeight: "100vh",
-      }}
-    >
-      <div
-        style={{
-          width: 56,
-          height: 56,
-          borderRadius: 14,
-          background: MRA_TOKENS.colors.brandRed,
-          color: "#ffffff",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontFamily: MRA_TOKENS.fonts.display,
-          fontWeight: 700,
-          fontSize: 20,
-          marginBottom: 12,
-        }}
+    <>
+      {/* 1. Barra Lateral para Escritorio y Tabletas (md y superior) */}
+      <nav
+        aria-label="Principal escritorio"
+        className="hidden md:flex flex-col items-center gap-1.5 py-5 shrink-0 min-h-screen bg-[#1E1A16] border-r border-[#2C2723]"
+        style={{ width: 112 }}
       >
-        MRA
-      </div>
+        <div
+          style={{
+            width: 56,
+            height: 56,
+            borderRadius: 14,
+            background: MRA_TOKENS.colors.brandRed,
+            color: "#ffffff",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontFamily: MRA_TOKENS.fonts.display,
+            fontWeight: 700,
+            fontSize: 20,
+            marginBottom: 12,
+            boxShadow: "0 4px 12px rgba(181, 20, 27, 0.3)",
+          }}
+        >
+          MRA
+        </div>
 
-      {ITEMS_NAVEGACION.map((item) => {
-        const activo = item.id === seccionActiva;
-        return (
-          <Link
-            key={item.id}
-            href={item.href}
-            aria-current={activo ? "page" : undefined}
-            style={{
-              width: 92,
-              height: 72,
-              borderRadius: 14,
-              background: activo ? MRA_TOKENS.colors.brandRed : "transparent",
-              color: activo ? "#ffffff" : MRA_TOKENS.colors.borderInput,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 6,
-              textDecoration: "none",
-              fontSize: 13,
-              fontWeight: activo ? 600 : 500,
-            }}
-          >
-            {item.icono}
-            {item.etiqueta}
-          </Link>
-        );
-      })}
-    </nav>
+        {ITEMS_NAVEGACION.map((item) => {
+          const activo = item.id === seccionActiva;
+          return (
+            <Link
+              key={item.id}
+              href={item.href}
+              aria-current={activo ? "page" : undefined}
+              className={`w-[96px] h-[72px] rounded-2xl flex flex-col items-center justify-center gap-1.5 text-xs font-medium transition-all duration-200 ${
+                activo
+                  ? "bg-[#B5141B] text-white shadow-md font-semibold scale-102"
+                  : "text-[#CFC8B8] hover:bg-[#2C2723] hover:text-white"
+              }`}
+            >
+              {item.icono(activo)}
+              <span>{item.etiqueta}</span>
+            </Link>
+          );
+        })}
+      </nav>
+
+      {/* 2. Barra de Navegación Inferior Móvil (Bottom Navigation Bar para <md) */}
+      <nav
+        aria-label="Principal móvil"
+        className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#1E1A16] border-t border-[#332C25] shadow-2xl flex items-center justify-around px-2 py-1.5 backdrop-blur-md bg-opacity-95"
+      >
+        {ITEMS_NAVEGACION.slice(0, 5).map((item) => {
+          const activo = item.id === seccionActiva;
+          return (
+            <Link
+              key={item.id}
+              href={item.href}
+              aria-current={activo ? "page" : undefined}
+              className={`min-w-[48px] min-h-[48px] px-2 py-1 rounded-xl flex flex-col items-center justify-center gap-1 text-[11px] transition-colors ${
+                activo
+                  ? "text-[#B5141B] font-bold"
+                  : "text-[#CFC8B8] hover:text-white"
+              }`}
+            >
+              {item.icono(activo)}
+              <span>{item.etiqueta}</span>
+            </Link>
+          );
+        })}
+        {/* Enlace a más / alertas en móvil */}
+        <Link
+          href="/alertas"
+          aria-current={seccionActiva === "alertas" ? "page" : undefined}
+          className={`min-w-[48px] min-h-[48px] px-2 py-1 rounded-xl flex flex-col items-center justify-center gap-1 text-[11px] transition-colors ${
+            seccionActiva === "alertas"
+              ? "text-[#B5141B] font-bold"
+              : "text-[#CFC8B8] hover:text-white"
+          }`}
+        >
+          <Icons.Alertas size={22} color={seccionActiva === "alertas" ? "#B5141B" : "#CFC8B8"} />
+          <span>Alertas</span>
+        </Link>
+      </nav>
+    </>
   );
 }

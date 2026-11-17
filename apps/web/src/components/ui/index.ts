@@ -12,3 +12,5 @@ export * from "./StatusChip";
 export * from "./SurfaceCard";
 export * from "./SidebarNav";
 export * from "./ContractStepper";
+export * from "./icons";
+export * from "./ConfirmDialog";

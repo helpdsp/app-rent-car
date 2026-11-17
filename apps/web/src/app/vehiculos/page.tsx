@@ -1,17 +1,17 @@
 /**
  * @generated_by_model gemini-2.5-pro
- * @generated_at 2026-11-17T06:28:00Z
- * @agent_roles engineering-frontend-developer
- * @vision_command start_sprint --sprint 4
- * @sprint_number 4
- * @task_id S04-T04
+ * @generated_at 2026-11-17T06:05:00Z
+ * @agent_roles engineering-frontend-developer + design-ui-designer + design-ux-architect
+ * @vision_command start_sprint --sprint 13
+ * @sprint_number 13
+ * @task_id S13-T04
  */
 
 "use client";
 
 import React, { Suspense, useState } from "react";
 import Link from "next/link";
-import { SidebarNav } from "@/components/ui";
+import { SidebarNav, Icons, ConfirmDialog } from "@/components/ui";
 import {
   obtenerVehiculos,
   obtenerDocumentosDeVehiculo,
@@ -24,6 +24,7 @@ function VehiculosContenido() {
   const [busqueda, setBusqueda] = useState<string>("");
   const [vehiculos, setVehiculos] = useState<VehiculoRow[]>(obtenerVehiculos());
   const [mostrarModalNuevo, setMostrarModalNuevo] = useState(false);
+  const [mostrarConfirmDescarte, setMostrarConfirmDescarte] = useState(false);
 
   // Formulario nuevo vehículo
   const [marca, setMarca] = useState("");
@@ -48,6 +49,27 @@ function VehiculosContenido() {
   function cambiarFiltro(nuevoEstado: string) {
     setFiltroEstado(nuevoEstado);
     refrescarLista(nuevoEstado, busqueda);
+  }
+
+  const formularioSucio = Boolean(marca || modelo || color || placas || kilometraje > 0);
+
+  function intentarCerrarModal() {
+    if (formularioSucio) {
+      setMostrarConfirmDescarte(true);
+    } else {
+      cerrarModalDefinitivo();
+    }
+  }
+
+  function cerrarModalDefinitivo() {
+    setMostrarModalNuevo(false);
+    setMostrarConfirmDescarte(false);
+    setMarca("");
+    setModelo("");
+    setColor("");
+    setPlacas("");
+    setKilometraje(0);
+    setErrorAlta(null);
   }
 
   function handleCrearVehiculo(e: React.FormEvent) {
@@ -77,15 +99,10 @@ function VehiculosContenido() {
       return;
     }
 
-    setMostrarModalNuevo(false);
-    setMarca("");
-    setModelo("");
-    setColor("");
-    setPlacas("");
+    cerrarModalDefinitivo();
     refrescarLista();
   }
 
-  // Conteos para los botones de filtro
   const todosTotal = obtenerVehiculos().length;
   const disponiblesTotal = obtenerVehiculos({ estado: "disponible" }).length;
   const rentadosTotal = obtenerVehiculos({ estado: "rentado" }).length;
@@ -93,636 +110,493 @@ function VehiculosContenido() {
   const docsPorVencerTotal = obtenerVehiculos({ estado: "documentos_por_vencer" }).length;
 
   return (
-    <div
-      style={{
-        width: "100%",
-        minHeight: "100vh",
-        boxSizing: "border-box",
-        display: "flex",
-        background: "#F6F2E8",
-        color: "#1E1A16",
-        fontFamily: "'Inter', system-ui, sans-serif",
-        fontSize: "16px",
-      }}
-    >
+    <div className="w-full min-h-screen flex flex-col md:flex-row bg-[#F6F2E8] text-[#1E1A16] font-sans pb-20 md:pb-0">
       <SidebarNav seccionActiva="vehiculos" />
 
-      <main
-        style={{
-          flex: 1,
-          minWidth: 0,
-          padding: "28px 36px 24px",
-          display: "flex",
-          flexDirection: "column",
-          gap: "16px",
-        }}
-      >
-        <header
-          style={{
-            display: "flex",
-            alignItems: "flex-end",
-            justifyContent: "space-between",
-            gap: "24px",
-          }}
-        >
+      <main className="flex-1 min-w-0 p-4 sm:p-6 md:p-8 flex flex-col gap-5">
+        {/* Encabezado Responsivo */}
+        <header className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
-            <div
-              style={{
-                fontSize: "13px",
-                fontWeight: 600,
-                letterSpacing: "0.08em",
-                color: "#6B645A",
-              }}
-            >
-              FLOTA · {todosTotal} VEHÍCULOS
+            <div className="flex items-center gap-2">
+              <div className="w-10 h-10 rounded-xl bg-[#1E1A16] text-[#F6F2E8] flex items-center justify-center shadow-sm">
+                <Icons.Vehiculos size={22} color="#F6F2E8" />
+              </div>
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#1E1A16]">
+                Flota de Vehículos
+              </h1>
             </div>
-            <h1
-              style={{
-                margin: "4px 0 0",
-                fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: "36px",
-                lineHeight: 1.1,
-              }}
-            >
-              Vehículos
-            </h1>
+            <p className="text-sm text-[#7E756B] mt-1">
+              Control de unidades, disponibilidad, pólizas y kilometraje.
+            </p>
           </div>
 
-          <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
-            <form onSubmit={handleBuscar}>
-              <label
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  height: "48px",
-                  padding: "0 16px",
-                  borderRadius: "24px",
-                  background: "#fff",
-                  border: "1px solid #E3DCCB",
-                  width: "290px",
-                  boxSizing: "border-box",
+          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+            <form onSubmit={handleBuscar} className="relative flex-1 sm:w-64">
+              <input
+                aria-label="Buscar vehículo"
+                placeholder="Modelo, placas o clave..."
+                value={busqueda}
+                onChange={(e) => {
+                  setBusqueda(e.target.value);
+                  refrescarLista(filtroEstado, e.target.value);
                 }}
-              >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#6B645A"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  aria-hidden="true"
-                >
-                  <circle cx="11" cy="11" r="7" />
-                  <path d="M20 20l-4-4" />
-                </svg>
-                <input
-                  aria-label="Buscar vehículo"
-                  placeholder="Modelo, placas o clave"
-                  value={busqueda}
-                  onChange={(e) => {
-                    setBusqueda(e.target.value);
-                    refrescarLista(filtroEstado, e.target.value);
-                  }}
-                  style={{
-                    border: 0,
-                    outline: 0,
-                    background: "transparent",
-                    font: "inherit",
-                    fontSize: "15px",
-                    width: "100%",
-                    color: "#1E1A16",
-                  }}
-                />
-              </label>
+                className="w-full h-11 pl-10 pr-3 rounded-xl border border-[#D5CDBE] bg-white text-sm text-[#1E1A16] focus:outline-none focus:ring-2 focus:ring-[#B5141B]"
+              />
+              <div className="absolute left-3 top-3 text-[#A89F91]">
+                <Icons.Search size={18} />
+              </div>
             </form>
 
             <button
               onClick={() => setMostrarModalNuevo(true)}
-              style={{
-                height: "48px",
-                padding: "0 22px",
-                borderRadius: "24px",
-                border: 0,
-                background: "#B5141B",
-                color: "#fff",
-                font: "inherit",
-                fontSize: "16px",
-                fontWeight: 700,
-                cursor: "pointer",
-              }}
+              className="min-h-[44px] px-5 py-2.5 rounded-xl bg-[#B5141B] hover:bg-[#8F1015] text-white font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2"
             >
-              + Nuevo vehículo
+              <Icons.Plus size={18} />
+              <span>Nuevo Vehículo</span>
             </button>
           </div>
         </header>
 
-        {/* Botones de filtro por estado */}
-        <div
-          role="group"
-          aria-label="Filtrar por estado"
-          style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}
-        >
+        {/* Filtros por Estado */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none" role="group" aria-label="Filtrar por estado">
           <button
             onClick={() => cambiarFiltro("todos")}
-            aria-pressed={filtroEstado === "todos"}
-            style={{
-              height: "44px",
-              padding: "0 18px",
-              borderRadius: "22px",
-              border: filtroEstado === "todos" ? 0 : "1px solid #CFC8B8",
-              background: filtroEstado === "todos" ? "#1E1A16" : "#fff",
-              color: filtroEstado === "todos" ? "#fff" : "#1E1A16",
-              font: "inherit",
-              fontSize: "15px",
-              fontWeight: 600,
-              cursor: "pointer",
-            }}
+            className={`min-h-[38px] px-4 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-colors flex items-center gap-1.5 ${
+              filtroEstado === "todos"
+                ? "bg-[#1E1A16] text-white shadow-sm"
+                : "bg-white border border-[#D5CDBE] text-[#4B443B] hover:bg-[#F2ECE1]"
+            }`}
           >
-            Todos · {todosTotal}
+            <span>Todos</span>
+            <span className="opacity-75 font-normal">({todosTotal})</span>
           </button>
           <button
             onClick={() => cambiarFiltro("disponible")}
-            aria-pressed={filtroEstado === "disponible"}
-            style={{
-              height: "44px",
-              padding: "0 18px",
-              borderRadius: "22px",
-              border: filtroEstado === "disponible" ? 0 : "1px solid #CFC8B8",
-              background: filtroEstado === "disponible" ? "#1E1A16" : "#fff",
-              color: filtroEstado === "disponible" ? "#fff" : "#1E1A16",
-              font: "inherit",
-              fontSize: "15px",
-              fontWeight: 600,
-              cursor: "pointer",
-            }}
+            className={`min-h-[38px] px-4 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-colors flex items-center gap-1.5 ${
+              filtroEstado === "disponible"
+                ? "bg-[#166534] text-white shadow-sm"
+                : "bg-white border border-[#D5CDBE] text-[#166534] hover:bg-[#DCFCE7]"
+            }`}
           >
-            Disponibles · {disponiblesTotal}
+            <Icons.Success size={15} color={filtroEstado === "disponible" ? "#ffffff" : "#166534"} />
+            <span>Disponibles</span>
+            <span className="opacity-75 font-normal">({disponiblesTotal})</span>
           </button>
           <button
             onClick={() => cambiarFiltro("rentado")}
-            aria-pressed={filtroEstado === "rentado"}
-            style={{
-              height: "44px",
-              padding: "0 18px",
-              borderRadius: "22px",
-              border: filtroEstado === "rentado" ? 0 : "1px solid #CFC8B8",
-              background: filtroEstado === "rentado" ? "#1E1A16" : "#fff",
-              color: filtroEstado === "rentado" ? "#fff" : "#1E1A16",
-              font: "inherit",
-              fontSize: "15px",
-              fontWeight: 600,
-              cursor: "pointer",
-            }}
+            className={`min-h-[38px] px-4 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-colors flex items-center gap-1.5 ${
+              filtroEstado === "rentado"
+                ? "bg-[#1E40AF] text-white shadow-sm"
+                : "bg-white border border-[#D5CDBE] text-[#1E40AF] hover:bg-[#DBEAFE]"
+            }`}
           >
-            Rentados · {rentadosTotal}
+            <span>Rentados</span>
+            <span className="opacity-75 font-normal">({rentadosTotal})</span>
           </button>
           <button
             onClick={() => cambiarFiltro("mantenimiento")}
-            aria-pressed={filtroEstado === "mantenimiento"}
-            style={{
-              height: "44px",
-              padding: "0 18px",
-              borderRadius: "22px",
-              border: filtroEstado === "mantenimiento" ? 0 : "1px solid #CFC8B8",
-              background: filtroEstado === "mantenimiento" ? "#1E1A16" : "#fff",
-              color: filtroEstado === "mantenimiento" ? "#fff" : "#1E1A16",
-              font: "inherit",
-              fontSize: "15px",
-              fontWeight: 600,
-              cursor: "pointer",
-            }}
+            className={`min-h-[38px] px-4 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-colors flex items-center gap-1.5 ${
+              filtroEstado === "mantenimiento"
+                ? "bg-[#9A3412] text-white shadow-sm"
+                : "bg-white border border-[#D5CDBE] text-[#9A3412] hover:bg-[#FFEDD5]"
+            }`}
           >
-            Mantenimiento · {mantenimientoTotal}
+            <Icons.Warning size={15} color={filtroEstado === "mantenimiento" ? "#ffffff" : "#9A3412"} />
+            <span>Taller</span>
+            <span className="opacity-75 font-normal">({mantenimientoTotal})</span>
           </button>
-          <button
-            onClick={() => cambiarFiltro("documentos_por_vencer")}
-            aria-pressed={filtroEstado === "documentos_por_vencer"}
-            style={{
-              height: "44px",
-              padding: "0 18px",
-              borderRadius: "22px",
-              border: "1px solid #F0C4BF",
-              background: filtroEstado === "documentos_por_vencer" ? "#B5141B" : "#FBE9E7",
-              color: filtroEstado === "documentos_por_vencer" ? "#fff" : "#8E1016",
-              font: "inherit",
-              fontSize: "15px",
-              fontWeight: 700,
-              cursor: "pointer",
-            }}
-          >
-            Documentos por vencer · {docsPorVencerTotal}
-          </button>
+          {docsPorVencerTotal > 0 && (
+            <button
+              onClick={() => cambiarFiltro("documentos_por_vencer")}
+              className={`min-h-[38px] px-4 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-colors flex items-center gap-1.5 ${
+                filtroEstado === "documentos_por_vencer"
+                  ? "bg-[#991B1B] text-white shadow-sm"
+                  : "bg-white border border-[#D5CDBE] text-[#991B1B] hover:bg-[#FEE2E2]"
+              }`}
+            >
+              <Icons.Danger size={15} color={filtroEstado === "documentos_por_vencer" ? "#ffffff" : "#991B1B"} />
+              <span>Docs por Vencer</span>
+              <span className="opacity-75 font-normal">({docsPorVencerTotal})</span>
+            </button>
+          )}
         </div>
 
-        {/* Listado estilo Mockup 9 */}
-        <section
-          aria-label="Listado"
-          style={{
-            flex: 1,
-            minHeight: 0,
-            background: "#fff",
-            border: "1px solid #E3DCCB",
-            borderRadius: "16px",
-            overflow: "hidden",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "minmax(0, 2.2fr) 1.5fr 1fr 1.1fr 1.1fr 0.9fr",
-              gap: "12px",
-              padding: "12px 20px",
-              background: "#FBF9F3",
-              borderBottom: "1px solid #E3DCCB",
-              fontSize: "12px",
-              fontWeight: 700,
-              letterSpacing: "0.05em",
-              color: "#6B645A",
-            }}
-          >
-            <span>VEHÍCULO</span>
-            <span>ESTADO</span>
-            <span style={{ textAlign: "right" }}>KILOMETRAJE</span>
-            <span>TARJETA CIRC.</span>
-            <span>PÓLIZA</span>
-            <span style={{ textAlign: "right" }}>TARIFA / DÍA</span>
-          </div>
+        {/* 1. Vista Móvil en Tarjetas Táctiles (<md) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 md:hidden">
+          {vehiculos.map((v) => {
+            const docs = obtenerDocumentosDeVehiculo(v.id);
+            const poliza = docs.find((d) => d.tipo === "poliza");
+            const esDisponible = v.estado === "disponible";
 
-          <div style={{ flex: 1, overflowY: "auto" }}>
-            {vehiculos.map((v) => {
-              const docs = obtenerDocumentosDeVehiculo(v.id);
-              const tarjeta = docs.find((d) => d.tipo === "tarjeta_circulacion");
-              const poliza = docs.find((d) => d.tipo === "poliza");
-              const tarjetaVenceHoy = tarjeta?.fecha_vencimiento === "2026-11-17";
-              const tarjetaVencida = tarjeta ? !tarjeta.vigente : true;
-              const polizaVencida = poliza ? !poliza.vigente : true;
-              const tieneDocInvalido = tarjetaVencida || polizaVencida;
-
-              return (
-                <Link
-                  key={v.id}
-                  href={`/vehiculos/${v.id}`}
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "minmax(0, 2.2fr) 1.5fr 1fr 1.1fr 1.1fr 0.9fr",
-                    gap: "12px",
-                    padding: "0 20px",
-                    minHeight: "62px",
-                    alignItems: "center",
-                    borderBottom: "1px solid #EFE9DB",
-                    color: "#1E1A16",
-                    textDecoration: "none",
-                    fontSize: "15px",
-                  }}
-                >
-                  <span>
-                    <b>
-                      {v.marca} {v.modelo}
-                    </b>
-                    <span style={{ display: "block", fontSize: "13px", color: "#6B645A" }}>
-                      {v.placas} · {v.color} · clave {v.clave_formato}
+            return (
+              <div
+                key={v.id}
+                className="p-4 rounded-2xl bg-white border border-[#E5DECE] shadow-sm flex flex-col justify-between gap-3"
+              >
+                <div>
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <span className="text-xs font-bold text-[#7E756B] bg-[#F2ECE1] px-2 py-0.5 rounded-md">
+                        {v.clave_formato} · {v.tipo}
+                      </span>
+                      <h3 className="text-base font-bold text-[#1E1A16] mt-1">
+                        {v.marca} {v.modelo}
+                      </h3>
+                    </div>
+                    <span
+                      className={`text-xs font-bold px-2.5 py-1 rounded-full ${
+                        esDisponible
+                          ? "bg-[#DCFCE7] text-[#166534]"
+                          : v.estado === "rentado"
+                          ? "bg-[#DBEAFE] text-[#1E40AF]"
+                          : "bg-[#FFEDD5] text-[#9A3412]"
+                      }`}
+                    >
+                      {v.estado === "disponible" ? "Disponible" : v.estado === "rentado" ? "Rentado" : "En Taller"}
                     </span>
-                  </span>
+                  </div>
 
-                  <span>
-                    {tieneDocInvalido ? (
-                      <span
-                        style={{
-                          padding: "3px 10px",
-                          borderRadius: "12px",
-                          background: "#FBE9E7",
-                          color: "#8E1016",
-                          fontSize: "12px",
-                          fontWeight: 700,
-                        }}
-                      >
-                        No rentable
+                  <div className="grid grid-cols-2 gap-2 text-xs text-[#665E55] mt-3 pt-3 border-t border-[#F2ECE1]">
+                    <div className="flex items-center gap-1.5">
+                      <Icons.Vehiculos size={14} />
+                      <span className="font-semibold text-[#1E1A16]">{v.placas}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <Icons.Odometer size={14} />
+                      <span>{v.kilometraje_actual.toLocaleString("es-MX")} km</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 col-span-2">
+                      <Icons.FileCheck size={14} />
+                      <span>
+                        Póliza:{" "}
+                        {poliza?.fecha_vencimiento
+                          ? new Date(poliza.fecha_vencimiento).toLocaleDateString("es-MX")
+                          : "Sin póliza"}
                       </span>
-                    ) : v.estado === "disponible" ? (
-                      <span
-                        style={{
-                          padding: "3px 10px",
-                          borderRadius: "12px",
-                          background: "#E3F3EA",
-                          color: "#14583A",
-                          fontSize: "12px",
-                          fontWeight: 700,
-                        }}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between pt-3 border-t border-[#F2ECE1]">
+                  <div>
+                    <span className="text-xs text-[#7E756B] block">Tarifa día</span>
+                    <span className="text-base font-extrabold text-[#1E1A16]">
+                      ${Number(v.tarifa_dia / BigInt(100)).toLocaleString("es-MX")}{" "}
+                      <span className="text-xs font-normal text-[#7E756B]">MXN</span>
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Link
+                      href={`/vehiculos/${v.id}`}
+                      className="min-h-[40px] px-3.5 py-1.5 rounded-xl border border-[#D5CDBE] text-xs font-semibold text-[#1E1A16] hover:bg-[#F6F2E8] flex items-center gap-1"
+                    >
+                      <Icons.Eye size={15} />
+                      Ver
+                    </Link>
+                    {esDisponible && (
+                      <Link
+                        href={`/contratos/nuevo?vehiculo=${v.id}`}
+                        className="min-h-[40px] px-3.5 py-1.5 rounded-xl bg-[#B5141B] text-xs font-bold text-white hover:bg-[#8F1015] flex items-center gap-1 shadow-sm"
                       >
-                        Disponible
-                      </span>
-                    ) : v.estado === "rentado" ? (
-                      <span
-                        style={{
-                          padding: "3px 10px",
-                          borderRadius: "12px",
-                          background: v.es_rezagado ? "#FBE9E7" : "#FFF1D6",
-                          color: v.es_rezagado ? "#8E1016" : "#7A4A00",
-                          fontSize: "12px",
-                          fontWeight: 700,
-                        }}
-                      >
-                        {v.es_rezagado
-                          ? `Rezagado · ${v.contrato_activo_folio ?? "08155"}`
-                          : `Rentado · ${v.contrato_activo_folio ?? "08160"}`}
-                      </span>
-                    ) : v.estado === "mantenimiento" ? (
-                      <span
-                        style={{
-                          padding: "3px 10px",
-                          borderRadius: "12px",
-                          background: "#E8EEF7",
-                          color: "#1F3A63",
-                          fontSize: "12px",
-                          fontWeight: 700,
-                        }}
-                      >
-                        Mantenimiento
-                      </span>
-                    ) : (
-                      <span
-                        style={{
-                          padding: "3px 10px",
-                          borderRadius: "12px",
-                          background: "#EFE9DB",
-                          color: "#6B645A",
-                          fontSize: "12px",
-                          fontWeight: 700,
-                        }}
-                      >
-                        Baja
-                      </span>
+                        <Icons.Plus size={15} />
+                        Rentar
+                      </Link>
                     )}
-                  </span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
 
-                  <span style={{ textAlign: "right" }}>
-                    {v.kilometraje_actual.toLocaleString("es-MX")} km
-                  </span>
+          {vehiculos.length === 0 && (
+            <div className="col-span-full p-8 text-center bg-white rounded-2xl border border-[#E5DECE] text-[#7E756B]">
+              <Icons.Vehiculos size={32} className="mx-auto mb-2 opacity-40" />
+              <p className="font-medium text-sm">No se encontraron vehículos en este filtro.</p>
+            </div>
+          )}
+        </div>
 
-                  <span>
-                    {tarjetaVenceHoy ? (
+        {/* 2. Vista de Escritorio en Tabla Tradicional (md y superior) */}
+        <div className="hidden md:block bg-white rounded-2xl border border-[#E5DECE] shadow-sm overflow-hidden">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="bg-[#FAF7F2] border-b border-[#E5DECE] text-xs font-bold text-[#7E756B] uppercase tracking-wider">
+                <th className="py-3.5 px-4">Clave</th>
+                <th className="py-3.5 px-4">Vehículo</th>
+                <th className="py-3.5 px-4">Placas / Odómetro</th>
+                <th className="py-3.5 px-4">Estado</th>
+                <th className="py-3.5 px-4">Póliza Seguro</th>
+                <th className="py-3.5 px-4">Tarifa / Día</th>
+                <th className="py-3.5 px-4 text-right">Acción</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[#F2ECE1] text-sm">
+              {vehiculos.map((v) => {
+                const docs = obtenerDocumentosDeVehiculo(v.id);
+                const poliza = docs.find((d) => d.tipo === "poliza");
+                const esDisponible = v.estado === "disponible";
+
+                return (
+                  <tr key={v.id} className="hover:bg-[#FAF7F2] transition-colors">
+                    <td className="py-3.5 px-4 font-bold text-[#1E1A16]">
+                      {v.clave_formato}
+                    </td>
+                    <td className="py-3.5 px-4">
+                      <div className="font-semibold text-[#1E1A16]">{v.marca} {v.modelo}</div>
+                      <div className="text-xs text-[#7E756B]">{v.tipo} · {v.color}</div>
+                    </td>
+                    <td className="py-3.5 px-4 text-[#4B443B]">
+                      <div className="font-medium">{v.placas}</div>
+                      <div className="text-xs text-[#7E756B] flex items-center gap-1">
+                        <Icons.Odometer size={13} />
+                        {v.kilometraje_actual.toLocaleString("es-MX")} km
+                      </div>
+                    </td>
+                    <td className="py-3.5 px-4">
                       <span
-                        style={{
-                          padding: "3px 8px",
-                          borderRadius: "10px",
-                          background: "#FBE9E7",
-                          color: "#8E1016",
-                          fontSize: "13px",
-                          fontWeight: 700,
-                        }}
+                        className={`text-xs font-bold px-2.5 py-1 rounded-full ${
+                          esDisponible
+                            ? "bg-[#DCFCE7] text-[#166534]"
+                            : v.estado === "rentado"
+                            ? "bg-[#DBEAFE] text-[#1E40AF]"
+                            : "bg-[#FFEDD5] text-[#9A3412]"
+                        }`}
                       >
-                        Vence hoy
+                        {v.estado === "disponible" ? "Disponible" : v.estado === "rentado" ? "Rentado" : "En Taller"}
                       </span>
-                    ) : tarjeta?.fecha_vencimiento ? (
-                      new Date(tarjeta.fecha_vencimiento).toLocaleDateString("es-MX")
-                    ) : (
-                      <span style={{ color: "#8E1016" }}>Sin tarjeta</span>
-                    )}
-                  </span>
+                    </td>
+                    <td className="py-3.5 px-4 text-xs text-[#4B443B]">
+                      {poliza?.fecha_vencimiento
+                        ? new Date(poliza.fecha_vencimiento).toLocaleDateString("es-MX")
+                        : <span className="text-[#991B1B] font-semibold">Sin póliza</span>}
+                    </td>
+                    <td className="py-3.5 px-4 font-extrabold text-[#1E1A16]">
+                      ${Number(v.tarifa_dia / BigInt(100)).toLocaleString("es-MX")}
+                    </td>
+                    <td className="py-3.5 px-4 text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <Link
+                          href={`/vehiculos/${v.id}`}
+                          className="p-2 rounded-lg text-[#7E756B] hover:text-[#1E1A16] hover:bg-[#F2ECE1] transition-colors"
+                          title="Ver detalle"
+                        >
+                          <Icons.Eye size={16} />
+                        </Link>
+                        {esDisponible && (
+                          <Link
+                            href={`/contratos/nuevo?vehiculo=${v.id}`}
+                            className="px-3 py-1.5 rounded-lg bg-[#B5141B] hover:bg-[#8F1015] text-white text-xs font-bold transition-colors flex items-center gap-1"
+                          >
+                            <Icons.Plus size={14} />
+                            Rentar
+                          </Link>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
 
-                  <span>
-                    {poliza?.fecha_vencimiento === "2026-11-28" ? (
-                      <span
-                        style={{
-                          padding: "3px 8px",
-                          borderRadius: "10px",
-                          background: "#FFF1D6",
-                          color: "#7A4A00",
-                          fontSize: "13px",
-                          fontWeight: 700,
-                        }}
-                      >
-                        {new Date(poliza.fecha_vencimiento).toLocaleDateString("es-MX")}
-                      </span>
-                    ) : poliza?.fecha_vencimiento ? (
-                      new Date(poliza.fecha_vencimiento).toLocaleDateString("es-MX")
-                    ) : (
-                      <span style={{ color: "#8E1016" }}>Sin póliza</span>
-                    )}
-                  </span>
-
-                  <span style={{ textAlign: "right", fontWeight: 700 }}>
-                    ${Number(v.tarifa_dia / BigInt(100)).toLocaleString("es-MX")}
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
-
-          <div
-            style={{
-              marginTop: "auto",
-              padding: "10px 20px",
-              borderTop: "1px solid #E3DCCB",
-              fontSize: "13px",
-              color: "#6B645A",
-              display: "flex",
-              justifyContent: "space-between",
-            }}
-          >
-            <span>
-              Mostrando {vehiculos.length} de {todosTotal}
-            </span>
-            <span>Un vehículo con tarjeta o póliza vencida queda como no rentable</span>
-          </div>
-        </section>
+              {vehiculos.length === 0 && (
+                <tr>
+                  <td colSpan={7} className="py-10 text-center text-[#7E756B]">
+                    No se encontraron vehículos en este filtro.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </main>
 
-      {/* Modal de nuevo vehículo */}
+      {/* Modal de nuevo vehículo con dirty check y botón de cancelar */}
       {mostrarModalNuevo && (
         <div
           role="dialog"
           aria-modal="true"
           aria-labelledby="modal-nuevo-vehiculo"
-          style={{
-            position: "fixed",
-            inset: 0,
-            background: "rgba(30, 26, 22, 0.6)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 100,
-            padding: "20px",
-          }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto animate-in fade-in duration-200"
         >
-          <div
-            style={{
-              background: "#fff",
-              borderRadius: "20px",
-              padding: "24px",
-              maxWidth: "520px",
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-              gap: "16px",
-              boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
-            }}
-          >
-            <h3 id="modal-nuevo-vehiculo" style={{ margin: 0, fontSize: "20px", fontWeight: 700 }}>
-              Alta de nuevo vehículo
-            </h3>
+          <div className="w-full max-w-lg bg-white rounded-2xl shadow-2xl border border-[#E5DECE] overflow-hidden my-8">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-[#F2ECE1] bg-[#FAF7F2]">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-xl bg-[#B5141B]/10 text-[#B5141B] flex items-center justify-center">
+                  <Icons.Vehiculos size={20} color="#B5141B" />
+                </div>
+                <h3 id="modal-nuevo-vehiculo" className="text-lg font-bold text-[#1E1A16]">
+                  Alta de Nuevo Vehículo
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={intentarCerrarModal}
+                className="w-9 h-9 rounded-xl text-[#7E756B] hover:text-[#1E1A16] hover:bg-[#EFEAE1] flex items-center justify-center transition-colors"
+                aria-label="Cerrar modal"
+              >
+                <Icons.Close size={20} />
+              </button>
+            </div>
 
             {errorAlta && (
-              <div
-                style={{
-                  padding: "10px 14px",
-                  borderRadius: "8px",
-                  background: "#FBE9E7",
-                  color: "#8E1016",
-                  fontSize: "13px",
-                }}
-              >
+              <div className="mx-6 mt-4 p-3 rounded-xl bg-[#FEE2E2] border border-[#FCA5A5] text-[#991B1B] text-xs font-semibold">
                 {errorAlta}
               </div>
             )}
 
-            <form onSubmit={handleCrearVehiculo} style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
-                <label style={{ display: "flex", flexDirection: "column", gap: "4px", fontSize: "13px", fontWeight: 600 }}>
-                  Marca
+            <form onSubmit={handleCrearVehiculo} className="p-6 flex flex-col gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-[#4B443B] uppercase tracking-wide mb-1">
+                    Marca *
+                  </label>
                   <input
                     value={marca}
                     onChange={(e) => setMarca(e.target.value)}
                     placeholder="Ej. Hyundai"
                     required
-                    style={{ height: "42px", borderRadius: "8px", border: "1px solid #CFC8B8", padding: "0 10px" }}
+                    className="w-full h-11 px-3.5 rounded-xl border border-[#D5CDBE] text-sm text-[#1E1A16] focus:outline-none focus:ring-2 focus:ring-[#B5141B]"
                   />
-                </label>
-                <label style={{ display: "flex", flexDirection: "column", gap: "4px", fontSize: "13px", fontWeight: 600 }}>
-                  Modelo
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-[#4B443B] uppercase tracking-wide mb-1">
+                    Modelo *
+                  </label>
                   <input
                     value={modelo}
                     onChange={(e) => setModelo(e.target.value)}
                     placeholder="Ej. Elantra"
                     required
-                    style={{ height: "42px", borderRadius: "8px", border: "1px solid #CFC8B8", padding: "0 10px" }}
+                    className="w-full h-11 px-3.5 rounded-xl border border-[#D5CDBE] text-sm text-[#1E1A16] focus:outline-none focus:ring-2 focus:ring-[#B5141B]"
                   />
-                </label>
+                </div>
               </div>
 
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "12px" }}>
-                <label style={{ display: "flex", flexDirection: "column", gap: "4px", fontSize: "13px", fontWeight: 600 }}>
-                  Tipo
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-[#4B443B] uppercase tracking-wide mb-1">
+                    Tipo
+                  </label>
                   <select
                     value={tipo}
                     onChange={(e) => setTipo(e.target.value)}
-                    style={{ height: "42px", borderRadius: "8px", border: "1px solid #CFC8B8", padding: "0 10px", background: "#fff" }}
+                    className="w-full h-11 px-3 rounded-xl border border-[#D5CDBE] text-sm text-[#1E1A16] focus:outline-none focus:ring-2 focus:ring-[#B5141B]"
                   >
                     <option value="Sedán">Sedán</option>
+                    <option value="Hatchback">Hatchback</option>
                     <option value="SUV">SUV</option>
-                    <option value="Compacto">Compacto</option>
                     <option value="Pickup">Pickup</option>
+                    <option value="Minivan">Minivan</option>
                   </select>
-                </label>
-                <label style={{ display: "flex", flexDirection: "column", gap: "4px", fontSize: "13px", fontWeight: 600 }}>
-                  Color
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-[#4B443B] uppercase tracking-wide mb-1">
+                    Color *
+                  </label>
                   <input
                     value={color}
                     onChange={(e) => setColor(e.target.value)}
-                    placeholder="Ej. Azul"
+                    placeholder="Ej. Plata"
                     required
-                    style={{ height: "42px", borderRadius: "8px", border: "1px solid #CFC8B8", padding: "0 10px" }}
+                    className="w-full h-11 px-3.5 rounded-xl border border-[#D5CDBE] text-sm text-[#1E1A16] focus:outline-none focus:ring-2 focus:ring-[#B5141B]"
                   />
-                </label>
-                <label style={{ display: "flex", flexDirection: "column", gap: "4px", fontSize: "13px", fontWeight: 600 }}>
-                  Placas
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-[#4B443B] uppercase tracking-wide mb-1">
+                    Placas *
+                  </label>
                   <input
                     value={placas}
                     onChange={(e) => setPlacas(e.target.value.toUpperCase())}
-                    placeholder="ATU-703-A"
+                    placeholder="ABC-123-A"
                     required
-                    style={{ height: "42px", borderRadius: "8px", border: "1px solid #CFC8B8", padding: "0 10px" }}
+                    className="w-full h-11 px-3.5 rounded-xl border border-[#D5CDBE] text-sm text-[#1E1A16] font-mono focus:outline-none focus:ring-2 focus:ring-[#B5141B]"
                   />
-                </label>
+                </div>
               </div>
 
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "12px" }}>
-                <label style={{ display: "flex", flexDirection: "column", gap: "4px", fontSize: "13px", fontWeight: 600 }}>
-                  Kilometraje inicial
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-[#4B443B] uppercase tracking-wide mb-1">
+                    Kilometraje
+                  </label>
                   <input
                     type="number"
                     value={kilometraje}
                     onChange={(e) => setKilometraje(Number(e.target.value))}
                     min={0}
                     required
-                    style={{ height: "42px", borderRadius: "8px", border: "1px solid #CFC8B8", padding: "0 10px" }}
+                    className="w-full h-11 px-3.5 rounded-xl border border-[#D5CDBE] text-sm text-[#1E1A16] focus:outline-none focus:ring-2 focus:ring-[#B5141B]"
                   />
-                </label>
-                <label style={{ display: "flex", flexDirection: "column", gap: "4px", fontSize: "13px", fontWeight: 600 }}>
-                  Valor asegurado ($)
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-[#4B443B] uppercase tracking-wide mb-1">
+                    Valor Asegurado ($)
+                  </label>
                   <input
                     type="number"
                     value={valorAsegurado}
                     onChange={(e) => setValorAsegurado(Number(e.target.value))}
                     min={1000}
                     required
-                    style={{ height: "42px", borderRadius: "8px", border: "1px solid #CFC8B8", padding: "0 10px" }}
+                    className="w-full h-11 px-3.5 rounded-xl border border-[#D5CDBE] text-sm text-[#1E1A16] focus:outline-none focus:ring-2 focus:ring-[#B5141B]"
                   />
-                </label>
-                <label style={{ display: "flex", flexDirection: "column", gap: "4px", fontSize: "13px", fontWeight: 600 }}>
-                  Tarifa por día ($)
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-[#4B443B] uppercase tracking-wide mb-1">
+                    Tarifa / Día ($)
+                  </label>
                   <input
                     type="number"
                     value={tarifaDia}
                     onChange={(e) => setTarifaDia(Number(e.target.value))}
                     min={100}
                     required
-                    style={{ height: "42px", borderRadius: "8px", border: "1px solid #CFC8B8", padding: "0 10px" }}
+                    className="w-full h-11 px-3.5 rounded-xl border border-[#D5CDBE] text-sm text-[#1E1A16] focus:outline-none focus:ring-2 focus:ring-[#B5141B]"
                   />
-                </label>
+                </div>
               </div>
 
-              <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px", marginTop: "12px" }}>
+              {/* Botones de acción con Cancelar explícito */}
+              <div className="flex flex-col-reverse sm:flex-row items-center justify-end gap-3 pt-4 border-t border-[#F2ECE1] mt-2">
                 <button
                   type="button"
-                  onClick={() => setMostrarModalNuevo(false)}
-                  style={{
-                    height: "44px",
-                    padding: "0 18px",
-                    borderRadius: "22px",
-                    border: "1px solid #CFC8B8",
-                    background: "#fff",
-                    font: "inherit",
-                    fontSize: "14px",
-                    fontWeight: 600,
-                    cursor: "pointer",
-                  }}
+                  onClick={intentarCerrarModal}
+                  className="w-full sm:w-auto min-h-[44px] px-5 py-2.5 rounded-xl border border-[#D5CDBE] bg-white hover:bg-[#F6F2E8] text-[#1E1A16] font-semibold text-sm transition-colors flex items-center justify-center gap-2"
                 >
+                  <Icons.Close size={18} />
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  style={{
-                    height: "44px",
-                    padding: "0 22px",
-                    borderRadius: "22px",
-                    border: 0,
-                    background: "#B5141B",
-                    color: "#fff",
-                    font: "inherit",
-                    fontSize: "14px",
-                    fontWeight: 700,
-                    cursor: "pointer",
-                  }}
+                  className="w-full sm:w-auto min-h-[44px] px-6 py-2.5 rounded-xl bg-[#B5141B] hover:bg-[#8F1015] text-white font-bold text-sm transition-colors shadow-sm flex items-center justify-center gap-2"
                 >
-                  Guardar vehículo
+                  <Icons.Check size={18} />
+                  Guardar Vehículo
                 </button>
               </div>
             </form>
           </div>
         </div>
       )}
+
+      {/* Modal de confirmación al descartar cambios */}
+      <ConfirmDialog
+        isOpen={mostrarConfirmDescarte}
+        title="¿Descartar cambios no guardados?"
+        message="Tienes información ingresada en el alta del vehículo. Si cancelas ahora, no se registrará la unidad."
+        confirmText="Descartar cambios"
+        cancelText="Continuar editando"
+        variant="warning"
+        onConfirm={cerrarModalDefinitivo}
+        onCancel={() => setMostrarConfirmDescarte(false)}
+      />
     </div>
   );
 }
 
 export default function VehiculosPage() {
   return (
-    <Suspense fallback={<div style={{ padding: "40px", textAlign: "center" }}>Cargando catálogo de vehículos...</div>}>
+    <Suspense fallback={<div className="p-10 text-center text-[#7E756B]">Cargando catálogo de vehículos...</div>}>
       <VehiculosContenido />
     </Suspense>
   );

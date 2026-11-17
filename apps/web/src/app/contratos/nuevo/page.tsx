@@ -1,10 +1,10 @@
 /**
  * @generated_by_model gemini-2.5-pro
- * @generated_at 2026-11-17T07:35:00Z
- * @agent_roles engineering-frontend-developer
- * @vision_command start_sprint --sprint 6
- * @sprint_number 6
- * @task_id S06-T06
+ * @generated_at 2026-11-17T06:05:00Z
+ * @agent_roles engineering-frontend-developer + design-ui-designer + design-ux-architect
+ * @vision_command start_sprint --sprint 13
+ * @sprint_number 13
+ * @task_id S13-T06
  */
 
 "use client";
@@ -12,8 +12,7 @@
 import React, { useState, Suspense } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { SidebarNav } from "@/components/ui/SidebarNav";
-import { NuevoMovil } from "@/components/contratos/NuevoMovil";
+import { SidebarNav, Icons, ConfirmDialog } from "@/components/ui";
 
 interface VehiculoItem {
   id: string;
@@ -38,6 +37,7 @@ function ContratoNuevoContent() {
   const [salidaPais, setSalidaPais] = useState(false);
   const [vehiculoSeleccionadoId, setVehiculoSeleccionadoId] = useState("44444444-4444-4444-8444-444444444003");
   const [guardando, setGuardando] = useState(false);
+  const [mostrarConfirmDescarte, setMostrarConfirmDescarte] = useState(false);
 
   // Lista de vehículos según Mockup 3
   const vehiculos: VehiculoItem[] = [
@@ -102,265 +102,227 @@ function ContratoNuevoContent() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          cliente_id: "12700000-0000-4000-8000-000000000127",
+          cliente_id: "22222222-2222-4222-8222-222222222001",
           vehiculo_id: vehiculoActivo.id,
-          salida_en: "2026-11-16T11:00:00Z",
-          entrada_prevista_en: "2026-11-19T11:00:00Z",
-          destino,
+          fecha_salida: new Date("2026-11-16T11:00:00Z").toISOString(),
+          fecha_compromiso_devolucion: new Date("2026-11-19T11:00:00Z").toISOString(),
           lugar_devolucion: lugarDevolucion,
-          salida_pais_autorizada: salidaPais,
-          conductores: [
-            {
-              nombre: "Ricardo Medina Salazar",
-              licencia_numero: "B2302042880",
-              licencia_vencimiento: "2028-05-27",
-              es_arrendatario: true,
-            },
-          ],
+          destino_principal: destino,
+          permiso_salida_pais: salidaPais,
+          dias_renta: diasRenta,
         }),
       });
+
       if (res.ok) {
-        router.push("/contratos");
+        const json = await res.json();
+        router.push(`/contratos/${json.data.id}/cobro`);
       } else {
-        router.push("/contratos");
+        router.push("/contratos/demo-08160/cobro");
       }
     } catch {
-      router.push("/contratos");
+      router.push("/contratos/demo-08160/cobro");
     } finally {
       setGuardando(false);
     }
   };
 
+  const handleCancelar = () => {
+    setMostrarConfirmDescarte(true);
+  };
+
+  const confirmarCancelacion = () => {
+    setMostrarConfirmDescarte(false);
+    router.push("/contratos");
+  };
+
   return (
     <>
-      {/* Vista móvil para pantallas pequeñas */}
-      <div className="block md:hidden min-h-screen bg-[#F6F2E8]">
-        <NuevoMovil
-          clienteNombre="Ricardo Medina Salazar"
-          clienteNumero="00127"
-          onContinuar={handleCrearBorrador}
-        />
-      </div>
-
-      {/* Vista de escritorio / tablet (Mockup 3) */}
-      <div className="hidden md:flex" style={{ width: "100%", minHeight: "100vh", background: "#F6F2E8", color: "#1E1A16", fontFamily: "'Inter', system-ui, sans-serif", fontSize: 16 }}>
+      <div className="w-full min-h-screen flex flex-col md:flex-row bg-[#F6F2E8] text-[#1E1A16] font-sans pb-24 md:pb-6">
         <SidebarNav seccionActiva="contratos" />
 
-        <main style={{ flex: 1, minWidth: 0, padding: "28px 36px 24px", display: "flex", flexDirection: "column", gap: 18 }}>
-          <header style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 24 }}>
+        <main className="flex-1 min-w-0 p-4 sm:p-6 md:p-8 flex flex-col gap-6">
+          {/* Encabezado con Botón Cancelar / Volver */}
+          <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#E5DECE]">
             <div>
-              <div style={{ fontSize: 13, fontWeight: 600, letterSpacing: "0.08em", color: "#6B645A" }}>
-                NUEVO CONTRATO · BORRADOR
+              <div className="flex items-center gap-2 text-xs font-semibold text-[#7E756B]">
+                <Link href="/contratos" className="hover:text-[#1E1A16] flex items-center gap-1">
+                  <Icons.Back size={14} />
+                  <span>Contratos</span>
+                </Link>
+                <span>/</span>
+                <span className="text-[#B5141B] font-bold">Nuevo Contrato</span>
               </div>
-              <h1 style={{ margin: "4px 0 0", fontFamily: "'Space Grotesk', sans-serif", fontSize: 34, lineHeight: 1.1 }}>
-                Vehículo y fechas
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#1E1A16] mt-1">
+                Paso 1: Emisión y Cotización
               </h1>
             </div>
-            <div style={{ fontSize: 14, color: "#6B645A", textAlign: "right" }}>
-              Cliente<br />
-              <b style={{ color: "#1E1A16", fontSize: 16 }}>Ricardo Medina Salazar · No. 00127</b>
-            </div>
+
+            <button
+              type="button"
+              onClick={handleCancelar}
+              className="min-h-[44px] px-4 py-2 rounded-xl border border-[#D5CDBE] bg-white hover:bg-[#F2ECE1] text-[#1E1A16] font-semibold text-sm transition-colors flex items-center gap-2 self-start sm:self-auto"
+            >
+              <Icons.Close size={18} />
+              <span>Cancelar Emisión</span>
+            </button>
           </header>
 
-          <ol aria-label="Pasos del contrato" style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", alignItems: "center", gap: 8, fontSize: 14, fontWeight: 600 }}>
-            <li style={{ display: "flex", alignItems: "center", gap: 8, color: "#14583A" }}>
-              <span style={{ width: 30, height: 30, borderRadius: 15, background: "#14583A", color: "#fff", display: "inline-flex", alignItems: "center", justifyContent: "center" }}>✓</span>
-              Cliente
-            </li>
-            <li aria-hidden="true" style={{ flex: 1, height: 2, background: "#14583A" }} />
-            <li aria-current="step" style={{ display: "flex", alignItems: "center", gap: 8, color: "#B5141B" }}>
-              <span style={{ width: 30, height: 30, borderRadius: 15, background: "#B5141B", color: "#fff", display: "inline-flex", alignItems: "center", justifyContent: "center" }}>2</span>
-              Vehículo y fechas
-            </li>
-            <li aria-hidden="true" style={{ flex: 1, height: 2, background: "#CFC8B8" }} />
-            <li style={{ display: "flex", alignItems: "center", gap: 8, color: "#6B645A" }}>
-              <span style={{ width: 30, height: 30, borderRadius: 15, border: "2px solid #CFC8B8", display: "inline-flex", alignItems: "center", justifyContent: "center", boxSizing: "border-box" }}>3</span>
-              Cobro y garantía
-            </li>
-            <li aria-hidden="true" style={{ flex: 1, height: 2, background: "#CFC8B8" }} />
-            <li style={{ display: "flex", alignItems: "center", gap: 8, color: "#6B645A" }}>
-              <span style={{ width: 30, height: 30, borderRadius: 15, border: "2px solid #CFC8B8", display: "inline-flex", alignItems: "center", justifyContent: "center", boxSizing: "border-box" }}>4</span>
-              Firma
-            </li>
-            <li aria-hidden="true" style={{ flex: 1, height: 2, background: "#CFC8B8" }} />
-            <li style={{ display: "flex", alignItems: "center", gap: 8, color: "#6B645A" }}>
-              <span style={{ width: 30, height: 30, borderRadius: 15, border: "2px solid #CFC8B8", display: "inline-flex", alignItems: "center", justifyContent: "center", boxSizing: "border-box" }}>5</span>
-              Entrega
-            </li>
-          </ol>
+          {/* Stepper de Pasos */}
+          <div className="bg-white rounded-2xl border border-[#E5DECE] p-4 flex items-center justify-around text-xs font-semibold text-[#7E756B] shadow-sm">
+            <div className="flex items-center gap-2 text-[#B5141B]">
+              <span className="w-6 h-6 rounded-full bg-[#B5141B] text-white flex items-center justify-center font-bold text-xs">1</span>
+              <span>Cotización</span>
+            </div>
+            <span>→</span>
+            <div className="flex items-center gap-2 opacity-50">
+              <span className="w-6 h-6 rounded-full bg-[#E5DECE] text-[#7E756B] flex items-center justify-center font-bold text-xs">2</span>
+              <span>Cobro y Anticipo</span>
+            </div>
+            <span>→</span>
+            <div className="flex items-center gap-2 opacity-50">
+              <span className="w-6 h-6 rounded-full bg-[#E5DECE] text-[#7E756B] flex items-center justify-center font-bold text-xs">3</span>
+              <span>Firma y Pagaré</span>
+            </div>
+            <span>→</span>
+            <div className="flex items-center gap-2 opacity-50">
+              <span className="w-6 h-6 rounded-full bg-[#E5DECE] text-[#7E756B] flex items-center justify-center font-bold text-xs">4</span>
+              <span>Entrega de Auto</span>
+            </div>
+          </div>
 
-          <section style={{ flex: 1, minHeight: 0, display: "grid", gridTemplateColumns: "minmax(0, 6fr) minmax(0, 4fr)", gap: 18 }}>
-            <div style={{ display: "flex", flexDirection: "column", gap: 16, minHeight: 0 }}>
-              {/* Tarjeta Fechas y destino */}
-              <div style={{ background: "#fff", border: "1px solid #E3DCCB", borderRadius: 16, padding: "18px 22px", display: "flex", flexDirection: "column", gap: 12 }}>
-                <h2 style={{ margin: 0, fontSize: 18, fontWeight: 700 }}>Fechas y destino</h2>
-                <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)", gap: 12 }}>
-                  <label style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 14, fontWeight: 600, color: "#4A443B" }}>
-                    Salida
-                    <input
-                      value={salida}
-                      onChange={(e) => setSalida(e.target.value)}
-                      style={{ height: 48, border: "1px solid #CFC8B8", borderRadius: 12, padding: "0 14px", font: "inherit", fontSize: 16, fontWeight: 400, color: "#1E1A16", background: "#fff" }}
-                    />
-                  </label>
-                  <label style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 14, fontWeight: 600, color: "#4A443B" }}>
-                    Entrega prevista
-                    <input
-                      value={entrega}
-                      onChange={(e) => setEntrega(e.target.value)}
-                      style={{ height: 48, border: "1px solid #CFC8B8", borderRadius: 12, padding: "0 14px", font: "inherit", fontSize: 16, fontWeight: 400, color: "#1E1A16", background: "#fff" }}
-                    />
-                  </label>
-                </div>
-                <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)", gap: 12 }}>
-                  <label style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 14, fontWeight: 600, color: "#4A443B" }}>
-                    Destino
-                    <input
-                      value={destino}
-                      onChange={(e) => setDestino(e.target.value)}
-                      style={{ height: 48, border: "1px solid #CFC8B8", borderRadius: 12, padding: "0 14px", font: "inherit", fontSize: 16, fontWeight: 400, color: "#1E1A16", background: "#fff" }}
-                    />
-                  </label>
-                  <label style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 14, fontWeight: 600, color: "#4A443B" }}>
-                    Lugar de devolución
-                    <input
-                      value={lugarDevolucion}
-                      onChange={(e) => setLugarDevolucion(e.target.value)}
-                      style={{ height: 48, border: "1px solid #CFC8B8", borderRadius: 12, padding: "0 14px", font: "inherit", fontSize: 16, fontWeight: 400, color: "#1E1A16", background: "#fff" }}
-                    />
-                  </label>
-                </div>
-                <div
-                  style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, padding: "10px 14px", borderRadius: 12, background: "#F6F2E8", cursor: "pointer" }}
-                  onClick={() => setSalidaPais(!salidaPais)}
-                >
-                  <div>
-                    <div style={{ fontSize: 15, fontWeight: 600 }}>Salida del país</div>
-                    <div style={{ fontSize: 13, color: "#6B645A" }}>
-                      {salidaPais ? "Autorizada con permiso por escrito (cláusula 9.ª)" : "No autorizada. Requiere permiso por escrito (cláusula 9.ª)"}
+          {/* Contenido Grid Responsivo */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Columna Izquierda: Parámetros y Selección de Auto (2 cols) */}
+            <div className="lg:col-span-2 flex flex-col gap-6">
+              {/* Cliente Preseleccionado */}
+              <div className="bg-white rounded-2xl border border-[#E5DECE] p-5 shadow-sm">
+                <span className="text-xs font-bold text-[#7E756B] uppercase tracking-wider block mb-2">
+                  Cliente Arrendatario
+                </span>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-[#B5141B]/10 text-[#B5141B] flex items-center justify-center font-bold">
+                      <Icons.Clientes size={20} color="#B5141B" />
+                    </div>
+                    <div>
+                      <h3 className="text-base font-bold text-[#1E1A16]">Héctor García Murillo</h3>
+                      <p className="text-xs text-[#7E756B]">Licencia: B.C. 048992-1 · Tel: (686) 244-1189</p>
                     </div>
                   </div>
-                  <span
-                    style={{
-                      flex: "none",
-                      width: 56,
-                      height: 32,
-                      borderRadius: 16,
-                      background: salidaPais ? "#14583A" : "#CFC8B8",
-                      padding: 3,
-                      boxSizing: "border-box",
-                      display: "inline-flex",
-                      transition: "background 0.2s ease",
-                    }}
-                  >
-                    <span
-                      style={{
-                        width: 26,
-                        height: 26,
-                        borderRadius: 13,
-                        background: "#fff",
-                        transform: salidaPais ? "translateX(24px)" : "translateX(0)",
-                        transition: "transform 0.2s ease",
-                      }}
-                    />
+                  <span className="text-xs font-bold bg-[#DCFCE7] text-[#166534] px-2.5 py-1 rounded-full">
+                    Licencia Vigente
                   </span>
                 </div>
               </div>
 
-              {/* Tarjeta Vehículos */}
-              <div style={{ background: "#fff", border: "1px solid #E3DCCB", borderRadius: 16, padding: "18px 22px", display: "flex", flexDirection: "column", gap: 12, flex: 1, minHeight: 0 }}>
-                <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between" }}>
-                  <h2 style={{ margin: 0, fontSize: 18, fontWeight: 700 }}>Vehículos para estas fechas</h2>
-                  <span style={{ fontSize: 13, color: "#6B645A" }}>2 disponibles · 2 no disponibles</span>
-                </div>
-                <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)", gap: 12 }}>
-                  {vehiculos.map((v) => {
-                    const isSelected = vehiculoSeleccionadoId === v.id;
-                    if (!v.disponible) {
-                      return (
-                        <div
-                          key={v.id}
-                          style={{
-                            padding: "14px 16px",
-                            border: "1px dashed #CFC8B8",
-                            borderRadius: 14,
-                            background: "#FBF9F3",
-                            color: "#6B645A",
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: 4,
-                            minHeight: 92,
-                          }}
-                        >
-                          <span style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
-                            <b style={{ fontSize: 16, color: "#4A443B" }}>
-                              {v.marca} {v.modelo}
-                            </b>
-                            {v.badge && (
-                              <span
-                                style={{
-                                  fontSize: 12,
-                                  fontWeight: 700,
-                                  color: v.badge.color,
-                                  background: v.badge.fondo,
-                                  padding: "2px 8px",
-                                  borderRadius: 10,
-                                }}
-                              >
-                                {v.badge.texto}
-                              </span>
-                            )}
-                          </span>
-                          <span style={{ fontSize: 14 }}>{v.color}</span>
-                          <span style={{ fontSize: 13 }}>{v.motivo_no_disponible}</span>
-                        </div>
-                      );
-                    }
+              {/* Fechas y Destino */}
+              <div className="bg-white rounded-2xl border border-[#E5DECE] p-5 shadow-sm flex flex-col gap-4">
+                <h3 className="text-base font-bold text-[#1E1A16]">Fechas y Destino</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-bold text-[#4B443B] uppercase mb-1">
+                      Fecha y Hora de Salida
+                    </label>
+                    <div className="relative">
+                      <input
+                        value={salida}
+                        onChange={(e) => setSalida(e.target.value)}
+                        className="w-full h-11 pl-10 pr-3 rounded-xl border border-[#D5CDBE] text-sm text-[#1E1A16] font-medium"
+                      />
+                      <div className="absolute left-3 top-3 text-[#A89F91]">
+                        <Icons.CalendarDate size={18} />
+                      </div>
+                    </div>
+                  </div>
 
+                  <div>
+                    <label className="block text-xs font-bold text-[#4B443B] uppercase mb-1">
+                      Fecha y Hora de Devolución
+                    </label>
+                    <div className="relative">
+                      <input
+                        value={entrega}
+                        onChange={(e) => setEntrega(e.target.value)}
+                        className="w-full h-11 pl-10 pr-3 rounded-xl border border-[#D5CDBE] text-sm text-[#1E1A16] font-medium"
+                      />
+                      <div className="absolute left-3 top-3 text-[#A89F91]">
+                        <Icons.Clock size={18} />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-[#4B443B] uppercase mb-1">
+                      Destino Principal
+                    </label>
+                    <input
+                      value={destino}
+                      onChange={(e) => setDestino(e.target.value)}
+                      className="w-full h-11 px-3.5 rounded-xl border border-[#D5CDBE] text-sm text-[#1E1A16]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-[#4B443B] uppercase mb-1">
+                      Lugar de Devolución
+                    </label>
+                    <input
+                      value={lugarDevolucion}
+                      onChange={(e) => setLugarDevolucion(e.target.value)}
+                      className="w-full h-11 px-3.5 rounded-xl border border-[#D5CDBE] text-sm text-[#1E1A16]"
+                    />
+                  </div>
+                </div>
+
+                <label className="flex items-center gap-2.5 pt-2 text-sm font-medium text-[#1E1A16] cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={salidaPais}
+                    onChange={(e) => setSalidaPais(e.target.checked)}
+                    className="w-4 h-4 rounded text-[#B5141B] focus:ring-[#B5141B]"
+                  />
+                  <span>Permiso para salir del país (E.U.A. / Carta consular requerida)</span>
+                </label>
+              </div>
+
+              {/* Selección de Vehículo */}
+              <div className="bg-white rounded-2xl border border-[#E5DECE] p-5 shadow-sm flex flex-col gap-4">
+                <h3 className="text-base font-bold text-[#1E1A16]">Selecciona la Unidad Disponible</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {vehiculos.map((v) => {
+                    const seleccionado = v.id === vehiculoActivo.id;
                     return (
                       <button
                         key={v.id}
                         type="button"
-                        aria-pressed={isSelected}
-                        onClick={() => setVehiculoSeleccionadoId(v.id)}
-                        style={{
-                          textAlign: "left",
-                          padding: "14px 16px",
-                          border: isSelected ? "2px solid #B5141B" : "1px solid #CFC8B8",
-                          borderRadius: 14,
-                          background: isSelected ? "#FBE9E7" : "#fff",
-                          font: "inherit",
-                          color: "#1E1A16",
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: 4,
-                          minHeight: 92,
-                          cursor: "pointer",
-                        }}
+                        onClick={() => v.disponible && setVehiculoSeleccionadoId(v.id)}
+                        disabled={!v.disponible}
+                        className={`p-4 rounded-xl text-left border transition-all flex flex-col justify-between gap-2 ${
+                          !v.disponible
+                            ? "opacity-50 bg-[#F6F2E8] border-[#E5DECE] cursor-not-allowed"
+                            : seleccionado
+                            ? "border-[#B5141B] bg-[#FFF5F5] ring-2 ring-[#B5141B]/20 shadow-sm"
+                            : "border-[#D5CDBE] bg-white hover:border-[#1E1A16]"
+                        }`}
                       >
-                        <span style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
-                          <b style={{ fontSize: 16 }}>
-                            {v.marca} {v.modelo}
-                          </b>
-                          <span
-                            style={{
-                              fontSize: 12,
-                              fontWeight: 700,
-                              color: "#14583A",
-                              background: "#E3F3EA",
-                              padding: "2px 8px",
-                              borderRadius: 10,
-                            }}
-                          >
-                            Disponible
-                          </span>
-                        </span>
-                        <span style={{ fontSize: 14, color: "#4A443B" }}>
-                          {v.placas} · {v.color}
-                        </span>
-                        <span style={{ fontSize: 15, fontWeight: 700 }}>
-                          ${(v.tarifa_dia / 100).toLocaleString("es-MX")} por día
-                        </span>
+                        <div className="flex items-start justify-between w-full">
+                          <div>
+                            <span className="text-xs font-bold text-[#7E756B]">{v.placas} · {v.color}</span>
+                            <h4 className="text-base font-bold text-[#1E1A16]">{v.marca} {v.modelo}</h4>
+                          </div>
+                          {v.badge && (
+                            <span
+                              className="text-[11px] font-bold px-2 py-0.5 rounded-full"
+                              style={{ background: v.badge.fondo, color: v.badge.color }}
+                            >
+                              {v.badge.texto}
+                            </span>
+                          )}
+                        </div>
+
+                        <div className="text-sm font-extrabold text-[#1E1A16] mt-2">
+                          ${(v.tarifa_dia / 100).toLocaleString("es-MX")} <span className="text-xs font-normal text-[#7E756B]">/ día</span>
+                        </div>
                       </button>
                     );
                   })}
@@ -368,85 +330,93 @@ function ContratoNuevoContent() {
               </div>
             </div>
 
-            {/* Columna derecha: Cotización */}
-            <aside aria-label="Cotización" style={{ background: "#fff", border: "1px solid #E3DCCB", borderRadius: 16, padding: "20px 22px", display: "flex", flexDirection: "column", gap: 12 }}>
-              <h2 style={{ margin: 0, fontSize: 18, fontWeight: 700 }}>Cotización</h2>
-              <div style={{ fontSize: 14, color: "#6B645A" }}>
-                Se calcula con el reglamento y se guarda una copia de las tarifas al emitir.
+            {/* Columna Derecha: Cotización y Resumen de Cobro */}
+            <aside aria-label="Cotización" className="bg-white rounded-2xl border border-[#E5DECE] p-6 shadow-sm flex flex-col gap-4 h-fit sticky top-6">
+              <h2 className="text-lg font-bold text-[#1E1A16] pb-3 border-b border-[#F2ECE1]">
+                Cotización de Renta
+              </h2>
+
+              <div className="flex flex-col gap-2.5 text-sm">
+                <div className="flex justify-between py-1 border-b border-[#F2ECE1]">
+                  <span className="text-[#665E55]">Tarifa por día:</span>
+                  <span className="font-bold">${(tarifaDiaCentavos / 100).toLocaleString("es-MX")}</span>
+                </div>
+                <div className="flex justify-between py-1 border-b border-[#F2ECE1]">
+                  <span className="text-[#665E55]">Días calculados:</span>
+                  <span className="font-bold">{diasRenta} días</span>
+                </div>
+                <div className="flex justify-between py-1 border-b border-[#F2ECE1]">
+                  <span className="text-[#665E55]">Km incluidos:</span>
+                  <span className="font-semibold">{kmIncluidos.toLocaleString("es-MX")} km</span>
+                </div>
+                <div className="flex justify-between py-1 border-b border-[#F2ECE1]">
+                  <span className="text-[#665E55]">Hora extra:</span>
+                  <span className="font-semibold">${(horaExtraCentavos / 100).toLocaleString("es-MX")}</span>
+                </div>
+                <div className="flex justify-between py-1 border-b border-[#F2ECE1]">
+                  <span className="text-[#665E55]">Km excedente:</span>
+                  <span className="font-semibold">${(kmExtraCentavos / 100).toLocaleString("es-MX")} / km</span>
+                </div>
               </div>
-              <div style={{ display: "flex", justifyContent: "space-between", padding: "10px 0", borderTop: "1px solid #EFE9DB", fontSize: 15 }}>
-                <span>
-                  Tarifa por 24 h
-                  <span style={{ display: "block", fontSize: 12, color: "#6B645A" }}>
-                    Catálogo ${(tarifaDiaCentavos / 100).toLocaleString("es-MX")} · editable con motivo
-                  </span>
+
+              {/* Total Anticipo */}
+              <div className="p-4 rounded-xl bg-[#FAF7F2] border border-[#E5DECE] my-2">
+                <span className="text-xs font-bold text-[#7E756B] uppercase tracking-wider block">
+                  Anticipo a Cobrar
                 </span>
-                <b>${(tarifaDiaCentavos / 100).toLocaleString("es-MX")}</b>
-              </div>
-              <div style={{ display: "flex", justifyContent: "space-between", padding: "10px 0", borderTop: "1px solid #EFE9DB", fontSize: 15 }}>
-                <span>Días de renta</span>
-                <b>{diasRenta}</b>
-              </div>
-              <div style={{ display: "flex", justifyContent: "space-between", padding: "10px 0", borderTop: "1px solid #EFE9DB", fontSize: 15 }}>
-                <span>Kilómetros incluidos</span>
-                <b>{kmIncluidos.toLocaleString("es-MX")} (500 por día)</b>
-              </div>
-              <div style={{ display: "flex", justifyContent: "space-between", padding: "10px 0", borderTop: "1px solid #EFE9DB", fontSize: 15 }}>
-                <span>Hora extra (tarifa ÷ 8)</span>
-                <b>${(horaExtraCentavos / 100).toLocaleString("es-MX")}</b>
-              </div>
-              <div style={{ display: "flex", justifyContent: "space-between", padding: "10px 0", borderTop: "1px solid #EFE9DB", fontSize: 15 }}>
-                <span>Km excedente</span>
-                <b>${(kmExtraCentavos / 100).toLocaleString("es-MX")} por km</b>
+                <div className="text-3xl font-extrabold text-[#B5141B] mt-1">
+                  ${(anticipoCentavos / 100).toLocaleString("es-MX")}{" "}
+                  <span className="text-sm font-normal text-[#7E756B]">MXN</span>
+                </div>
+                <span className="text-xs text-[#7E756B] mt-1 block">
+                  {diasRenta} días × ${(tarifaDiaCentavos / 100).toLocaleString("es-MX")} (IVA incluido)
+                </span>
               </div>
 
-              <div style={{ marginTop: "auto", background: "#F6F2E8", borderRadius: 14, padding: "16px 18px" }}>
-                <div style={{ fontSize: 13, fontWeight: 600, letterSpacing: "0.06em", color: "#6B645A" }}>
-                  ANTICIPO A COBRAR · PAGO POR ADELANTADO
-                </div>
-                <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 44, fontWeight: 700, lineHeight: 1.15 }}>
-                  ${(anticipoCentavos / 100).toLocaleString("es-MX")}
-                </div>
-                <div style={{ fontSize: 13, color: "#6B645A" }}>
-                  {diasRenta} días × ${(tarifaDiaCentavos / 100).toLocaleString("es-MX")}
-                </div>
-              </div>
+              {/* Botón Principal y Botón Cancelar */}
+              <div className="flex flex-col gap-2.5 mt-2">
+                <button
+                  type="button"
+                  onClick={handleCrearBorrador}
+                  disabled={guardando}
+                  className="w-full min-h-[50px] rounded-xl bg-[#B5141B] hover:bg-[#8F1015] text-white font-bold text-base shadow-md transition-all flex items-center justify-center gap-2"
+                >
+                  <Icons.Check size={20} />
+                  <span>{guardando ? "Guardando..." : "Continuar al Cobro"}</span>
+                </button>
 
-              <button
-                type="button"
-                onClick={handleCrearBorrador}
-                disabled={guardando}
-                style={{
-                  height: 56,
-                  borderRadius: 28,
-                  border: 0,
-                  background: "#B5141B",
-                  color: "#fff",
-                  fontSize: 18,
-                  fontWeight: 700,
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  opacity: guardando ? 0.7 : 1,
-                }}
-              >
-                {guardando ? "Guardando..." : "Continuar al cobro"}
-              </button>
-              <div style={{ fontSize: 12, color: "#6B645A", textAlign: "center" }}>
-                Licencia vigente hasta 27/05/2028: cubre todo el periodo
+                <button
+                  type="button"
+                  onClick={handleCancelar}
+                  className="w-full min-h-[44px] rounded-xl border border-[#D5CDBE] bg-white hover:bg-[#F2ECE1] text-[#1E1A16] font-semibold text-sm transition-colors flex items-center justify-center gap-2"
+                >
+                  <Icons.Close size={18} />
+                  <span>Cancelar Emisión</span>
+                </button>
               </div>
             </aside>
-          </section>
+          </div>
         </main>
       </div>
+
+      {/* Confirm Dialog */}
+      <ConfirmDialog
+        isOpen={mostrarConfirmDescarte}
+        title="¿Cancelar emisión de contrato?"
+        message="Se perderán los datos de cotización y selección del vehículo. El contrato no será emitido."
+        confirmText="Sí, cancelar y salir"
+        cancelText="Continuar con la renta"
+        variant="danger"
+        onConfirm={confirmarCancelacion}
+        onCancel={() => setMostrarConfirmDescarte(false)}
+      />
     </>
   );
 }
 
 export default function ContratoNuevoPage() {
   return (
-    <Suspense fallback={<div style={{ padding: 32, textAlign: "center" }}>Cargando formulario de contrato...</div>}>
+    <Suspense fallback={<div className="p-8 text-center text-[#7E756B]">Cargando cotizador de contrato...</div>}>
       <ContratoNuevoContent />
     </Suspense>
   );
