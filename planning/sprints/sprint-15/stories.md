@@ -11,9 +11,9 @@ source_refdocs: 'refdocs/etapa-dos-pos-mvp.md'
 
 ## S-35 · RF-35 — Autenticación Real y Sesiones con Supabase Auth
 Como titular de la empresa o administrador, quiero que el personal acceda con credenciales individuales para proteger la información del cliente y auditar quién emitió cada contrato.
-- [ ] Pantalla institucional de inicio de sesión (/login) con correo y contraseña.
-- [ ] Recuperación de contraseña vía correo electrónico con enlace seguro.
-- [ ] Sesiones persistidas en cookies seguras HTTP-only cifradas.
-- [ ] Middleware de Next.js que protege rutas y valida roles autorizados.
-- [ ] Trigger en base de datos para sincronizar nuevos usuarios de `auth.users` a la tabla `usuarios`.
-- [ ] Registro inmutable de eventos de acceso (login exitoso, login fallido, logout) en la tabla `auditoria`.
+- [x] Pantalla institucional de inicio de sesión (/login) con correo y contraseña.
+- [x] Recuperación de contraseña vía correo electrónico con enlace seguro.
+- [x] Sesiones persistidas en cookies seguras HTTP-only cifradas.
+- [x] Middleware de Next.js que protege rutas y valida roles autorizados.
+- [x] Trigger en base de datos para sincronizar nuevos usuarios de `auth.users` a la tabla `usuarios`.
+- [x] Registro inmutable de eventos de acceso (login exitoso, login fallido, logout) en la tabla `auditoria`.

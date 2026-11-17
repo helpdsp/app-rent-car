@@ -349,3 +349,25 @@ describe("S01-T08 · Inactividad de 30 minutos y bloqueo de 15 minutos tras 5 in
     expect(data.codigo).toBe("CUENTA_BLOQUEADA_TEMPORALMENTE");
   });
 });
+
+describe("Sprint 15 — Autenticación Real, Supabase SSR y Logout (RF-35)", () => {
+  it("el endpoint de logout limpia las cookies de sesión sb-access-token y mra-session", async () => {
+    const { POST: logoutPost } = await import("../src/app/api/auth/logout/route");
+    const res = await logoutPost();
+    expect(res.status).toBe(200);
+
+    const json = await res.json();
+    expect(json.ok).toBe(true);
+
+    const cookieHeader = res.headers.get("Set-Cookie") || "";
+    expect(cookieHeader).toContain("sb-access-token=");
+    expect(cookieHeader).toContain("Expires=Thu, 01 Jan 1970");
+  });
+
+  it("exporta correctamente el creador de cliente Supabase browser", async () => {
+    const { createClientBrowser } = await import("../src/lib/supabase/client");
+    const client = createClientBrowser();
+    expect(client).toBeDefined();
+    expect(client.auth).toBeDefined();
+  });
+});
